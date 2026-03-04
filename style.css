@@ -178,12 +178,15 @@ button {
 }
 
 .splash-content .splash-logo {
-  width: 90px;
-  height: 90px;
+  width: 110px;
+  height: 110px;
   border-radius: 50%;
-  object-fit: cover;
+  object-fit: contain;
+  background: rgba(255, 255, 255, 0.1);
   border: 3px solid var(--accent);
-  margin-bottom: 20px;
+  padding: 8px;
+  margin: 0 auto 20px;
+  display: block;
   animation: pulse-glow 2s ease-in-out infinite;
 }
 
