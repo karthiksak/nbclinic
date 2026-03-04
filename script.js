@@ -221,43 +221,6 @@ function initParticles() {
   }
 }
 
-// ══════════════════════════════════════
-// ── Google Translate Integration
-// ══════════════════════════════════════
-function googleTranslateInit() {
-  new google.translate.TranslateElement({
-    pageLanguage: 'en',
-    includedLanguages: 'en,ta',
-    layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-    autoDisplay: false
-  }, 'google_translate_element');
-}
-
-function translateTo(lang) {
-  // Update button states immediately
-  document.getElementById('btn-en')?.classList.toggle('active', lang !== 'ta');
-  document.getElementById('btn-ta')?.classList.toggle('active', lang === 'ta');
-
-  // Find the combo and trigger Google Translate
-  function trySwitch(attempts) {
-    const combo = document.querySelector('.goog-te-combo');
-    if (combo) {
-      combo.value = lang;
-      combo.dispatchEvent(new Event('change', { bubbles: true }));
-    } else if (attempts > 0) {
-      setTimeout(() => trySwitch(attempts - 1), 300);
-    }
-  }
-  trySwitch(15);
-}
-
-// Hide Google Translate cosmetic UI
-setInterval(() => {
-  const banner = document.querySelector('.goog-te-banner-frame');
-  if (banner) banner.style.display = 'none';
-  document.querySelectorAll('body > .skiptranslate').forEach(el => el.style.display = 'none');
-  document.body.style.top = '0px';
-}, 100);
 
 
 
