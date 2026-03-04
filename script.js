@@ -228,53 +228,37 @@ function googleTranslateInit() {
   new google.translate.TranslateElement({
     pageLanguage: 'en',
     includedLanguages: 'en,ta',
-    layout: google.translate.TranslateElement.InlineLayout.SIMPLE
-    // autoDisplay NOT set to false — so Google Translate reads the googtrans
-    // cookie and auto-translates on page load (banner is hidden via CSS)
+    layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+    autoDisplay: false
   }, 'google_translate_element');
 }
 
-function setLangButtons(lang) {
+function translateTo(lang) {
+  // Update button states immediately
   document.getElementById('btn-en')?.classList.toggle('active', lang !== 'ta');
   document.getElementById('btn-ta')?.classList.toggle('active', lang === 'ta');
+
+  // Find the combo and trigger Google Translate
+  function trySwitch(attempts) {
+    const combo = document.querySelector('.goog-te-combo');
+    if (combo) {
+      combo.value = lang;
+      combo.dispatchEvent(new Event('change', { bubbles: true }));
+    } else if (attempts > 0) {
+      setTimeout(() => trySwitch(attempts - 1), 300);
+    }
+  }
+  trySwitch(15);
 }
 
-// Set active button based on current cookie on page load
-(function initLangButtons() {
-  const match = document.cookie.match(/googtrans=\/en\/([a-z]+)/);
-  if (match && match[1] === 'ta') {
-    setLangButtons('ta');
-  } else {
-    setLangButtons('en');
-  }
-})();
+// Hide Google Translate cosmetic UI
+setInterval(() => {
+  const banner = document.querySelector('.goog-te-banner-frame');
+  if (banner) banner.style.display = 'none';
+  document.querySelectorAll('body > .skiptranslate').forEach(el => el.style.display = 'none');
+  document.body.style.top = '0px';
+}, 100);
 
-function translateTo(lang) {
-  setLangButtons(lang);
-
-  if (lang === 'en') {
-    // Clear cookie on all paths/domains then reload
-    document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-    document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=' + location.hostname;
-  } else {
-    // Set cookie then reload — Google Translate reads it on load
-    document.cookie = 'googtrans=/en/' + lang + '; path=/;';
-    document.cookie = 'googtrans=/en/' + lang + '; path=/; domain=' + location.hostname;
-  }
-
-  // Reload so Google Translate picks up the cookie
-  location.reload();
-}
-
-// Hide Google Translate cosmetic UI periodically
-(function hideGoogleTranslateUI() {
-  setInterval(() => {
-    const banner = document.querySelector('.goog-te-banner-frame');
-    if (banner) banner.style.display = 'none';
-    document.querySelectorAll('body > .skiptranslate').forEach(el => el.style.display = 'none');
-    document.body.style.top = '0px';
-  }, 100);
-})();
 
 
 
