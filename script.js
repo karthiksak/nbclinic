@@ -224,9 +224,6 @@ function initParticles() {
 // ══════════════════════════════════════
 // ── Google Translate Integration
 // ══════════════════════════════════════
-let _gtCombo = null;        // cached combo element — set as soon as GT loads
-let _pendingLang = null;    // lang clicked before combo was ready
-
 function googleTranslateInit() {
   new google.translate.TranslateElement({
     pageLanguage: 'en',
@@ -234,21 +231,6 @@ function googleTranslateInit() {
     layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
     autoDisplay: false
   }, 'google_translate_element');
-
-  // Poll until the combo appears, cache it, then flush any pending lang click
-  (function waitForCombo() {
-    const combo = document.querySelector('.goog-te-combo');
-    if (combo) {
-      _gtCombo = combo;
-      combo.addEventListener('change', () => setLangButtons(combo.value || 'en'));
-      if (_pendingLang) {
-        _applyTranslate(_pendingLang);
-        _pendingLang = null;
-      }
-    } else {
-      setTimeout(waitForCombo, 200);
-    }
-  })();
 }
 
 function setLangButtons(lang) {
@@ -256,29 +238,31 @@ function setLangButtons(lang) {
   document.getElementById('btn-ta')?.classList.toggle('active', lang === 'ta');
 }
 
-function _applyTranslate(lang) {
-  if (!_gtCombo) return false;
-  if (_gtCombo.value === lang) return true;   // already correct
-  _gtCombo.value = lang;
-  _gtCombo.dispatchEvent(new Event('change', { bubbles: true }));
-  return true;
-}
+// Set active button based on current cookie on page load
+(function initLangButtons() {
+  const match = document.cookie.match(/googtrans=\/en\/([a-z]+)/);
+  if (match && match[1] === 'ta') {
+    setLangButtons('ta');
+  } else {
+    setLangButtons('en');
+  }
+})();
 
 function translateTo(lang) {
   setLangButtons(lang);
 
-  // Update the cookie
   if (lang === 'en') {
+    // Clear cookie on all paths/domains then reload
     document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
     document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=' + location.hostname;
   } else {
+    // Set cookie then reload — Google Translate reads it on load
     document.cookie = 'googtrans=/en/' + lang + '; path=/;';
+    document.cookie = 'googtrans=/en/' + lang + '; path=/; domain=' + location.hostname;
   }
 
-  // If the combo is ready, translate immediately; otherwise queue it
-  if (!_applyTranslate(lang)) {
-    _pendingLang = lang;
-  }
+  // Reload so Google Translate picks up the cookie
+  location.reload();
 }
 
 // Hide Google Translate cosmetic UI periodically
@@ -288,7 +272,8 @@ function translateTo(lang) {
     if (banner) banner.style.display = 'none';
     document.querySelectorAll('body > .skiptranslate').forEach(el => el.style.display = 'none');
     document.body.style.top = '0px';
-  }, 1000);
+  }, 500);
 })();
+
 
 
