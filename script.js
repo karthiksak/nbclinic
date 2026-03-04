@@ -233,11 +233,9 @@ function googleTranslateInit() {
   }, 'google_translate_element');
 }
 
-function translateTo(lang) {
-  // Update button UI immediately
+function setLangButtons(lang) {
   const btnEn = document.getElementById('btn-en');
   const btnTa = document.getElementById('btn-ta');
-
   if (lang === 'ta') {
     btnTa?.classList.add('active');
     btnEn?.classList.remove('active');
@@ -245,46 +243,49 @@ function translateTo(lang) {
     btnEn?.classList.add('active');
     btnTa?.classList.remove('active');
   }
+}
 
-  // Try to use the Google Translate combo
-  function tryTranslate(retries) {
-    const combo = document.querySelector('.goog-te-combo');
-    if (combo) {
-      combo.value = lang;
-      combo.dispatchEvent(new Event('change'));
-      return;
-    }
-    if (retries > 0) {
-      setTimeout(() => tryTranslate(retries - 1), 300);
-    }
-  }
+function translateTo(lang) {
+  setLangButtons(lang);
 
-  // Also set the cookie for Google Translate
+  // Set the Google Translate cookie
   if (lang === 'en') {
-    // Remove translation by setting to empty
     document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
     document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=' + location.hostname;
   } else {
     document.cookie = 'googtrans=/en/' + lang + '; path=/;';
-    document.cookie = 'googtrans=/en/' + lang + '; path=/; domain=' + location.hostname;
   }
 
-  tryTranslate(10);
+  function tryTranslate(retries) {
+    const combo = document.querySelector('.goog-te-combo');
+    if (combo) {
+      if (combo.value !== lang) {
+        combo.value = lang;
+        combo.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+      return;
+    }
+    if (retries > 0) {
+      setTimeout(() => tryTranslate(retries - 1), 500);
+    } else if (lang === 'en') {
+      // If we can't find the combo to switch back to English, force a reload
+      location.reload();
+    }
+  }
+
+  tryTranslate(20);
 }
 
-// Periodically hide Google Translate cosmetic UI (not the combo)
+// Periodically hide Google Translate cosmetic UI
 (function hideGoogleTranslateUI() {
   setInterval(() => {
-    // Hide the banner frame
     const banner = document.querySelector('.goog-te-banner-frame');
     if (banner) banner.style.display = 'none';
 
-    // Hide skip translate overlays
     document.querySelectorAll('body > .skiptranslate').forEach(el => {
       el.style.display = 'none';
     });
 
-    // Remove top offset Google Translate adds to body
     document.body.style.top = '0px';
   }, 1000);
 })();
@@ -294,28 +295,12 @@ function translateTo(lang) {
   const check = () => {
     const combo = document.querySelector('.goog-te-combo');
     if (combo) {
-      // Sync initial state
-      const currentVal = combo.value;
-      if (currentVal === 'ta') {
-        document.getElementById('btn-ta')?.classList.add('active');
-        document.getElementById('btn-en')?.classList.remove('active');
-      }
-
-      // Watch for changes
+      if (combo.value) setLangButtons(combo.value);
       combo.addEventListener('change', () => {
-        const lang = combo.value || 'en';
-        const btnEn = document.getElementById('btn-en');
-        const btnTa = document.getElementById('btn-ta');
-        if (lang === 'ta') {
-          btnTa?.classList.add('active');
-          btnEn?.classList.remove('active');
-        } else {
-          btnEn?.classList.add('active');
-          btnTa?.classList.remove('active');
-        }
+        setLangButtons(combo.value || 'en');
       });
     } else {
-      setTimeout(check, 500);
+      setTimeout(check, 1000);
     }
   };
   setTimeout(check, 2000);
