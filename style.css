@@ -1333,17 +1333,18 @@ footer a:hover {
 }
 
 /* ── Google Translate Overrides ── */
-/* Keep #google_translate_element in DOM but off-screen (NOT display:none) */
+/* Position off-screen but keep rendered so .goog-te-combo select is accessible via JS */
 .goog-te-gadget {
   position: absolute !important;
+  top: -9999px !important;
   left: -9999px !important;
   opacity: 0 !important;
-  height: 0 !important;
-  overflow: hidden !important;
+  pointer-events: none !important;
 }
 
 .goog-te-gadget-simple {
   position: absolute !important;
+  top: -9999px !important;
   left: -9999px !important;
   opacity: 0 !important;
 }
@@ -1364,7 +1365,7 @@ body>.skiptranslate {
   display: none !important;
 }
 
-/* Important: do NOT hide .goog-te-combo — it must remain in DOM for translate to work */
+/* DO NOT hide .goog-te-combo — it must remain rendered for translate to work */
 
 /* ── Mobile Responsive ── */
 @media (max-width: 1024px) {
