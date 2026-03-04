@@ -1,5 +1,5 @@
 {
-  "buildCommand": "echo 'Static site - no build needed'",
+  "buildCommand": null,
   "outputDirectory": ".",
-  "framework": "html"
+  "framework": null
 }
