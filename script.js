@@ -228,8 +228,9 @@ function googleTranslateInit() {
   new google.translate.TranslateElement({
     pageLanguage: 'en',
     includedLanguages: 'en,ta',
-    layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-    autoDisplay: false
+    layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+    // autoDisplay NOT set to false — so Google Translate reads the googtrans
+    // cookie and auto-translates on page load (banner is hidden via CSS)
   }, 'google_translate_element');
 }
 
@@ -272,7 +273,7 @@ function translateTo(lang) {
     if (banner) banner.style.display = 'none';
     document.querySelectorAll('body > .skiptranslate').forEach(el => el.style.display = 'none');
     document.body.style.top = '0px';
-  }, 500);
+  }, 100);
 })();
 
 
