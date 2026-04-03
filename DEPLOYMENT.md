@@ -1,6 +1,6 @@
 # Noble Homoeopathy - Vercel Deployment Guide
 
-## Quick Start
+## Quick Start s
 
 ### Option 1: Deploy via Git (Recommended)
 
