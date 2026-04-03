@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initActiveNav();
   initLightbox();
   initParticles();
+  initWelcomeModal();
 });
 
 // ══════════════════════════════════════
@@ -221,7 +222,40 @@ function initParticles() {
   }
 }
 
+// ══════════════════════════════════════
+// ── Welcome Modal (Google Business Style)
+// ══════════════════════════════════════
+function initWelcomeModal() {
+  const welcomeModal = document.getElementById('welcome-modal');
+  const welcomeCloseBtn = document.getElementById('welcome-close');
+  
+  if (!welcomeModal || !welcomeCloseBtn) return;
 
+  const lastSeen = localStorage.getItem('welcomeModalSeen');
+  const now = new Date().getTime();
+  const cooldown = 7 * 24 * 60 * 60 * 1000; // 7 days
 
+  if (!lastSeen || (now - parseInt(lastSeen, 10)) > cooldown) {
+      setTimeout(() => {
+          welcomeModal.classList.add('active');
+      }, 3000); // 3 seconds total wait ensures splash screen is cleared
+  }
+
+  const closeModal = () => {
+      welcomeModal.classList.remove('active');
+      localStorage.setItem('welcomeModalSeen', now.toString());
+  };
+
+  welcomeCloseBtn.addEventListener('click', closeModal);
+  welcomeModal.addEventListener('click', (e) => {
+      if (e.target === welcomeModal) closeModal();
+  });
+  
+  document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && welcomeModal.classList.contains('active')) {
+          closeModal();
+      }
+  });
+}
 
 

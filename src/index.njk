@@ -521,6 +521,45 @@
         <span class="lightbox-caption"></span>
     </div>
 
+    <!-- ═══════════════ WELCOME MODAL ═══════════════ -->
+    <div id="welcome-modal" class="welcome-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="welcome-modal-title">
+        <div class="welcome-modal-card">
+            <button class="welcome-close-btn" id="welcome-close" aria-label="Close welcome message">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="welcome-modal-header">
+                <img src="images/logo.png" alt="Noble Homoeopathy Clinic">
+                <h2 id="welcome-modal-title">{{ site.general.title }}</h2>
+                <div class="rating">
+                    <span>5.0</span>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+            </div>
+            <div class="welcome-modal-body">
+                <div class="welcome-info-row">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <p>{{ site.general.address }}</p>
+                </div>
+                <div class="welcome-info-row">
+                    <i class="fas fa-phone-alt"></i>
+                    <p>{{ site.general.phone }}</p>
+                </div>
+                <div class="welcome-info-row">
+                    <i class="fas fa-clock"></i>
+                    <p>Open Today • 10:00 AM – 8:00 PM</p>
+                </div>
+                <div class="welcome-actions">
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdVacNJLa1TwCOuJze7YOCO2QAMKVA2A94GMGQOnyoaHg0okA/viewform?usp=sf_link" class="btn btn-primary" target="_blank">Book Consult</a>
+                    <a href="tel:{{ site.general.phone }}" class="btn btn-outline" style="border-color: var(--primary); color: var(--primary-dark);">Call Now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- ═══════════════ SCRIPTS ═══════════════ -->
     <script src="script.js"></script>
 
