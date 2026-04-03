@@ -1607,23 +1607,28 @@ footer a:hover {
 
 .welcome-close-btn {
     position: absolute;
-    top: 15px;
-    right: 15px;
-    width: 32px;
-    height: 32px;
+    top: 14px;
+    right: 14px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.2);
     color: var(--white);
+    font-size: 1.3rem;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: all 0.3s var(--ease-bounce);
     z-index: 2;
+    border: 2px solid rgba(255, 255, 255, 0.5);
 }
 
 .welcome-close-btn:hover {
-    background: rgba(255, 255, 255, 0.35);
+    background: var(--white);
+    color: var(--primary-dark);
+    transform: scale(1.15) rotate(90deg);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
 .welcome-modal-header img {
