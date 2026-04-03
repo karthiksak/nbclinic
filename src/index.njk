@@ -374,53 +374,20 @@
                     <p>Don't just take our word for it. Hear from real patients about their healing journey.</p>
                 </div>
                 <div class="reviews-grid">
-                    <div class="review-card animate-on-scroll delay-1">
+                    {% for review in site.reviews %}
+                    <div class="review-card animate-on-scroll delay-{{ loop.index }}">
                         <div class="review-stars">
+                            {% for i in range(0, review.stars) %}
                             <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
+                            {% endfor %}
+                            {% for i in range(review.stars, 5) %}
+                            <i class="far fa-star"></i>
+                            {% endfor %}
                         </div>
-                        <p class="review-text">"Pain reduced after first dose of medicines. Good treatment for migraine
-                            and chronic neck pain."</p>
-                        <span class="review-author">— Mrs. Supraja (08/02/2025)</span>
+                        <p class="review-text">"{{ review.text }}"</p>
+                        <span class="review-author">— {{ review.author }}</span>
                     </div>
-                    <div class="review-card animate-on-scroll delay-2">
-                        <div class="review-stars">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <p class="review-text">"Good doctor, giving appropriate time. Hearing patients' concerns
-                            carefully."</p>
-                        <span class="review-author">— Mr. Ravishankar Sharma (01/03/2025)</span>
-                    </div>
-                    <div class="review-card animate-on-scroll delay-3">
-                        <div class="review-stars">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <p class="review-text">"I got relief from my acidity problem."</p>
-                        <span class="review-author">— Grateful Patient</span>
-                    </div>
-                    <div class="review-card animate-on-scroll delay-4">
-                        <div class="review-stars">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <p class="review-text">"My skin allergies have significantly improved after starting treatment
-                            here."</p>
-                        <span class="review-author">— Happy Patient</span>
-                    </div>
+                    {% endfor %}
                 </div>
 
                 <div class="google-reviews-box animate-on-scroll">

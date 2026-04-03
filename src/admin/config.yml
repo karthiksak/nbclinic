@@ -26,3 +26,10 @@ collections:
               - { label: "Email Address", name: "email", widget: "string" }
               - { label: "Physical Address", name: "address", widget: "text" }
               - { label: "Google Maps URL", name: "google_maps_embed", widget: "string" }
+          - label: "Patient Reviews"
+            name: "reviews"
+            widget: "list"
+            fields:
+              - { label: "Review Text", name: "text", widget: "text" }
+              - { label: "Author Name & Date", name: "author", widget: "string" }
+              - { label: "Star Rating (1-5)", name: "stars", widget: "number", value_type: "int", min: 1, max: 5 }

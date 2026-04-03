@@ -6,5 +6,27 @@
     "email": "noblehomoeopathyclinic@gmail.com",
     "address": "Noble Homoeopathy Clinic, Ground floor, 4/37A Palandiamman Kovil Street, Old Mahabalipuram Road, near Navalur Toll, Egattur, Chennai, Tamil Nadu 600103",
     "google_maps_embed": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3886.7578297621946!2d80.2223709!3d13.0487019!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a526615b3a6e921%3A0x63a3e6f9b8c3d6c1!2sNoble%20Homoeopathy%20Clinic!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
-  }
+  },
+  "reviews": [
+    {
+      "text": "Pain reduced after first dose of medicines. Good treatment for migraine and chronic neck pain.",
+      "author": "Mrs. Supraja (08/02/2025)",
+      "stars": 5
+    },
+    {
+      "text": "Good doctor, giving appropriate time. Hearing patients' concerns carefully.",
+      "author": "Mr. Ravishankar Sharma (01/03/2025)",
+      "stars": 5
+    },
+    {
+      "text": "I got relief from my acidity problem.",
+      "author": "Grateful Patient",
+      "stars": 5
+    },
+    {
+      "text": "My skin allergies have significantly improved after starting treatment here.",
+      "author": "Happy Patient",
+      "stars": 5
+    }
+  ]
 }
