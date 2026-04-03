@@ -61,53 +61,77 @@
                         <input type="hidden" name="_template" value="table">
                         <input type="hidden" name="_captcha" value="false">
 
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="patientName">Full Name</label>
-                                <input type="text" id="patientName" name="Patient_Name" required placeholder="Enter your full name">
-                            </div>
-                            <div class="form-group">
-                                <label for="phone">Phone Number</label>
-                                <input type="tel" id="phone" name="Phone" placeholder="Enter your phone number">
-                            </div>
+                        <div class="form-group">
+                            <label for="patientName">Patient Name:</label>
+                            <input type="text" id="patientName" name="Patient_Name" required placeholder="Enter your full name">
                         </div>
 
                         <div class="form-group">
-                            <label for="email">Email Address</label>
-                            <input type="email" id="email" name="Email" required placeholder="Enter your email">
-                        </div>
-
-                        <div class="form-group">
-                            <label>Rate your overall experience</label>
+                            <label>Did the doctor explain your condition (disease) clearly?</label>
                             <div class="rating-group">
-                                <label class="rating-label"><input type="radio" name="Overall_Experience" value="Excellent" required> <span><i class="fas fa-star"></i> Excellent</span></label>
-                                <label class="rating-label"><input type="radio" name="Overall_Experience" value="Good"> <span><i class="fas fa-star-half-alt"></i> Good</span></label>
-                                <label class="rating-label"><input type="radio" name="Overall_Experience" value="Average"> <span><i class="far fa-star"></i> Average</span></label>
-                                <label class="rating-label"><input type="radio" name="Overall_Experience" value="Poor"> <span><i class="far fa-frown"></i> Poor</span></label>
+                                <label class="rating-label"><input type="radio" name="Explained_Condition" value="Yes" required> <span>Yes</span></label>
+                                <label class="rating-label"><input type="radio" name="Explained_Condition" value="No"> <span>No</span></label>
+                                <label class="rating-label"><input type="radio" name="Explained_Condition" value="Somewhat"> <span>Somewhat</span></label>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label for="doctorRating">How would you rate Dr. Kokhila's care and consultation?</label>
-                            <select id="doctorRating" name="Doctor_Rating" required>
-                                <option value="" disabled selected>Select a rating</option>
-                                <option value="Very Satisfied">Very Satisfied - Thorough and compassionate</option>
-                                <option value="Satisfied">Satisfied - Good consultation</option>
-                                <option value="Neutral">Neutral - Met expectations</option>
-                                <option value="Dissatisfied">Dissatisfied - Room for improvement</option>
-                            </select>
+                            <label>Did the doctor explain the treatment plan to you?</label>
+                            <div class="rating-group">
+                                <label class="rating-label"><input type="radio" name="Explained_Treatment" value="Yes" required> <span>Yes</span></label>
+                                <label class="rating-label"><input type="radio" name="Explained_Treatment" value="No"> <span>No</span></label>
+                                <label class="rating-label"><input type="radio" name="Explained_Treatment" value="Somewhat"> <span>Somewhat</span></label>
+                            </div>
                         </div>
 
                         <div class="form-group">
-                            <label for="improvements">What did you like most, and how can we improve?</label>
-                            <textarea id="improvements" name="Feedback_Comments" rows="5" required placeholder="Share your detailed feedback here..."></textarea>
+                            <label>Did the doctor suggest an appropriate diet plan?</label>
+                            <div class="rating-group">
+                                <label class="rating-label"><input type="radio" name="Suggested_Diet" value="Yes" required> <span>Yes</span></label>
+                                <label class="rating-label"><input type="radio" name="Suggested_Diet" value="No"> <span>No</span></label>
+                                <label class="rating-label"><input type="radio" name="Suggested_Diet" value="Somewhat"> <span>Somewhat</span></label>
+                            </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="checkbox-label">
-                                <input type="checkbox" name="Consent_To_Publish" value="Yes">
-                                I consent to this feedback being featured anonymously on the clinic's reviews page.
-                            </label>
+                            <label>Was the doctor attentive to your concerns and questions?</label>
+                            <div class="rating-group">
+                                <label class="rating-label"><input type="radio" name="Attentive_To_Concerns" value="Yes" required> <span>Yes</span></label>
+                                <label class="rating-label"><input type="radio" name="Attentive_To_Concerns" value="No"> <span>No</span></label>
+                                <label class="rating-label"><input type="radio" name="Attentive_To_Concerns" value="Somewhat"> <span>Somewhat</span></label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Was the doctor’s explanation easy to understand?</label>
+                            <div class="rating-group">
+                                <label class="rating-label"><input type="radio" name="Easy_To_Understand" value="Yes" required> <span>Yes</span></label>
+                                <label class="rating-label"><input type="radio" name="Easy_To_Understand" value="No"> <span>No</span></label>
+                                <label class="rating-label"><input type="radio" name="Easy_To_Understand" value="Somewhat"> <span>Somewhat</span></label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Did you feel comfortable during the consultation?</label>
+                            <div class="rating-group">
+                                <label class="rating-label"><input type="radio" name="Felt_Comfortable" value="Yes" required> <span>Yes</span></label>
+                                <label class="rating-label"><input type="radio" name="Felt_Comfortable" value="No"> <span>No</span></label>
+                                <label class="rating-label"><input type="radio" name="Felt_Comfortable" value="Somewhat"> <span>Somewhat</span></label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Would you recommend this doctor to others?</label>
+                            <div class="rating-group">
+                                <label class="rating-label"><input type="radio" name="Recommend_Doctor" value="Yes" required> <span>Yes</span></label>
+                                <label class="rating-label"><input type="radio" name="Recommend_Doctor" value="No"> <span>No</span></label>
+                                <label class="rating-label"><input type="radio" name="Recommend_Doctor" value="Maybe"> <span>Maybe</span></label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="comments">Any additional comments or suggestions for improvement?</label>
+                            <textarea id="comments" name="Additional_Comments" rows="5" placeholder="Share your detailed feedback here..."></textarea>
                         </div>
 
                         <button type="submit" class="btn btn-primary submit-btn">
