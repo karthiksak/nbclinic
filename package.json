@@ -4,7 +4,7 @@
   "description": "",
   "main": "script.js",
   "scripts": {
-    "build": "eleventy"
+    "build": "node ./node_modules/@11ty/eleventy/cmd.cjs"
   },
   "repository": {
     "type": "git",
