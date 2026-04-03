@@ -231,19 +231,13 @@ function initWelcomeModal() {
   
   if (!welcomeModal || !welcomeCloseBtn) return;
 
-  const lastSeen = localStorage.getItem('welcomeModalSeen');
-  const now = new Date().getTime();
-  const cooldown = 7 * 24 * 60 * 60 * 1000; // 7 days
-
-  if (!lastSeen || (now - parseInt(lastSeen, 10)) > cooldown) {
-      setTimeout(() => {
-          welcomeModal.classList.add('active');
-      }, 3000); // 3 seconds total wait ensures splash screen is cleared
-  }
+  // Show modal 3 seconds after load to clear splash screen
+  setTimeout(() => {
+      welcomeModal.classList.add('active');
+  }, 3000); 
 
   const closeModal = () => {
       welcomeModal.classList.remove('active');
-      localStorage.setItem('welcomeModalSeen', now.toString());
   };
 
   welcomeCloseBtn.addEventListener('click', closeModal);
