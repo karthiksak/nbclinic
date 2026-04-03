@@ -2,7 +2,7 @@ backend:
   name: github
   repo: karthiksak/nbclinic
   branch: main
-  base_url: https://nbclinic.vercel.app # URL of Vercel production deployment
+  base_url: https://noblehomeo.vercel.app # URL of Vercel production deployment
   auth_endpoint: api/auth
 
 media_folder: "src/images"
