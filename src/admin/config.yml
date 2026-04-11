@@ -33,3 +33,31 @@ collections:
               - { label: "Review Text", name: "text", widget: "text" }
               - { label: "Author Name & Date", name: "author", widget: "string" }
               - { label: "Star Rating (1-5)", name: "stars", widget: "number", value_type: "int", min: 1, max: 5 }
+
+  - name: "patients"
+    label: "Patient Records"
+    folder: "src/_data/patients"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    extension: "json"
+    format: "json"
+    editor:
+      preview: false
+    fields:
+      - { label: "Registration Number", name: "reg_number", widget: "string" }
+      - { label: "Date", name: "date", widget: "datetime", format: "DD-MM-YYYY", date_format: "DD-MM-YYYY", time_format: false }
+      - { label: "Patient Name", name: "title", widget: "string" }
+      - { label: "Age", name: "age", widget: "number", value_type: "int", required: false }
+      - { label: "Gender", name: "gender", widget: "select", options: ["Male", "Female", "Other"], required: false }
+      - { label: "Occupation", name: "occupation", widget: "string", required: false }
+      - { label: "Address", name: "address", widget: "text", required: false }
+      - { label: "Diagnosis", name: "diagnosis", widget: "text", required: false }
+      - { label: "Prescription Visit 1", name: "prescription_1", widget: "text", required: false }
+      - label: "Follow-ups & Payments"
+        name: "follow_ups"
+        widget: "list"
+        required: false
+        fields:
+          - { label: "Date", name: "date", widget: "datetime", format: "DD-MM-YYYY", date_format: "DD-MM-YYYY", time_format: false }
+          - { label: "Prescription/Notes", name: "prescription", widget: "text", required: false }
+          - { label: "Amount Paid", name: "amount", widget: "string", required: false }
