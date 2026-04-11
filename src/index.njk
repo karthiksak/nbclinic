@@ -87,18 +87,25 @@
 
 
         <div class="nav-right">
+            <!-- Language Switcher -->
+            <div class="lang-switcher" role="group" aria-label="Language switcher">
+                <button class="lang-btn active" id="lang-en" data-lang="en" onclick="switchLanguage('en')">EN</button>
+                <button class="lang-btn" id="lang-ta" data-lang="ta" onclick="switchLanguage('ta')">தமிழ்</button>
+                <button class="lang-btn" id="lang-hi" data-lang="hi" onclick="switchLanguage('hi')">हिंदी</button>
+            </div>
+
             <div class="nav-menu">
                 <div class="nav-links" role="menubar">
-                    <a href="#hero" role="menuitem" class="active">Home</a>
-                    <a href="#overview" role="menuitem">Overview</a>
-                    <a href="#about" role="menuitem">About</a>
-                    <a href="#treatments" role="menuitem">Treatments</a>
-                    <a href="#why-us" role="menuitem">Why Us</a>
-                    <a href="#doctor" role="menuitem">Doctor</a>
-                    <a href="#reviews" role="menuitem">Reviews</a>
-                    <a href="#gallery" role="menuitem">Gallery</a>
-                    <a href="#contact" role="menuitem">Contact</a>
-                    <a href="feedback.html" role="menuitem">Feedback</a>
+                    <a href="#hero" role="menuitem" class="active" data-i18n="nav.home">Home</a>
+                    <a href="#overview" role="menuitem" data-i18n="nav.overview">Overview</a>
+                    <a href="#about" role="menuitem" data-i18n="nav.about">About</a>
+                    <a href="#treatments" role="menuitem" data-i18n="nav.treatments">Treatments</a>
+                    <a href="#why-us" role="menuitem" data-i18n="nav.whyUs">Why Us</a>
+                    <a href="#doctor" role="menuitem" data-i18n="nav.doctor">Doctor</a>
+                    <a href="#reviews" role="menuitem" data-i18n="nav.reviews">Reviews</a>
+                    <a href="#gallery" role="menuitem" data-i18n="nav.gallery">Gallery</a>
+                    <a href="#contact" role="menuitem" data-i18n="nav.contact">Contact</a>
+                    <a href="feedback.html" role="menuitem" data-i18n="nav.feedback">Feedback</a>
                 </div>
             </div>
 
@@ -120,21 +127,21 @@
             <div class="hero-particles" aria-hidden="true"></div>
             <div class="hero-content">
                 <div class="hero-badge">
-                    <i class="fas fa-leaf"></i> Holistic Homeopathic Care
+                    <i class="fas fa-leaf"></i> <span data-i18n="hero.badge">Holistic Homeopathic Care</span>
                 </div>
-                <h1>Natural Optimization of<br><span>Body, Lifestyle &amp; Energy</span></h1>
-                <p class="hero-subtitle">
+                <h1><span data-i18n="hero.title">Natural Optimization of</span><br><span data-i18n="hero.titleSpan">Body, Lifestyle &amp; Energy</span></h1>
+                <p class="hero-subtitle" data-i18n="hero.subtitle">
                     Experience personalized, gentle healing that addresses the root cause of illness.
                     Your journey to lasting Health, Harmony &amp; Happiness begins here.
                 </p>
                 <div class="hero-buttons">
                     <a href="https://docs.google.com/forms/d/e/1FAIpQLSdVacNJLa1TwCOuJze7YOCO2QAMKVA2A94GMGQvnyoaHg0okA/viewform"
                         target="_blank" rel="noopener" class="btn btn-primary" id="book-consultation-hero">
-                        <i class="fas fa-calendar-check"></i> Book Consultation
+                        <i class="fas fa-calendar-check"></i> <span data-i18n="hero.bookBtn">Book Consultation</span>
                     </a>
                     <a href="https://wa.me/916383095276?text=Hello%20Noble%20Homoeopathy%20Clinic%2C%20I%20have%20an%20enquiry."
                         target="_blank" rel="noopener" class="btn btn-outline" id="whatsapp-hero">
-                        <i class="fab fa-whatsapp"></i> Chat with Us
+                        <i class="fab fa-whatsapp"></i> <span data-i18n="hero.chatBtn">Chat with Us</span>
                     </a>
                 </div>
             </div>
@@ -144,30 +151,30 @@
         <section id="overview" class="section section-light">
             <div class="container">
                 <div class="section-header animate-on-scroll">
-                    <h2>Holistic Solutions for Your Well-being</h2>
-                    <p>At Noble Homoeopathy Clinic, we specialize in gentle yet powerful natural treatments. Discover
+                    <h2 data-i18n="overview.title">Holistic Solutions for Your Well-being</h2>
+                    <p data-i18n="overview.subtitle">At Noble Homoeopathy Clinic, we specialize in gentle yet powerful natural treatments. Discover
                         how we can help with a wide range of conditions.</p>
                 </div>
                 <div class="overview-grid">
                     <div class="overview-card animate-on-scroll delay-1">
                         <div class="icon-wrapper"><i class="fas fa-leaf"></i></div>
-                        <h3>Natural &amp; Gentle</h3>
-                        <p>Safe treatments for all ages, derived from natural sources with no harmful side effects.</p>
+                        <h3 data-i18n="overview.card1Title">Natural &amp; Gentle</h3>
+                        <p data-i18n="overview.card1">Safe treatments for all ages, derived from natural sources with no harmful side effects.</p>
                     </div>
                     <div class="overview-card animate-on-scroll delay-2">
                         <div class="icon-wrapper"><i class="fas fa-user-shield"></i></div>
-                        <h3>Personalized Care</h3>
-                        <p>Tailored remedies based on your unique symptoms, constitution, and health history.</p>
+                        <h3 data-i18n="overview.card2Title">Personalized Care</h3>
+                        <p data-i18n="overview.card2">Tailored remedies based on your unique symptoms, constitution, and health history.</p>
                     </div>
                     <div class="overview-card animate-on-scroll delay-3">
                         <div class="icon-wrapper"><i class="fas fa-stethoscope"></i></div>
-                        <h3>Chronic &amp; Acute</h3>
-                        <p>Effective for both long-term chronic conditions and sudden acute illnesses.</p>
+                        <h3 data-i18n="overview.card3Title">Chronic &amp; Acute</h3>
+                        <p data-i18n="overview.card3">Effective for both long-term chronic conditions and sudden acute illnesses.</p>
                     </div>
                     <div class="overview-card animate-on-scroll delay-4">
                         <div class="icon-wrapper"><i class="fas fa-lightbulb"></i></div>
-                        <h3>Root Cause Focus</h3>
-                        <p>We aim for permanent solutions by addressing the underlying causes, not just symptoms.</p>
+                        <h3 data-i18n="overview.card4Title">Root Cause Focus</h3>
+                        <p data-i18n="overview.card4">We aim for permanent solutions by addressing the underlying causes, not just symptoms.</p>
                     </div>
                 </div>
             </div>
@@ -177,10 +184,10 @@
         <section id="about" class="section section-dark">
             <div class="container">
                 <div class="section-header animate-on-scroll">
-                    <h2>Understanding Homoeopathy</h2>
+                    <h2 data-i18n="about.title">Understanding Homoeopathy</h2>
                 </div>
                 <div class="about-content">
-                    <p class="animate-on-scroll">
+                    <p class="animate-on-scroll" data-i18n="about.intro">
                         <strong>Homoeopathy</strong> is a system of alternative medicine created in 1796 by <strong>Dr.
                             Samuel Hahnemann</strong>, based on the doctrine of "like cures like." A substance that
                         causes symptoms in healthy individuals can cure similar symptoms in the sick. Remedies are
@@ -189,23 +196,23 @@
                     </p>
                     <div class="about-grid">
                         <div class="about-card animate-on-scroll delay-1">
-                            <strong><i class="fas fa-notes-medical"></i> Acute &amp; Chronic Conditions</strong>
-                            <p>Effective treatment for short-term and long-term diseases, including autoimmune
+                            <strong><i class="fas fa-notes-medical"></i> <span data-i18n="about.card1Title">Acute &amp; Chronic Conditions</span></strong>
+                            <p data-i18n="about.card1">Effective treatment for short-term and long-term diseases, including autoimmune
                                 conditions and supportive care.</p>
                         </div>
                         <div class="about-card animate-on-scroll delay-2">
-                            <strong><i class="fas fa-user-cog"></i> Personalized Medicine</strong>
-                            <p>Treatments are tailored to each individual, considering unique symptoms, constitution,
+                            <strong><i class="fas fa-user-cog"></i> <span data-i18n="about.card2Title">Personalized Medicine</span></strong>
+                            <p data-i18n="about.card2">Treatments are tailored to each individual, considering unique symptoms, constitution,
                                 and complete health history.</p>
                         </div>
                         <div class="about-card animate-on-scroll delay-3">
-                            <strong><i class="fas fa-balance-scale"></i> Holistic Approach</strong>
-                            <p>Homoeopathy treats the whole person — not just the disease — including emotional, mental,
+                            <strong><i class="fas fa-balance-scale"></i> <span data-i18n="about.card3Title">Holistic Approach</span></strong>
+                            <p data-i18n="about.card3">Homoeopathy treats the whole person — not just the disease — including emotional, mental,
                                 and physical well-being.</p>
                         </div>
                         <div class="about-card animate-on-scroll delay-4">
-                            <strong><i class="fas fa-shield-alt"></i> Safe &amp; Gentle</strong>
-                            <p>Remedies are natural, generally safe with minimal side effects, suitable for all ages
+                            <strong><i class="fas fa-shield-alt"></i> <span data-i18n="about.card4Title">Safe &amp; Gentle</span></strong>
+                            <p data-i18n="about.card4">Remedies are natural, generally safe with minimal side effects, suitable for all ages
                                 including infants and pregnant women.</p>
                         </div>
                     </div>
@@ -218,64 +225,64 @@
             style="background: linear-gradient(180deg, #132040, #0a1628);">
             <div class="container">
                 <div class="section-header animate-on-scroll">
-                    <h2>Treatments Offered</h2>
-                    <p>We provide comprehensive homeopathic care for a wide spectrum of health concerns. Here are some
+                    <h2 data-i18n="treatments.title">Treatments Offered</h2>
+                    <p data-i18n="treatments.subtitle">We provide comprehensive homeopathic care for a wide spectrum of health concerns. Here are some
                         conditions we frequently treat.</p>
                 </div>
                 <div class="treatments-wrapper">
                     <div class="treatment-category animate-on-scroll">
-                        <h3><i class="fas fa-bolt"></i> Acute Conditions</h3>
+                        <h3><i class="fas fa-bolt"></i> <span data-i18n="treatments.acuteTitle">Acute Conditions</span></h3>
                         <div class="treatment-list">
                             <div class="treatment-item">
-                                <strong>Common Illnesses</strong>
-                                <p>Effective treatment for cold, fever, headache, minor skin rashes, vomiting, diarrhea,
+                                <strong data-i18n="treatments.commonTitle">Common Illnesses</strong>
+                                <p data-i18n="treatments.common">Effective treatment for cold, fever, headache, minor skin rashes, vomiting, diarrhea,
                                     and other sudden-onset illnesses.</p>
                             </div>
                         </div>
                     </div>
                     <div class="treatment-category animate-on-scroll delay-2">
-                        <h3><i class="fas fa-heartbeat"></i> Chronic Conditions</h3>
+                        <h3><i class="fas fa-heartbeat"></i> <span data-i18n="treatments.chronicTitle">Chronic Conditions</span></h3>
                         <div class="treatment-list">
                             <div class="treatment-item">
-                                <strong>Respiratory Complaints</strong>
-                                <p>Asthma, sinusitis, nasal polyps, allergies.</p>
+                                <strong data-i18n="treatments.respTitle">Respiratory Complaints</strong>
+                                <p data-i18n="treatments.resp">Asthma, sinusitis, nasal polyps, allergies.</p>
                             </div>
                             <div class="treatment-item">
-                                <strong>Skin Diseases</strong>
-                                <p>Eczema, psoriasis, sebaceous cysts, various forms of acne (truncal, cystic).</p>
+                                <strong data-i18n="treatments.skinTitle">Skin Diseases</strong>
+                                <p data-i18n="treatments.skin">Eczema, psoriasis, sebaceous cysts, various forms of acne (truncal, cystic).</p>
                             </div>
                             <div class="treatment-item">
-                                <strong>Piles / Fistula</strong>
-                                <p>Non-invasive treatments for all degrees of piles, pilonidal cysts, and fistulas.</p>
+                                <strong data-i18n="treatments.pilesTitle">Piles / Fistula</strong>
+                                <p data-i18n="treatments.piles">Non-invasive treatments for all degrees of piles, pilonidal cysts, and fistulas.</p>
                             </div>
                             <div class="treatment-item">
-                                <strong>Kidney / Gallbladder Stones</strong>
-                                <p>Remedies that help dissolve stones and alleviate associated symptoms.</p>
+                                <strong data-i18n="treatments.kidneTitle">Kidney / Gallbladder Stones</strong>
+                                <p data-i18n="treatments.kidne">Remedies that help dissolve stones and alleviate associated symptoms.</p>
                             </div>
                             <div class="treatment-item">
-                                <strong>Menstrual Disorders</strong>
-                                <p>Regulating cycles, relieving pain (dysmenorrhea), controlling excess bleeding from
+                                <strong data-i18n="treatments.menstrTitle">Menstrual Disorders</strong>
+                                <p data-i18n="treatments.menstr">Regulating cycles, relieving pain (dysmenorrhea), controlling excess bleeding from
                                     fibroids/PID.</p>
                             </div>
                             <div class="treatment-item">
-                                <strong>Lifestyle Diseases</strong>
-                                <p>Fatty liver, PCOD, support for obesity management.</p>
+                                <strong data-i18n="treatments.lifestyleTitle">Lifestyle Diseases</strong>
+                                <p data-i18n="treatments.lifestyle">Fatty liver, PCOD, support for obesity management.</p>
                             </div>
                             <div class="treatment-item">
-                                <strong>Infertility / Impotency</strong>
-                                <p>Addressing hormonal imbalances, premature ejaculation, vaginismus.</p>
+                                <strong data-i18n="treatments.infertTitle">Infertility / Impotency</strong>
+                                <p data-i18n="treatments.infert">Addressing hormonal imbalances, premature ejaculation, vaginismus.</p>
                             </div>
                             <div class="treatment-item">
-                                <strong>Gastric Complaints</strong>
-                                <p>Acid reflux (GERD), irritable bowel syndrome (IBS), bloating, indigestion.</p>
+                                <strong data-i18n="treatments.gastricTitle">Gastric Complaints</strong>
+                                <p data-i18n="treatments.gastric">Acid reflux (GERD), irritable bowel syndrome (IBS), bloating, indigestion.</p>
                             </div>
                             <div class="treatment-item">
-                                <strong>Developmental Delays</strong>
-                                <p>Supportive care to help children achieve milestones.</p>
+                                <strong data-i18n="treatments.devTitle">Developmental Delays</strong>
+                                <p data-i18n="treatments.dev">Supportive care to help children achieve milestones.</p>
                             </div>
                             <div class="treatment-item">
-                                <strong>Other Chronic Complaints</strong>
-                                <p>Thyroid disorders, rheumatoid arthritis, anxiety, depression, and more.</p>
+                                <strong data-i18n="treatments.otherTitle">Other Chronic Complaints</strong>
+                                <p data-i18n="treatments.other">Thyroid disorders, rheumatoid arthritis, anxiety, depression, and more.</p>
                             </div>
                         </div>
                     </div>
@@ -287,54 +294,54 @@
         <section id="why-us" class="section section-light">
             <div class="container">
                 <div class="section-header animate-on-scroll">
-                    <h2>Why Choose Noble Homoeopathy?</h2>
+                    <h2 data-i18n="whyUs.title">Why Choose Noble Homoeopathy?</h2>
                 </div>
                 <div class="why-us-grid">
                     <div class="why-us-card animate-on-scroll delay-1">
                         <div class="card-icon"><i class="fas fa-heart"></i></div>
                         <div>
-                            <h4>Patients are Our Priority</h4>
-                            <p>We value patient feedback and needs immensely to ensure the most compassionate care
+                            <h4 data-i18n="whyUs.p1Title">Patients are Our Priority</h4>
+                            <p data-i18n="whyUs.p1">We value patient feedback and needs immensely to ensure the most compassionate care
                                 possible.</p>
                         </div>
                     </div>
                     <div class="why-us-card animate-on-scroll delay-2">
                         <div class="card-icon"><i class="fas fa-bullseye"></i></div>
                         <div>
-                            <h4>Permanent Solutions</h4>
-                            <p>Our treatments aim for lasting results by addressing the root cause, not just temporary
+                            <h4 data-i18n="whyUs.p2Title">Permanent Solutions</h4>
+                            <p data-i18n="whyUs.p2">Our treatments aim for lasting results by addressing the root cause, not just temporary
                                 symptom relief.</p>
                         </div>
                     </div>
                     <div class="why-us-card animate-on-scroll delay-3">
                         <div class="card-icon"><i class="fas fa-medal"></i></div>
                         <div>
-                            <h4>Dedication &amp; Integrity</h4>
-                            <p>Minimum medicine for maximum cure — adhering to ethical practices and classical
+                            <h4 data-i18n="whyUs.p3Title">Dedication &amp; Integrity</h4>
+                            <p data-i18n="whyUs.p3">Minimum medicine for maximum cure — adhering to ethical practices and classical
                                 homeopathic principles.</p>
                         </div>
                     </div>
                     <div class="why-us-card animate-on-scroll delay-4">
                         <div class="card-icon"><i class="fas fa-hand-holding-heart"></i></div>
                         <div>
-                            <h4>Affordable for All</h4>
-                            <p>High-quality homeopathic treatment accessible and mainstream without compromising
+                            <h4 data-i18n="whyUs.p4Title">Affordable for All</h4>
+                            <p data-i18n="whyUs.p4">High-quality homeopathic treatment accessible and mainstream without compromising
                                 standards.</p>
                         </div>
                     </div>
                     <div class="why-us-card animate-on-scroll delay-1">
                         <div class="card-icon"><i class="fas fa-book-medical"></i></div>
                         <div>
-                            <h4>Classical Principles</h4>
-                            <p>We strictly follow homeopathic laws and provide individualized remedies for each
+                            <h4 data-i18n="whyUs.p5Title">Classical Principles</h4>
+                            <p data-i18n="whyUs.p5">We strictly follow homeopathic laws and provide individualized remedies for each
                                 treatment.</p>
                         </div>
                     </div>
                     <div class="why-us-card animate-on-scroll delay-2">
                         <div class="card-icon"><i class="fas fa-headset"></i></div>
                         <div>
-                            <h4>Always Available</h4>
-                            <p>Committed to supporting patients whenever they need assistance, promptly clarifying all
+                            <h4 data-i18n="whyUs.p6Title">Always Available</h4>
+                            <p data-i18n="whyUs.p6">Committed to supporting patients whenever they need assistance, promptly clarifying all
                                 concerns.</p>
                         </div>
                     </div>
@@ -346,7 +353,7 @@
         <section id="doctor" class="section section-alt">
             <div class="container">
                 <div class="section-header animate-on-scroll">
-                    <h2>Meet Our Expert Practitioner</h2>
+                    <h2 data-i18n="doctor.title">Meet Our Expert Practitioner</h2>
                 </div>
                 <div class="doctor-profile animate-on-scroll">
                     <div class="doctor-img-wrapper">
@@ -354,8 +361,8 @@
                             height="200">
                     </div>
                     <h3>Dr. Kokhila</h3>
-                    <p class="credentials">BHMS (Bachelor of Homoeopathic Medicine and Surgery)</p>
-                    <p>
+                    <p class="credentials" data-i18n="doctor.credentials">BHMS (Bachelor of Homoeopathic Medicine and Surgery)</p>
+                    <p data-i18n="doctor.bio">
                         Dr. Kokhila is a highly qualified and experienced homeopathic practitioner with a deep passion
                         for holistic healing. With 3 years in practice, she has successfully treated a wide range of
                         conditions — focusing on individualized patient care and long-term well-being. Dr. Kokhila
@@ -370,8 +377,8 @@
         <section id="reviews" class="section section-dark">
             <div class="container">
                 <div class="section-header animate-on-scroll">
-                    <h2>What Our Patients Say</h2>
-                    <p>Don't just take our word for it. Hear from real patients about their healing journey.</p>
+                    <h2 data-i18n="reviews.title">What Our Patients Say</h2>
+                    <p data-i18n="reviews.subtitle">Don't just take our word for it. Hear from real patients about their healing journey.</p>
                 </div>
                 <div class="reviews-grid">
                     {% for review in site.reviews %}
@@ -391,7 +398,7 @@
                 </div>
 
                 <div class="google-reviews-box animate-on-scroll">
-                    <h3><i class="fab fa-google"></i> View More Reviews on Google</h3>
+                    <h3><i class="fab fa-google"></i> <span data-i18n="reviews.googleTitle">View More Reviews on Google</span></h3>
                     <iframe
                         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3886.7578297621946!2d80.2223709!3d13.0487019!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a526615b3a6e921%3A0x63a3e6f9b8c3d6c1!2sNoble%20Homoeopathy%20Clinic!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
                         allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"
@@ -409,8 +416,8 @@
         <section id="gallery" class="section section-light">
             <div class="container">
                 <div class="section-header animate-on-scroll">
-                    <h2>Our Clinic &amp; Patient Journeys</h2>
-                    <p>Take a look at our clinic environment and some inspiring cases of our patients.</p>
+                    <h2 data-i18n="gallery.title">Our Clinic &amp; Patient Journeys</h2>
+                    <p data-i18n="gallery.subtitle">Take a look at our clinic environment and some inspiring cases of our patients.</p>
                 </div>
                 <div class="gallery-grid">
                     <div class="gallery-item animate-on-scroll delay-1" data-caption="Eye Condition Treatment">
@@ -442,36 +449,36 @@
         <section id="contact" class="section section-alt">
             <div class="container">
                 <div class="section-header animate-on-scroll">
-                    <h2>Get in Touch with Us</h2>
-                    <p>We're here to answer your questions and help you start your journey to better health.</p>
+                    <h2 data-i18n="contact.title">Get in Touch with Us</h2>
+                    <p data-i18n="contact.subtitle">We're here to answer your questions and help you start your journey to better health.</p>
                 </div>
                 <div class="contact-wrapper animate-on-scroll">
                     <div class="contact-info">
                         <div class="contact-item">
                             <div class="contact-icon"><i class="fas fa-phone-alt"></i></div>
                             <div>
-                                <h4>Phone</h4>
+                                <h4 data-i18n="contact.phone">Phone</h4>
                                 <a href="tel:{{ site.general.phone }}">{{ site.general.phone }}</a>
                             </div>
                         </div>
                         <div class="contact-item">
                             <div class="contact-icon"><i class="fas fa-envelope"></i></div>
                             <div>
-                                <h4>Email</h4>
+                                <h4 data-i18n="contact.email">Email</h4>
                                 <a href="mailto:{{ site.general.email }}">{{ site.general.email }}</a>
                             </div>
                         </div>
                         <div class="contact-item">
                             <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
                             <div>
-                                <h4>Address</h4>
+                                <h4 data-i18n="contact.address">Address</h4>
                                 <p>{{ site.general.address }}</p>
                             </div>
                         </div>
                         <div class="contact-buttons">
                             <a href="https://docs.google.com/forms/d/e/1FAIpQLSdVacNJLa1TwCOuJze7YOCO2QAMKVA2A94GMGQOnyoaHg0okA/viewform?usp=sf_link"
                                 target="_blank" rel="noopener" class="btn btn-primary" id="enquiry-form-link">
-                                <i class="fas fa-clipboard-list"></i> Submit Enquiry
+                                <i class="fas fa-clipboard-list"></i> <span data-i18n="contact.enquiryBtn">Submit Enquiry</span>
                             </a>
                             <a href="https://wa.me/916383095276?text=Hello%20Noble%20Homoeopathy%20Clinic%2C%20I%20have%20a%20question."
                                 target="_blank" rel="noopener" class="btn btn-blue" id="whatsapp-contact-link">
@@ -480,7 +487,7 @@
                             <a href="https://www.google.com/maps/search/?api=1&query=Noble%20Homoeopathy%20Clinic%2C%20Chennai"
                                 target="_blank" rel="noopener" class="btn btn-outline"
                                 style="color: var(--primary); border-color: var(--primary);" id="directions-link">
-                                <i class="fas fa-directions"></i> Directions
+                                <i class="fas fa-directions"></i> <span data-i18n="contact.directionsBtn">Directions</span>
                             </a>
                         </div>
                     </div>

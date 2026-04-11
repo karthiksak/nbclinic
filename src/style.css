@@ -341,6 +341,46 @@ button {
 
 
 
+/* ── Language Switcher ── */
+.lang-switcher {
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-full);
+  padding: 3px;
+  gap: 2px;
+  margin-right: 10px;
+  flex-shrink: 0;
+}
+
+.lang-btn {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.55);
+  padding: 5px 10px;
+  border-radius: var(--radius-full);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.25s var(--ease);
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.lang-btn:hover {
+  color: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.lang-btn.active {
+  background: var(--primary);
+  color: var(--white);
+  box-shadow: 0 2px 10px rgba(14, 165, 233, 0.45);
+}
+
 /* Hamburger Menu */
 .hamburger {
   display: none;
@@ -1440,6 +1480,10 @@ footer a:hover {
     gap: 8px;
   }
 
+  .lang-btn {
+    font-size: 0.65rem;
+    padding: 4px 7px;
+  }
 
   .hamburger span {
     width: 22px;
