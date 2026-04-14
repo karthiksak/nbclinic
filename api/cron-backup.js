@@ -1,4 +1,4 @@
-import nodemailer from 'nodemailer';
+const nodemailer = require('nodemailer');
 
 export default async function handler(req, res) {
   // CRON_SECRET is automatically passed by Vercel to protect cron endpoints
