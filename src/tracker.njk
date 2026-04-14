@@ -321,28 +321,28 @@
             
             const container = document.getElementById('modal-details-container');
             
-            let profileCard = \`<div style="display:flex; gap:15px; flex-wrap:wrap; margin-bottom:25px;">
-                <div class="stat-box"><small>Age / Sex</small><br><b>\${p['Age'] || '-'} / \${p['Gender'] || '-'}</b></div>
-                <div class="stat-box"><small>Location</small><br><b>\${p['City'] || '-'}</b></div>
-                <div class="stat-box"><small>Occupation</small><br><b>\${p['Occupation'] || '-'}</b></div>
-            </div>\`;
+            let profileCard = `<div style="display:flex; gap:15px; flex-wrap:wrap; margin-bottom:25px;">
+                <div class="stat-box"><small>Age / Sex</small><br><b>${p['Age'] || '-'} / ${p['Gender'] || '-'}</b></div>
+                <div class="stat-box"><small>Location</small><br><b>${p['City'] || '-'}</b></div>
+                <div class="stat-box"><small>Occupation</small><br><b>${p['Occupation'] || '-'}</b></div>
+            </div>`;
             
-            let clinicalCard = \`
+            let clinicalCard = `
             <div class="medical-card">
                 <h5><i class="fas fa-stethoscope"></i> Clinical Diagnosis</h5>
-                <p style="font-size: 1.05rem; font-weight: 600; color: var(--body-text);">\${p['Diagnosis'] || '-'}</p>
+                <p style="font-size: 1.05rem; font-weight: 600; color: var(--body-text);">${p['Diagnosis'] || '-'}</p>
             </div>
             <div class="medical-card">
                 <h5><i class="fas fa-pills"></i> Treatment & Prescriptions</h5>
-                <p style="white-space: pre-wrap; font-size: 0.95rem; line-height: 1.6;">\${p['Treatment Notes'] || '-'}</p>
-            </div>\`;
+                <p style="white-space: pre-wrap; font-size: 0.95rem; line-height: 1.6;">${p['Treatment Notes'] || '-'}</p>
+            </div>`;
             
             let followUpCard = '';
             if (p['FollowUp Notes'] && p['FollowUp Notes'].trim() !== '') {
-                followUpCard = \`<div class="medical-card">
+                followUpCard = `<div class="medical-card">
                     <h5><i class="fas fa-calendar-check"></i> Follow-Up Logs & History</h5>
-                    <p style="white-space: pre-wrap; font-size: 0.95rem; line-height: 1.6;">\${p['FollowUp Notes']}</p>
-                </div>\`;
+                    <p style="white-space: pre-wrap; font-size: 0.95rem; line-height: 1.6;">${p['FollowUp Notes']}</p>
+                </div>`;
             }
             
             let feesCard = '';
@@ -352,12 +352,12 @@
             });
             
             if(feeData.length > 0) {
-                feesCard = \`<div class="medical-card">
+                feesCard = `<div class="medical-card">
                     <h5><i class="fas fa-rupee-sign"></i> Visit / Fee History</h5>
                     <div style="display:flex; gap:10px; flex-wrap:wrap;">
-                        \${feeData.map((f, i) => \`<span class="fee-badge">V\${i+1}: ₹\${f}</span>\`).join('')}
+                        ${feeData.map((f, i) => `<span class="fee-badge">V${i+1}: ₹${f}</span>`).join('')}
                     </div>
-                </div>\`;
+                </div>`;
             }
             
             container.innerHTML = profileCard + clinicalCard + followUpCard + feesCard;
