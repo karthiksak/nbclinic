@@ -17,6 +17,14 @@
         .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: var(--navy); }
         .form-control { width: 100%; padding: 12px 16px; border: 1px solid var(--slate-light); border-radius: var(--radius-md); font-family: inherit; font-size: 1rem; }
         .history-data { margin-top: 30px; background: var(--lighter); padding: 20px; border-radius: var(--radius-md); border-left: 4px solid var(--accent); }
+        .data-table-container { margin-top: 30px; overflow-x: auto; border: 1px solid var(--slate-light); border-radius: var(--radius-md); }
+        .data-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+        .data-table th, .data-table td { padding: 12px 15px; text-align: left; border-bottom: 1px solid var(--slate-light); line-height: 1.4; }
+        .data-table th { background: var(--lighter); font-weight: 700; color: var(--navy); white-space: nowrap; }
+        .data-table tbody tr:hover { background: rgba(0, 163, 204, 0.05); }
+        .data-table td { color: var(--body-text); }
+        .search-box { width: 100%; padding: 12px 15px; border-radius: var(--radius-md); border: 1px solid var(--slate-light); margin-bottom: 15px; font-size: 0.95rem; transition: border-color 0.2s; }
+        .search-box:focus { border-color: var(--primary); outline: none; }
     </style>
 </head>
 
@@ -83,6 +91,33 @@
             <h4 data-i18n="tracker.log">Recent Activity Log</h4>
             <p style="font-size: 0.9rem; color: var(--slate); margin-top: 10px;" data-i18n="tracker.logmsg">System Initialized.</p>
         </div>
+
+        <hr style="margin: 40px 0; border: none; border-top: 1px dashed var(--slate-light);">
+        
+        <div class="tracker-header" style="text-align: left; margin-bottom: 15px;">
+            <h3>Patient Records Database</h3>
+            <p style="color: var(--slate); font-size: 0.9rem;">Loaded securely from cloud storage.</p>
+        </div>
+
+        <input type="text" id="patient-search" class="search-box" placeholder="Search by name, disease, or ID...">
+
+        <div class="data-table-container">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Patient Name</th>
+                        <th>Age/Gender</th>
+                        <th>Diagnosis</th>
+                        <th>Treatment Notes</th>
+                        <th>Follow-up</th>
+                    </tr>
+                </thead>
+                <tbody id="patients-table-body">
+                    <tr><td colspan="6" style="text-align: center; padding: 20px;">Fetching secure database...</td></tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <!-- Inject JS for Translation Dictionary -->
@@ -108,9 +143,11 @@
                 
                 if(res.ok) {
                     const data = await res.json();
+                    sessionStorage.setItem('trackerAuth', data.token); // Store secure token
                     document.getElementById('login-view').classList.add('hidden');
                     document.getElementById('dashboard-view').classList.remove('hidden');
                     document.getElementById('auth-name').innerText = data.user;
+                    fetchPatientData(); // Load the database seamlessly
                 } else {
                     document.getElementById('login-error').style.display = 'block';
                 }
@@ -120,6 +157,58 @@
                 document.getElementById('login-error').innerText = "Connection Error";
                 document.getElementById('login-error').style.display = 'block';
             }
+        });
+
+        // ── Data Loading Logic ──
+        let memoryPatients = []; // Cached array for searching
+
+        async function fetchPatientData() {
+            const token = sessionStorage.getItem('trackerAuth');
+            try {
+                const res = await fetch('/api/patients-data', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if(res.ok) {
+                    const data = await res.json();
+                    memoryPatients = data;
+                    renderTable(data);
+                } else {
+                    document.getElementById('patients-table-body').innerHTML = '<tr><td colspan="6" style="color:red; text-align: center;">Error validating token.</td></tr>';
+                }
+            } catch (err) {
+                console.error(err);
+                document.getElementById('patients-table-body').innerHTML = '<tr><td colspan="6" style="color:red; text-align: center;">Connection lost to secure server.</td></tr>';
+            }
+        }
+
+        function renderTable(dataArray) {
+            const tbody = document.getElementById('patients-table-body');
+            tbody.innerHTML = '';
+            
+            if(dataArray.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center;">No patient records found in network.</td></tr>';
+                return;
+            }
+
+            dataArray.forEach(p => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td style="font-size: 0.85rem; color: var(--slate);">${p['Date'] || ''}</td>
+                    <td style="font-weight: 600; color: var(--navy);">${p['Patient Name'] || ''}</td>
+                    <td style="font-size: 0.85rem;">${p['Age/Gender'] || ''}</td>
+                    <td><span style="background: rgba(0, 163, 204, 0.1); color: var(--primary-dark); padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: 600;">${p['Diagnosis'] || ''}</span></td>
+                    <td style="font-size: 0.85rem; max-width: 200px;">${p['Treatment Notes'] || ''}</td>
+                    <td style="color: #e63946; font-weight: 700; font-size: 0.85rem;">${p['Follow-Up Dates'] || ''}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // ── Live Search Logic ──
+        document.getElementById('patient-search').addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            const filtered = memoryPatients.filter(p => Object.values(p).join(' ').toLowerCase().includes(term));
+            renderTable(filtered); // Instantly re-render dynamically
         });
     </script>
 </body>
