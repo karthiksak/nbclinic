@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Secure Patient Tracker - Noble Homoeopathy</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { background: var(--gradient-hero); min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+        .tracker-container { width: 90%; max-width: 600px; background: var(--white); border-radius: var(--radius-xl); padding: 40px; box-shadow: var(--shadow-xl); position: relative; overflow: hidden; }
+        .hidden { display: none !important; }
+        .tracker-header { text-align: center; margin-bottom: 30px; }
+        .tracker-header i { font-size: 3rem; color: var(--primary); margin-bottom: 15px; }
+        .form-group { margin-bottom: 20px; text-align: left; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: var(--navy); }
+        .form-control { width: 100%; padding: 12px 16px; border: 1px solid var(--slate-light); border-radius: var(--radius-md); font-family: inherit; font-size: 1rem; }
+        .history-data { margin-top: 30px; background: var(--lighter); padding: 20px; border-radius: var(--radius-md); border-left: 4px solid var(--accent); }
+    </style>
+</head>
+
+<body>
+
+    <div class="lang-switcher" style="position: absolute; top: 15px; right: 20px; z-index: 10;">
+        <button class="lang-btn active" id="lang-en" data-lang="en" onclick="switchLanguage('en')">EN</button>
+        <button class="lang-btn" id="lang-ta" data-lang="ta" onclick="switchLanguage('ta')">தமிழ்</button>
+        <button class="lang-btn" id="lang-hi" data-lang="hi" onclick="switchLanguage('hi')">हिंदी</button>
+    </div>
+
+    <div class="tracker-container" id="login-view">
+        <a href="/" style="position: absolute; top: 15px; left: 15px; color: var(--slate); font-size: 1.2rem;"><i class="fas fa-arrow-left"></i></a>
+        <div class="tracker-header">
+            <i class="fas fa-user-md"></i>
+            <h2 data-i18n="tracker.loginTitle">Secure Portal</h2>
+            <p style="color: var(--slate);" data-i18n="tracker.loginDesc">Restricted Access - Enter Credentials</p>
+        </div>
+        <form id="tracker-login-form">
+            <div class="form-group">
+                <label data-i18n="tracker.userid">User ID</label>
+                <input type="text" id="userid" class="form-control" required placeholder="Authorized User ID">
+            </div>
+            <div class="form-group">
+                <label data-i18n="tracker.password">Password</label>
+                <input type="password" id="password" class="form-control" required placeholder="Secure Password">
+            </div>
+            <p id="login-error" style="color: red; display: none; margin-bottom: 15px; text-align: center; font-weight: bold;" data-i18n="tracker.invalid">Invalid Credentials</p>
+            <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;" data-i18n="tracker.authBtn">Authenticate</button>
+        </form>
+    </div>
+
+    <div class="tracker-container hidden" id="dashboard-view" style="max-width: 800px;">
+        <div class="tracker-header">
+            <i class="fas fa-laptop-medical"></i>
+            <h2 data-i18n="tracker.dashTitle">Patient History Tracker</h2>
+            <p style="color: var(--slate);"><span data-i18n="tracker.session">Session Active: </span><span id="auth-name"></span></p>
+            <a href="/" style="position: absolute; top: 15px; left: 15px; color: var(--slate); font-size: 1.5rem;"><i class="fas fa-arrow-left"></i></a>
+        </div>
+        
+        <form id="patient-data-form">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div class="form-group">
+                    <label data-i18n="tracker.pid">Patient ID / File No.</label>
+                    <input type="text" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label data-i18n="tracker.pname">Patient Full Name</label>
+                    <input type="text" class="form-control" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label data-i18n="tracker.symptoms">Current Symptoms</label>
+                <textarea class="form-control" rows="3" required></textarea>
+            </div>
+            <div class="form-group">
+                <label data-i18n="tracker.medhistory">Medical History & Notes</label>
+                <textarea class="form-control" rows="4"></textarea>
+            </div>
+            <button type="button" onclick="alert('Patient Data Logged Securely!')" class="btn btn-blue" style="width: 100%; justify-content: center;" data-i18n="tracker.submit">Submit Record to Database</button>
+        </form>
+        
+        <div class="history-data">
+            <h4 data-i18n="tracker.log">Recent Activity Log</h4>
+            <p style="font-size: 0.9rem; color: var(--slate); margin-top: 10px;" data-i18n="tracker.logmsg">System Initialized.</p>
+        </div>
+    </div>
+
+    <!-- Inject JS for Translation Dictionary -->
+    <script src="/script.js"></script>
+
+    <script>
+        document.getElementById('tracker-login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const u = document.getElementById('userid').value;
+            const p = document.getElementById('password').value;
+            
+            // Set loading state
+            document.querySelector('#tracker-login-form button').innerText = "Authenticating...";
+            
+            try {
+                const res = await fetch('/api/tracker-login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username: u, password: p })
+                });
+                
+                document.querySelector('#tracker-login-form button').innerText = "Authenticate";
+                
+                if(res.ok) {
+                    const data = await res.json();
+                    document.getElementById('login-view').classList.add('hidden');
+                    document.getElementById('dashboard-view').classList.remove('hidden');
+                    document.getElementById('auth-name').innerText = data.user;
+                } else {
+                    document.getElementById('login-error').style.display = 'block';
+                }
+            } catch(err) {
+                console.error(err);
+                document.querySelector('#tracker-login-form button').innerText = "Authenticate";
+                document.getElementById('login-error').innerText = "Connection Error";
+                document.getElementById('login-error').style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
