@@ -11,11 +11,18 @@ export default async function handler(req, res) {
      return res.status(400).json({ error: 'Missing Setup! Vercel Environment Variable GITHUB_TOKEN is not configured.' });
   }
 
-  const { id, date, name, age, gender, city, occup, diagnosis, notes } = req.body;
+  const {
+      id, date, name, age, gender, occup, city, diagnosis, 
+      notes, followUp, fees1, fees2, fees3, fees4, fees5, fees6, fees7, fees8
+  } = req.body;
+
   if (!id || !name || !diagnosis) return res.status(400).json({ error: 'Missing critical fields' });
 
-  // Escape logic for CSV appending
-  const cleanCols = [id, date, name, age, gender, occup, city, diagnosis, notes].map(c => {
+  // Escape logic for CSV appending - Exactly 18 columns matching patients.csv
+  const cleanCols = [
+      id, date, name, age, gender, occup, city, diagnosis, 
+      notes, followUp, fees1, fees2, fees3, fees4, fees5, fees6, fees7, fees8
+  ].map(c => {
         let val = c ? String(c).trim() : '';
         val = val.replace(/"/g, '""');
         if (val.includes(',') || val.includes('\n')) {
@@ -23,11 +30,6 @@ export default async function handler(req, res) {
         }
         return val;
   });
-  
-  // Pad with trailing blanks to match the 18 columns of patients.csv to prevent structural misalignment
-  while (cleanCols.length < 18) {
-      cleanCols.push('');
-  }
   
   const newRow = cleanCols.join(',');
 
@@ -48,7 +50,7 @@ export default async function handler(req, res) {
     // Buffer is automatically available in Node runtimes
     const currentContent = Buffer.from(getJson.content, 'base64').toString('utf8');
     
-    // 2. Append row
+    // 2. Append row safely
     const newContent = currentContent.endsWith('\n') 
         ? currentContent + newRow + '\n' 
         : currentContent + '\n' + newRow + '\n';
@@ -64,7 +66,7 @@ export default async function handler(req, res) {
             'User-Agent': 'Vercel-Serverless'
         },
         body: JSON.stringify({
-            message: `Admin: Added patient ${name} via Tracker Portal`,
+            message: `Admin: Added patient ${name} via Tracker Module`,
             content: newContentBase64,
             sha: sha,
             branch: 'main'

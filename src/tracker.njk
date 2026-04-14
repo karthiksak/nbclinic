@@ -9,43 +9,41 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body { background: var(--gradient-hero); min-height: 100vh; display: flex; align-items: flex-start; justify-content: center; padding: 40px 0; overflow-y: auto;}
-        .tracker-container { width: 95%; max-width: 1000px; background: var(--white); border-radius: var(--radius-xl); padding: 40px; box-shadow: var(--shadow-xl); position: relative; overflow: hidden; margin-top:30px;}
+        
+        /* Master Container overrides */
+        .tracker-container { width: 98%; max-width: 1400px; background: var(--white); border-radius: var(--radius-xl); padding: 30px; box-shadow: var(--shadow-xl); position: relative; overflow: hidden; margin-top:20px;}
+        
         .hidden { display: none !important; }
-        .tracker-header { text-align: center; margin-bottom: 30px; }
-        .tracker-header i { font-size: 3rem; color: var(--primary); margin-bottom: 15px; }
-        .form-group { margin-bottom: 20px; text-align: left; }
-        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: var(--navy); font-size: 0.9rem;}
-        .form-control { width: 100%; padding: 12px 16px; border: 1px solid var(--slate-light); border-radius: var(--radius-md); font-family: inherit; font-size: 0.95rem; }
+        .tracker-header { text-align: center; margin-bottom: 20px; }
+        .tracker-header i { font-size: 2.5rem; color: var(--primary); margin-bottom: 10px; }
+        
+        .form-group { margin-bottom: 15px; text-align: left; }
+        .form-group label { display: block; margin-bottom: 6px; font-weight: 600; color: var(--navy); font-size: 0.85rem;}
+        .form-control { width: 100%; padding: 10px 14px; border: 1px solid var(--slate-light); border-radius: var(--radius-md); font-family: inherit; font-size: 0.9rem; }
         
         /* Grid Form Layout */
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; }
+        .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 15px; }
 
-        .data-table-container { margin-top: 30px; overflow-x: auto; border: 1px solid var(--slate-light); border-radius: var(--radius-md); overflow-y: auto; max-height: 500px;}
-        .data-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
-        .data-table th, .data-table td { padding: 12px 15px; text-align: left; border-bottom: 1px solid var(--slate-light); line-height: 1.4; }
-        .data-table th { background: var(--lighter); font-weight: 700; color: var(--navy); white-space: nowrap; position: sticky; top:0; z-index: 5;}
+        /* Massive Excel-like Data Table */
+        .data-table-container { margin-top: 20px; overflow: auto; border: 1px solid var(--slate-light); border-radius: var(--radius-md); max-height: 70vh;}
+        .data-table { width: max-content; border-collapse: collapse; font-size: 0.85rem; }
+        .data-table th, .data-table td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--slate-light); border-right: 1px solid var(--slate-light); line-height: 1.4; max-width: 300px; word-wrap: break-word;}
+        .data-table th { background: var(--lighter); font-weight: 700; color: var(--navy); white-space: nowrap; position: sticky; top:0; z-index: 5; box-shadow: 0 2px 5px rgba(0,0,0,0.05);}
         .data-table tbody tr:hover { background: rgba(0, 163, 204, 0.05); }
         .data-table td { color: var(--body-text); }
-        .search-box { width: 100%; padding: 12px 15px; border-radius: var(--radius-md); border: 1px solid var(--slate-light); margin-bottom: 15px; font-size: 0.95rem; transition: border-color 0.2s; }
+        
+        .search-box { width: 100%; padding: 12px 15px; border-radius: var(--radius-md); border: 2px solid var(--slate-light); margin-bottom: 15px; font-size: 0.95rem; transition: border-color 0.2s; }
         .search-box:focus { border-color: var(--primary); outline: none; }
         
-        /* Modal UI EMR */
-        .patient-modal-overlay { position: fixed; inset: 0; background: rgba(10, 22, 40, 0.6); backdrop-filter: blur(8px); z-index: 10005; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: opacity 0.3s; }
-        .patient-modal-overlay.active { opacity: 1; visibility: visible; }
-        .patient-modal-card { background: var(--white); width: 95%; max-width: 700px; border-radius: var(--radius-xl); box-shadow: var(--shadow-xl); padding: 35px; position: relative; transform: translateY(20px); transition: transform 0.3s; max-height: 90vh; overflow-y: auto; text-align: left;}
-        .patient-modal-overlay.active .patient-modal-card { transform: translateY(0); }
-        .modal-close { position: absolute; top: 18px; right: 25px; font-size: 1.8rem; color: var(--slate); cursor: pointer; transition: color 0.2s;}
-        .modal-close:hover { color: var(--accent); }
-        .data-table tbody tr { cursor: pointer; }
-        
-        .stat-box { background: rgba(0, 163, 204, 0.06); padding: 10px 15px; border-radius: var(--radius-md); border-left: 3px solid var(--primary); flex: 1; min-width: 120px;}
-        .stat-box small { color: var(--slate); font-weight: 600; text-transform: uppercase; font-size: 0.75rem;}
-        .stat-box b { color: var(--navy); font-size: 1.1rem;}
-        
-        .medical-card { border: 1px solid var(--slate-light); border-radius: var(--radius-md); padding: 20px; margin-bottom: 15px; background: #fafbfc;}
-        .medical-card h5 { margin-top: 0; color: var(--primary-dark); font-size: 1.05rem; margin-bottom: 10px; border-bottom: 1px solid var(--slate-light); padding-bottom: 8px;}
-        .fee-badge { background: #e63946; color: white; padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: 600;}
+        /* Dashboard Navigation Tabs */
+        .tabs { display: flex; gap: 10px; margin-bottom: 25px; border-bottom: 2px solid var(--slate-light); padding-bottom: 10px;}
+        .tab-btn { background: none; border: none; font-size: 1.05rem; font-weight: 600; color: var(--slate); padding: 8px 15px; cursor: pointer; border-radius: var(--radius-md); transition: all 0.2s;}
+        .tab-btn:hover { background: var(--lighter); color: var(--navy); }
+        .tab-btn.active { background: var(--primary); color: white; }
+
+        .fee-input-group label { color: #e63946; }
     </style>
 </head>
 
@@ -57,6 +55,7 @@
         <button class="lang-btn" id="lang-hi" data-lang="hi" onclick="switchLanguage('hi')">हिंदी</button>
     </div>
 
+    <!-- Login View -->
     <div class="tracker-container" id="login-view" style="max-width: 500px; margin-top: 100px;">
         <a href="/" style="position: absolute; top: 20px; left: 20px; color: var(--slate); font-size: 1.2rem;"><i class="fas fa-arrow-left"></i></a>
         <div class="tracker-header">
@@ -78,107 +77,147 @@
         </form>
     </div>
 
-    <div class="tracker-container hidden" id="dashboard-view" style="width: 95%;">
-        <div class="tracker-header" style="margin-bottom: 15px;">
-            <h2 data-i18n="tracker.dashTitle" style="color: var(--primary-dark);">Patient Records Admin</h2>
-            <p style="color: var(--slate);"><span data-i18n="tracker.session">Session Active: </span><span id="auth-name" style="font-weight:bold;"></span></p>
-            <a href="/" style="position: absolute; top: 20px; left: 20px; color: var(--slate); font-size: 1.5rem;"><i class="fas fa-arrow-left"></i></a>
-        </div>
-        
-        <hr style="margin: 30px 0; border: none; border-top: 1px dashed var(--slate-light);">
-        
-        <h3 style="margin-bottom: 20px; color: var(--navy);"><i class="fas fa-plus-circle" style="color: var(--accent);"></i> Add New Patient</h3>
-        <form id="patient-data-form">
-            <div class="grid-3">
-                <div class="form-group">
-                    <label>Patient ID / File No.</label>
-                    <input type="text" id="add-id" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label>Patient Full Name</label>
-                    <input type="text" id="add-name" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label>Date (DD/MM/YY)</label>
-                    <input type="text" id="add-date" class="form-control" placeholder="e.g. 15/04/26">
-                </div>
-            </div>
-            <div class="grid-3">
-                <div class="form-group">
-                    <label>Age</label>
-                    <input type="text" id="add-age" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label>Gender</label>
-                    <input type="text" id="add-gender" class="form-control" placeholder="M/F">
-                </div>
-                <div class="form-group">
-                    <label>City / Location</label>
-                    <input type="text" id="add-city" class="form-control">
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <label>Clinical Diagnosis / Symptoms</label>
-                <input type="text" id="add-diagnosis" class="form-control" required>
-            </div>
-            <div class="form-group">
-                <label>Treatment Notes & Prescriptions</label>
-                <textarea id="add-notes" class="form-control" rows="3"></textarea>
-            </div>
-            
-            <p id="save-status" style="display:none; text-align:center; font-weight:bold; margin-bottom:15px; color: green;"></p>
-            <button type="submit" class="btn btn-blue" style="width: 100%; justify-content: center;" id="btn-save-record">Push to Global Database</button>
-        </form>
-        
-
-        <hr style="margin: 40px 0; border: none; border-top: 1px dashed var(--slate-light);">
-        
-        <div style="text-align: left; margin-bottom: 15px;">
-            <h3 style="color: var(--navy);"><i class="fas fa-database" style="color: var(--primary);"></i> Global Patient Directory</h3>
-            <p style="color: var(--slate); font-size: 0.9rem;">Loaded securely from cloud storage.</p>
+    <!-- Authenticated Dashboard -->
+    <div class="tracker-container hidden" id="dashboard-view">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <h2 style="color: var(--navy); margin: 0;"><i class="fas fa-heartbeat" style="color: var(--primary);"></i> Tracker Administration</h2>
+            <p style="color: var(--slate); margin: 0; font-size: 0.9rem;"><span data-i18n="tracker.session">Session Active: </span><span id="auth-name" style="font-weight:bold;"></span></p>
         </div>
 
-        <input type="text" id="patient-search" class="search-box" placeholder="Search by name, disease, city, or ID...">
+        <div class="tabs">
+            <button class="tab-btn active" id="tab-view-db" onclick="switchTab('db')"><i class="fas fa-table"></i> Database Explorer</button>
+            <button class="tab-btn" id="tab-add-pt" onclick="switchTab('add')"><i class="fas fa-user-plus"></i> New Data Entry</button>
+        </div>
 
-        <div class="data-table-container">
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Date</th>
-                        <th>Patient Name</th>
-                        <th>Diagnosis</th>
-                        <th>Notes</th>
-                    </tr>
-                </thead>
-                <tbody id="patients-table-body">
-                    <tr><td colspan="5" style="text-align: center; padding: 20px;">Fetching secure database...</td></tr>
-                </tbody>
-            </table>
+        <!-- TAB 1: Database Explorer (Excel mimic) -->
+        <div id="view-db-section">
+            <input type="text" id="patient-search" class="search-box" placeholder="Search across all fields globally (Name, Symptoms, City, Notes)...">
+            
+            <div class="data-table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Patient ID</th>
+                            <th>Date</th>
+                            <th>Full Name</th>
+                            <th>Age</th>
+                            <th>Gender</th>
+                            <th>Occupation</th>
+                            <th>City</th>
+                            <th>Diagnosis</th>
+                            <th>Treatment Notes</th>
+                            <th>Follow-Up History</th>
+                            <th>Fee 1</th>
+                            <th>Fee 2</th>
+                            <th>Fee 3</th>
+                            <th>Fee 4</th>
+                            <th>Fee 5</th>
+                            <th>Fee 6</th>
+                            <th>Fee 7</th>
+                            <th>Fee 8</th>
+                        </tr>
+                    </thead>
+                    <tbody id="patients-table-body">
+                        <tr><td colspan="18" style="text-align: center; padding: 20px;">Fetching secure database cloud...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- TAB 2: New Data Entry -->
+        <div id="add-pt-section" class="hidden">
+            <div style="background: rgba(0, 163, 204, 0.05); padding: 25px; border-radius: var(--radius-md); border: 1px dashed var(--primary);">
+                <form id="patient-data-form">
+                    <h4 style="color: var(--navy); margin-bottom: 15px; border-bottom: 1px solid var(--slate-light); padding-bottom: 10px;">Primary Profile</h4>
+                    <div class="grid-4">
+                        <div class="form-group">
+                            <label>Patient ID</label>
+                            <input type="text" id="add-id" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Date (DD/MM/YY)</label>
+                            <input type="text" id="add-date" class="form-control" placeholder="e.g. 15/04/26">
+                        </div>
+                        <div class="form-group">
+                            <label>Patient Full Name</label>
+                            <input type="text" id="add-name" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>City / Location</label>
+                            <input type="text" id="add-city" class="form-control">
+                        </div>
+                    </div>
+                    
+                    <div class="grid-3">
+                        <div class="form-group">
+                            <label>Age</label>
+                            <input type="text" id="add-age" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Gender (M/F)</label>
+                            <input type="text" id="add-gender" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Occupation</label>
+                            <input type="text" id="add-occup" class="form-control">
+                        </div>
+                    </div>
+
+                    <h4 style="color: var(--navy); margin-top: 15px; margin-bottom: 15px; border-bottom: 1px solid var(--slate-light); padding-bottom: 10px;">Clinical Data</h4>
+                    <div class="form-group">
+                        <label>Clinical Diagnosis / Symptoms</label>
+                        <input type="text" id="add-diagnosis" class="form-control" required>
+                    </div>
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Treatment Notes & Prescriptions</label>
+                            <textarea id="add-notes" class="form-control" rows="4"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>FollowUp Logging</label>
+                            <textarea id="add-followup" class="form-control" rows="4"></textarea>
+                        </div>
+                    </div>
+
+                    <h4 style="color: var(--navy); margin-top: 15px; margin-bottom: 15px; border-bottom: 1px solid var(--slate-light); padding-bottom: 10px;">Payment Logs</h4>
+                    <div class="grid-4 fee-input-group">
+                        <div class="form-group"><label>Fee 1 (₹)</label><input type="number" id="add-fee1" class="form-control"></div>
+                        <div class="form-group"><label>Fee 2 (₹)</label><input type="number" id="add-fee2" class="form-control"></div>
+                        <div class="form-group"><label>Fee 3 (₹)</label><input type="number" id="add-fee3" class="form-control"></div>
+                        <div class="form-group"><label>Fee 4 (₹)</label><input type="number" id="add-fee4" class="form-control"></div>
+                        <div class="form-group"><label>Fee 5 (₹)</label><input type="number" id="add-fee5" class="form-control"></div>
+                        <div class="form-group"><label>Fee 6 (₹)</label><input type="number" id="add-fee6" class="form-control"></div>
+                        <div class="form-group"><label>Fee 7 (₹)</label><input type="number" id="add-fee7" class="form-control"></div>
+                        <div class="form-group"><label>Fee 8 (₹)</label><input type="number" id="add-fee8" class="form-control"></div>
+                    </div>
+                    
+                    <p id="save-status" style="display:none; text-align:center; font-weight:bold; margin-top: 20px; margin-bottom:15px; color: green; font-size: 1.1rem;"></p>
+                    <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; font-size: 1.1rem; padding: 15px;" id="btn-save-record">Commit Record to Global Database</button>
+                </form>
+            </div>
         </div>
     </div>
 
-    <!-- Patient Modal EMR Detail View -->
-    <div id="patient-modal" class="patient-modal-overlay">
-        <div class="patient-modal-card">
-            <i class="fas fa-times modal-close" onclick="closePatientModal()"></i>
-            <h2 id="modal-name" style="margin-bottom: 5px; color: var(--navy); font-size: 1.8rem;">Patient Name</h2>
-            <p style="color: var(--slate); margin-bottom: 20px; font-size: 0.95rem;">
-                <i class="fas fa-hashtag" style="color: var(--accent);"></i> <b id="modal-id" style="color: var(--body-text);"></b> &nbsp; • &nbsp; 
-                <i class="fas fa-calendar" style="color: var(--accent);"></i> <span id="modal-date"></span>
-            </p>
-            
-            <div id="modal-details-container">
-            </div>
-        </div>
-    </div>
-
-    <!-- Inject JS for Translation Dictionary -->
     <script src="/script.js"></script>
 
     <script>
-        // ── Auth Handling ──
+        // Tab System
+        function switchTab(tabId) {
+            document.getElementById('tab-view-db').classList.remove('active');
+            document.getElementById('tab-add-pt').classList.remove('active');
+            document.getElementById('view-db-section').classList.add('hidden');
+            document.getElementById('add-pt-section').classList.add('hidden');
+
+            if(tabId === 'db') {
+                document.getElementById('tab-view-db').classList.add('active');
+                document.getElementById('view-db-section').classList.remove('hidden');
+            } else {
+                document.getElementById('tab-add-pt').classList.add('active');
+                document.getElementById('add-pt-section').classList.remove('hidden');
+            }
+        }
+
+        // Auth Logic
         document.getElementById('tracker-login-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const u = document.getElementById('userid').value;
@@ -212,13 +251,13 @@
             }
         });
 
-        // ── Database Writing (Global Sync) ──
+        // Global Sync logic
         document.getElementById('patient-data-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             
             const btn = document.getElementById('btn-save-record');
             const statusLabel = document.getElementById('save-status');
-            btn.innerText = "Encrypting & Syncing to Cloud...";
+            btn.innerText = "Transmitting to Cloud...";
             
             const pdata = {
                 id: document.getElementById('add-id').value,
@@ -226,10 +265,19 @@
                 name: document.getElementById('add-name').value,
                 age: document.getElementById('add-age').value,
                 gender: document.getElementById('add-gender').value,
+                occup: document.getElementById('add-occup').value,
                 city: document.getElementById('add-city').value,
-                occup: '', // or add a field if wanted
                 diagnosis: document.getElementById('add-diagnosis').value,
-                notes: document.getElementById('add-notes').value
+                notes: document.getElementById('add-notes').value,
+                followUp: document.getElementById('add-followup').value,
+                fees1: document.getElementById('add-fee1').value,
+                fees2: document.getElementById('add-fee2').value,
+                fees3: document.getElementById('add-fee3').value,
+                fees4: document.getElementById('add-fee4').value,
+                fees5: document.getElementById('add-fee5').value,
+                fees6: document.getElementById('add-fee6').value,
+                fees7: document.getElementById('add-fee7').value,
+                fees8: document.getElementById('add-fee8').value
             };
             
             try {
@@ -246,29 +294,27 @@
                     statusLabel.style.color = "green";
                     statusLabel.innerText = "Successfully logged to cloud database!";
                     statusLabel.style.display = "block";
-                    btn.innerText = "Push to Global Database";
+                    btn.innerText = "Commit Record to Global Database";
                     document.getElementById('patient-data-form').reset();
                     
-                    // Refresh table
-                    fetchPatientData();
-                    
+                    fetchPatientData(); // Pre-fetch for the view tab
                     setTimeout(() => statusLabel.style.display="none", 4000);
                 } else {
                     const data = await res.json();
                     statusLabel.style.color = "red";
                     statusLabel.innerText = data.error || "Failed to save.";
                     statusLabel.style.display = "block";
-                    btn.innerText = "Push to Global Database";
+                    btn.innerText = "Commit Record to Global Database";
                 }
             } catch(err) {
                 statusLabel.style.color = "red";
                 statusLabel.innerText = "Network transmission failed!";
                 statusLabel.style.display = "block";
-                btn.innerText = "Push to Global Database";
+                btn.innerText = "Commit Record to Global Database";
             }
         });
 
-        // ── Data Loading Logic ──
+        // Load DB
         let memoryPatients = []; 
 
         async function fetchPatientData() {
@@ -279,14 +325,14 @@
                 });
                 if(res.ok) {
                     const data = await res.json();
-                    memoryPatients = data.reverse(); // Show latest first
+                    memoryPatients = data.reverse(); 
                     renderTable(memoryPatients);
                 } else {
-                    document.getElementById('patients-table-body').innerHTML = '<tr><td colspan="5" style="color:red; text-align: center;">Error validating token.</td></tr>';
+                    document.getElementById('patients-table-body').innerHTML = '<tr><td colspan="18" style="color:red; text-align: center;">Error validating token.</td></tr>';
                 }
             } catch (err) {
                 console.error(err);
-                document.getElementById('patients-table-body').innerHTML = '<tr><td colspan="5" style="color:red; text-align: center;">Connection lost to secure server.</td></tr>';
+                document.getElementById('patients-table-body').innerHTML = '<tr><td colspan="18" style="color:red; text-align: center;">Connection lost to secure server.</td></tr>';
             }
         }
 
@@ -295,80 +341,37 @@
             tbody.innerHTML = '';
             
             if(dataArray.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center;">No patient records found in network.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="18" style="text-align: center;">No patient records found in network.</td></tr>';
                 return;
             }
 
-            dataArray.forEach((p, idx) => {
+            dataArray.forEach((p) => {
                 const tr = document.createElement('tr');
-                tr.onclick = () => openPatientModal(idx, dataArray);
                 tr.innerHTML = `
-                    <td style="font-size: 0.85rem; color: var(--slate); font-weight: 600;">${p['Patient ID'] || ''}</td>
-                    <td style="font-size: 0.85rem; color: var(--slate);">${p['Date'] || ''}</td>
-                    <td style="font-weight: 600; color: var(--navy); white-space: nowrap;">${p['Patient Name'] || ''}</td>
-                    <td><span style="background: rgba(0, 163, 204, 0.1); color: var(--primary-dark); padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; display: inline-block;">${p['Diagnosis'] || 'Consultation'}</span></td>
-                    <td style="font-size: 0.85rem; max-width: 250px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">${p['Treatment Notes'] || ''}</td>
+                    <td style="font-weight: 600;">${p['Patient ID'] || ''}</td>
+                    <td>${p['Date'] || ''}</td>
+                    <td style="font-weight: 700; color: var(--primary-dark);">${p['Patient Name'] || ''}</td>
+                    <td>${p['Age'] || ''}</td>
+                    <td>${p['Gender'] || ''}</td>
+                    <td>${p['Occupation'] || ''}</td>
+                    <td style="white-space: nowrap;">${p['City'] || ''}</td>
+                    <td style="font-weight: 600; color: #000;">${p['Diagnosis'] || ''}</td>
+                    <td style="min-width: 250px;">${p['Treatment Notes'] || ''}</td>
+                    <td style="min-width: 250px;">${p['FollowUp Notes'] || ''}</td>
+                    <td>${p['Fees1'] || ''}</td>
+                    <td>${p['Fees2'] || ''}</td>
+                    <td>${p['Fees3'] || ''}</td>
+                    <td>${p['Fees4'] || ''}</td>
+                    <td>${p['Fees5'] || ''}</td>
+                    <td>${p['Fees6'] || ''}</td>
+                    <td>${p['Fees7'] || ''}</td>
+                    <td>${p['Fees8'] || ''}</td>
                 `;
                 tbody.appendChild(tr);
             });
         }
 
-        function openPatientModal(idx, dataArray) {
-            const p = dataArray[idx];
-            document.getElementById('modal-name').innerText = p['Patient Name'] || 'Unknown Patient';
-            document.getElementById('modal-id').innerText = p['Patient ID'] || 'N/A';
-            document.getElementById('modal-date').innerText = p['Date'] || 'N/A';
-            
-            const container = document.getElementById('modal-details-container');
-            
-            let profileCard = `<div style="display:flex; gap:15px; flex-wrap:wrap; margin-bottom:25px;">
-                <div class="stat-box"><small>Age / Sex</small><br><b>${p['Age'] || '-'} / ${p['Gender'] || '-'}</b></div>
-                <div class="stat-box"><small>Location</small><br><b>${p['City'] || '-'}</b></div>
-                <div class="stat-box"><small>Occupation</small><br><b>${p['Occupation'] || '-'}</b></div>
-            </div>`;
-            
-            let clinicalCard = `
-            <div class="medical-card">
-                <h5><i class="fas fa-stethoscope"></i> Clinical Diagnosis</h5>
-                <p style="font-size: 1.05rem; font-weight: 600; color: var(--body-text);">${p['Diagnosis'] || '-'}</p>
-            </div>
-            <div class="medical-card">
-                <h5><i class="fas fa-pills"></i> Treatment & Prescriptions</h5>
-                <p style="white-space: pre-wrap; font-size: 0.95rem; line-height: 1.6;">${p['Treatment Notes'] || '-'}</p>
-            </div>`;
-            
-            let followUpCard = '';
-            if (p['FollowUp Notes'] && p['FollowUp Notes'].trim() !== '') {
-                followUpCard = `<div class="medical-card">
-                    <h5><i class="fas fa-calendar-check"></i> Follow-Up Logs & History</h5>
-                    <p style="white-space: pre-wrap; font-size: 0.95rem; line-height: 1.6;">${p['FollowUp Notes']}</p>
-                </div>`;
-            }
-            
-            let feesCard = '';
-            let feeData = [];
-            Object.keys(p).forEach(k => {
-                if(k.startsWith('Fees') && p[k] && p[k].trim() !== '') feeData.push(p[k]);
-            });
-            
-            if(feeData.length > 0) {
-                feesCard = `<div class="medical-card">
-                    <h5><i class="fas fa-rupee-sign"></i> Visit / Fee History</h5>
-                    <div style="display:flex; gap:10px; flex-wrap:wrap;">
-                        ${feeData.map((f, i) => `<span class="fee-badge">V${i+1}: ₹${f}</span>`).join('')}
-                    </div>
-                </div>`;
-            }
-            
-            container.innerHTML = profileCard + clinicalCard + followUpCard + feesCard;
-            document.getElementById('patient-modal').classList.add('active');
-        }
-
-        function closePatientModal() {
-            document.getElementById('patient-modal').classList.remove('active');
-        }
-
-        // ── Live Search Logic ──
+        // Search engine
         document.getElementById('patient-search').addEventListener('input', (e) => {
             const term = e.target.value.toLowerCase();
             const filtered = memoryPatients.filter(p => Object.values(p).join(' ').toLowerCase().includes(term));
