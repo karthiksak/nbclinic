@@ -1,4 +1,8 @@
-Date,Patient Name,Age/Gender,Diagnosis,Treatment Notes,Follow-Up Dates
-10/02/2026,Mrs. Supraja,34 / Female,Migraine & Neck Pain,Given remedy X (200c),17/02/2026
-11/02/2026,Mr. Ravishankar,45 / Male,Acne & Hyper-pigmentation,Given remedy Y (30c),18/02/2026
-23/03/2026,Ms. Priya,28 / Female,PCOD & Gut Issues,Given remedy Z (200c),14/04/2026
+Patient ID,Date,Patient Name,Age,Gender,City,Diagnosis,Treatment Notes
+240003,11/10/24,Mr. Gopi Raju,21,M,Chennai,Hyperhidrosis / Skin Allergy,Prescribed Sulphur 200c. Patient reported 50% improvement in sweating.
+240004,11/10/24,Mr. Ajith,25,M,Chennai,Acne Vulgaris,Given Calcarea Sulph 30c. Asked to minimize dairy.
+240005,12/10/24,Mr. Bhuvanesh,45,M,Madurai,Spondylosis & Back Ache,Rhus Tox 200c & Arnica ointment given. Next follow-up in 14 days.
+240006,12/10/24,Mrs. Sumitha,38,F,Trichy,Migraine / Headache,Belladonna 30c for acute pain. Recommended stress reduction.
+240007,13/10/24,Master Kavin,8,M,Coimbatore,Allergic Rhinitis,Arsenicum Album 30c. Sneezing reduced significantly.
+240008,13/10/24,Ms. Revathi,29,F,Chennai,PCOD / Irregular Menses,Pulsatilla 200c. Lifestyle & diet modification advised.
+240009,14/10/24,Mr. Prakash,52,M,Salem,Gastric & Acid Reflux,Nux Vomica 30c. Instructed to eat dinner by 8 PM.

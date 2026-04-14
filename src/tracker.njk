@@ -25,6 +25,18 @@
         .data-table td { color: var(--body-text); }
         .search-box { width: 100%; padding: 12px 15px; border-radius: var(--radius-md); border: 1px solid var(--slate-light); margin-bottom: 15px; font-size: 0.95rem; transition: border-color 0.2s; }
         .search-box:focus { border-color: var(--primary); outline: none; }
+        
+        /* Modal UI */
+        .patient-modal-overlay { position: fixed; inset: 0; background: rgba(10, 22, 40, 0.4); backdrop-filter: blur(8px); z-index: 10005; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: opacity 0.3s; }
+        .patient-modal-overlay.active { opacity: 1; visibility: visible; }
+        .patient-modal-card { background: var(--white); width: 95%; max-width: 600px; border-radius: var(--radius-xl); box-shadow: var(--shadow-xl); padding: 30px; position: relative; transform: translateY(20px); transition: transform 0.3s; max-height: 90vh; overflow-y: auto; text-align: left;}
+        .patient-modal-overlay.active .patient-modal-card { transform: translateY(0); }
+        .modal-close { position: absolute; top: 15px; right: 20px; font-size: 1.5rem; color: var(--slate); cursor: pointer; }
+        .detail-row { display: flex; flex-direction: column; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid var(--slate-light); }
+        .detail-row:last-child { border-bottom: none; }
+        .detail-label { color: var(--slate); font-size: 0.85rem; font-weight: 600; text-transform: uppercase; margin-bottom: 4px; }
+        .detail-value { color: var(--navy); font-size: 1.05rem; }
+        .data-table tbody tr { cursor: pointer; }
     </style>
 </head>
 
@@ -105,18 +117,31 @@
             <table class="data-table">
                 <thead>
                     <tr>
+                        <th>ID</th>
                         <th>Date</th>
                         <th>Patient Name</th>
-                        <th>Age/Gender</th>
                         <th>Diagnosis</th>
-                        <th>Treatment Notes</th>
-                        <th>Follow-up</th>
+                        <th>Notes</th>
                     </tr>
                 </thead>
                 <tbody id="patients-table-body">
-                    <tr><td colspan="6" style="text-align: center; padding: 20px;">Fetching secure database...</td></tr>
+                    <tr><td colspan="5" style="text-align: center; padding: 20px;">Fetching secure database...</td></tr>
                 </tbody>
             </table>
+        </div>
+    </div>
+
+    <!-- Patient Modal Detail View -->
+    <div id="patient-modal" class="patient-modal-overlay">
+        <div class="patient-modal-card">
+            <i class="fas fa-times modal-close" onclick="closePatientModal()"></i>
+            <h2 id="modal-name" style="margin-bottom: 5px; color: var(--primary-dark);">Patient Name</h2>
+            <p style="color: var(--slate); margin-bottom: 25px;"><i class="fas fa-hashtag"></i> <span id="modal-id"></span> &nbsp; • &nbsp; <i class="fas fa-calendar"></i> <span id="modal-date"></span></p>
+            
+            <div id="modal-details-container">
+            </div>
+            
+            <button class="btn btn-outline" style="width: 100%; margin-top: 20px; justify-content: center;" onclick="closePatientModal()">Close Record</button>
         </div>
     </div>
 
@@ -186,22 +211,50 @@
             tbody.innerHTML = '';
             
             if(dataArray.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center;">No patient records found in network.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center;">No patient records found in network.</td></tr>';
                 return;
             }
 
-            dataArray.forEach(p => {
+            dataArray.forEach((p, idx) => {
                 const tr = document.createElement('tr');
+                tr.onclick = () => openPatientModal(idx, dataArray);
                 tr.innerHTML = `
+                    <td style="font-size: 0.85rem; color: var(--slate); font-weight: 600;">${p['Patient ID'] || ''}</td>
                     <td style="font-size: 0.85rem; color: var(--slate);">${p['Date'] || ''}</td>
-                    <td style="font-weight: 600; color: var(--navy);">${p['Patient Name'] || ''}</td>
-                    <td style="font-size: 0.85rem;">${p['Age/Gender'] || ''}</td>
-                    <td><span style="background: rgba(0, 163, 204, 0.1); color: var(--primary-dark); padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: 600;">${p['Diagnosis'] || ''}</span></td>
-                    <td style="font-size: 0.85rem; max-width: 200px;">${p['Treatment Notes'] || ''}</td>
-                    <td style="color: #e63946; font-weight: 700; font-size: 0.85rem;">${p['Follow-Up Dates'] || ''}</td>
+                    <td style="font-weight: 600; color: var(--navy); white-space: nowrap;">${p['Patient Name'] || ''}</td>
+                    <td><span style="background: rgba(0, 163, 204, 0.1); color: var(--primary-dark); padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; display: inline-block;">${p['Diagnosis'] || 'Check Notes'}</span></td>
+                    <td style="font-size: 0.85rem; max-width: 250px;">${p['Treatment Notes'] || ''}</td>
                 `;
                 tbody.appendChild(tr);
             });
+        }
+
+        function openPatientModal(idx, dataArray) {
+            const p = dataArray[idx];
+            document.getElementById('modal-name').innerText = p['Patient Name'] || 'Unknown Patient';
+            document.getElementById('modal-id').innerText = p['Patient ID'] || 'N/A';
+            document.getElementById('modal-date').innerText = p['Date'] || 'N/A';
+            
+            const container = document.getElementById('modal-details-container');
+            container.innerHTML = '';
+            
+            Object.keys(p).forEach(key => {
+                if (key === 'Patient Name' || key === 'Patient ID' || key === 'Date') return; 
+                if (!p[key] || p[key] === '') return; 
+                
+                container.innerHTML += `
+                    <div class="detail-row">
+                        <span class="detail-label">${key}</span>
+                        <span class="detail-value">${p[key]}</span>
+                    </div>
+                `;
+            });
+            
+            document.getElementById('patient-modal').classList.add('active');
+        }
+
+        function closePatientModal() {
+            document.getElementById('patient-modal').classList.remove('active');
         }
 
         // ── Live Search Logic ──
