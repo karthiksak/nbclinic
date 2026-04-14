@@ -8,35 +8,44 @@
     <link rel="stylesheet" href="/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { background: var(--gradient-hero); min-height: 100vh; display: flex; align-items: center; justify-content: center; }
-        .tracker-container { width: 90%; max-width: 600px; background: var(--white); border-radius: var(--radius-xl); padding: 40px; box-shadow: var(--shadow-xl); position: relative; overflow: hidden; }
+        body { background: var(--gradient-hero); min-height: 100vh; display: flex; align-items: flex-start; justify-content: center; padding: 40px 0; overflow-y: auto;}
+        .tracker-container { width: 95%; max-width: 1000px; background: var(--white); border-radius: var(--radius-xl); padding: 40px; box-shadow: var(--shadow-xl); position: relative; overflow: hidden; margin-top:30px;}
         .hidden { display: none !important; }
         .tracker-header { text-align: center; margin-bottom: 30px; }
         .tracker-header i { font-size: 3rem; color: var(--primary); margin-bottom: 15px; }
         .form-group { margin-bottom: 20px; text-align: left; }
-        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: var(--navy); }
-        .form-control { width: 100%; padding: 12px 16px; border: 1px solid var(--slate-light); border-radius: var(--radius-md); font-family: inherit; font-size: 1rem; }
-        .history-data { margin-top: 30px; background: var(--lighter); padding: 20px; border-radius: var(--radius-md); border-left: 4px solid var(--accent); }
-        .data-table-container { margin-top: 30px; overflow-x: auto; border: 1px solid var(--slate-light); border-radius: var(--radius-md); }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: var(--navy); font-size: 0.9rem;}
+        .form-control { width: 100%; padding: 12px 16px; border: 1px solid var(--slate-light); border-radius: var(--radius-md); font-family: inherit; font-size: 0.95rem; }
+        
+        /* Grid Form Layout */
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; }
+
+        .data-table-container { margin-top: 30px; overflow-x: auto; border: 1px solid var(--slate-light); border-radius: var(--radius-md); overflow-y: auto; max-height: 500px;}
         .data-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
         .data-table th, .data-table td { padding: 12px 15px; text-align: left; border-bottom: 1px solid var(--slate-light); line-height: 1.4; }
-        .data-table th { background: var(--lighter); font-weight: 700; color: var(--navy); white-space: nowrap; }
+        .data-table th { background: var(--lighter); font-weight: 700; color: var(--navy); white-space: nowrap; position: sticky; top:0; z-index: 5;}
         .data-table tbody tr:hover { background: rgba(0, 163, 204, 0.05); }
         .data-table td { color: var(--body-text); }
         .search-box { width: 100%; padding: 12px 15px; border-radius: var(--radius-md); border: 1px solid var(--slate-light); margin-bottom: 15px; font-size: 0.95rem; transition: border-color 0.2s; }
         .search-box:focus { border-color: var(--primary); outline: none; }
         
-        /* Modal UI */
-        .patient-modal-overlay { position: fixed; inset: 0; background: rgba(10, 22, 40, 0.4); backdrop-filter: blur(8px); z-index: 10005; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: opacity 0.3s; }
+        /* Modal UI EMR */
+        .patient-modal-overlay { position: fixed; inset: 0; background: rgba(10, 22, 40, 0.6); backdrop-filter: blur(8px); z-index: 10005; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: opacity 0.3s; }
         .patient-modal-overlay.active { opacity: 1; visibility: visible; }
-        .patient-modal-card { background: var(--white); width: 95%; max-width: 600px; border-radius: var(--radius-xl); box-shadow: var(--shadow-xl); padding: 30px; position: relative; transform: translateY(20px); transition: transform 0.3s; max-height: 90vh; overflow-y: auto; text-align: left;}
+        .patient-modal-card { background: var(--white); width: 95%; max-width: 700px; border-radius: var(--radius-xl); box-shadow: var(--shadow-xl); padding: 35px; position: relative; transform: translateY(20px); transition: transform 0.3s; max-height: 90vh; overflow-y: auto; text-align: left;}
         .patient-modal-overlay.active .patient-modal-card { transform: translateY(0); }
-        .modal-close { position: absolute; top: 15px; right: 20px; font-size: 1.5rem; color: var(--slate); cursor: pointer; }
-        .detail-row { display: flex; flex-direction: column; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid var(--slate-light); }
-        .detail-row:last-child { border-bottom: none; }
-        .detail-label { color: var(--slate); font-size: 0.85rem; font-weight: 600; text-transform: uppercase; margin-bottom: 4px; }
-        .detail-value { color: var(--navy); font-size: 1.05rem; }
+        .modal-close { position: absolute; top: 18px; right: 25px; font-size: 1.8rem; color: var(--slate); cursor: pointer; transition: color 0.2s;}
+        .modal-close:hover { color: var(--accent); }
         .data-table tbody tr { cursor: pointer; }
+        
+        .stat-box { background: rgba(0, 163, 204, 0.06); padding: 10px 15px; border-radius: var(--radius-md); border-left: 3px solid var(--primary); flex: 1; min-width: 120px;}
+        .stat-box small { color: var(--slate); font-weight: 600; text-transform: uppercase; font-size: 0.75rem;}
+        .stat-box b { color: var(--navy); font-size: 1.1rem;}
+        
+        .medical-card { border: 1px solid var(--slate-light); border-radius: var(--radius-md); padding: 20px; margin-bottom: 15px; background: #fafbfc;}
+        .medical-card h5 { margin-top: 0; color: var(--primary-dark); font-size: 1.05rem; margin-bottom: 10px; border-bottom: 1px solid var(--slate-light); padding-bottom: 8px;}
+        .fee-badge { background: #e63946; color: white; padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: 600;}
     </style>
 </head>
 
@@ -48,8 +57,8 @@
         <button class="lang-btn" id="lang-hi" data-lang="hi" onclick="switchLanguage('hi')">हिंदी</button>
     </div>
 
-    <div class="tracker-container" id="login-view">
-        <a href="/" style="position: absolute; top: 15px; left: 15px; color: var(--slate); font-size: 1.2rem;"><i class="fas fa-arrow-left"></i></a>
+    <div class="tracker-container" id="login-view" style="max-width: 500px; margin-top: 100px;">
+        <a href="/" style="position: absolute; top: 20px; left: 20px; color: var(--slate); font-size: 1.2rem;"><i class="fas fa-arrow-left"></i></a>
         <div class="tracker-header">
             <i class="fas fa-user-md"></i>
             <h2 data-i18n="tracker.loginTitle">Secure Portal</h2>
@@ -69,49 +78,68 @@
         </form>
     </div>
 
-    <div class="tracker-container hidden" id="dashboard-view" style="max-width: 800px;">
-        <div class="tracker-header">
-            <i class="fas fa-laptop-medical"></i>
-            <h2 data-i18n="tracker.dashTitle">Patient History Tracker</h2>
-            <p style="color: var(--slate);"><span data-i18n="tracker.session">Session Active: </span><span id="auth-name"></span></p>
-            <a href="/" style="position: absolute; top: 15px; left: 15px; color: var(--slate); font-size: 1.5rem;"><i class="fas fa-arrow-left"></i></a>
+    <div class="tracker-container hidden" id="dashboard-view" style="width: 95%;">
+        <div class="tracker-header" style="margin-bottom: 15px;">
+            <h2 data-i18n="tracker.dashTitle" style="color: var(--primary-dark);">Patient Records Admin</h2>
+            <p style="color: var(--slate);"><span data-i18n="tracker.session">Session Active: </span><span id="auth-name" style="font-weight:bold;"></span></p>
+            <a href="/" style="position: absolute; top: 20px; left: 20px; color: var(--slate); font-size: 1.5rem;"><i class="fas fa-arrow-left"></i></a>
         </div>
         
+        <hr style="margin: 30px 0; border: none; border-top: 1px dashed var(--slate-light);">
+        
+        <h3 style="margin-bottom: 20px; color: var(--navy);"><i class="fas fa-plus-circle" style="color: var(--accent);"></i> Add New Patient</h3>
         <form id="patient-data-form">
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <div class="grid-3">
                 <div class="form-group">
-                    <label data-i18n="tracker.pid">Patient ID / File No.</label>
-                    <input type="text" class="form-control" required>
+                    <label>Patient ID / File No.</label>
+                    <input type="text" id="add-id" class="form-control" required>
                 </div>
                 <div class="form-group">
-                    <label data-i18n="tracker.pname">Patient Full Name</label>
-                    <input type="text" class="form-control" required>
+                    <label>Patient Full Name</label>
+                    <input type="text" id="add-name" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Date (DD/MM/YY)</label>
+                    <input type="text" id="add-date" class="form-control" placeholder="e.g. 15/04/26">
                 </div>
             </div>
+            <div class="grid-3">
+                <div class="form-group">
+                    <label>Age</label>
+                    <input type="text" id="add-age" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>Gender</label>
+                    <input type="text" id="add-gender" class="form-control" placeholder="M/F">
+                </div>
+                <div class="form-group">
+                    <label>City / Location</label>
+                    <input type="text" id="add-city" class="form-control">
+                </div>
+            </div>
+            
             <div class="form-group">
-                <label data-i18n="tracker.symptoms">Current Symptoms</label>
-                <textarea class="form-control" rows="3" required></textarea>
+                <label>Clinical Diagnosis / Symptoms</label>
+                <input type="text" id="add-diagnosis" class="form-control" required>
             </div>
             <div class="form-group">
-                <label data-i18n="tracker.medhistory">Medical History & Notes</label>
-                <textarea class="form-control" rows="4"></textarea>
+                <label>Treatment Notes & Prescriptions</label>
+                <textarea id="add-notes" class="form-control" rows="3"></textarea>
             </div>
-            <button type="button" onclick="alert('Patient Data Logged Securely!')" class="btn btn-blue" style="width: 100%; justify-content: center;" data-i18n="tracker.submit">Submit Record to Database</button>
+            
+            <p id="save-status" style="display:none; text-align:center; font-weight:bold; margin-bottom:15px; color: green;"></p>
+            <button type="submit" class="btn btn-blue" style="width: 100%; justify-content: center;" id="btn-save-record">Push to Global Database</button>
         </form>
         
-        <div class="history-data">
-            <h4 data-i18n="tracker.log">Recent Activity Log</h4>
-            <p style="font-size: 0.9rem; color: var(--slate); margin-top: 10px;" data-i18n="tracker.logmsg">System Initialized.</p>
-        </div>
 
         <hr style="margin: 40px 0; border: none; border-top: 1px dashed var(--slate-light);">
         
-        <div class="tracker-header" style="text-align: left; margin-bottom: 15px;">
-            <h3>Patient Records Database</h3>
+        <div style="text-align: left; margin-bottom: 15px;">
+            <h3 style="color: var(--navy);"><i class="fas fa-database" style="color: var(--primary);"></i> Global Patient Directory</h3>
             <p style="color: var(--slate); font-size: 0.9rem;">Loaded securely from cloud storage.</p>
         </div>
 
-        <input type="text" id="patient-search" class="search-box" placeholder="Search by name, disease, or ID...">
+        <input type="text" id="patient-search" class="search-box" placeholder="Search by name, disease, city, or ID...">
 
         <div class="data-table-container">
             <table class="data-table">
@@ -131,17 +159,18 @@
         </div>
     </div>
 
-    <!-- Patient Modal Detail View -->
+    <!-- Patient Modal EMR Detail View -->
     <div id="patient-modal" class="patient-modal-overlay">
         <div class="patient-modal-card">
             <i class="fas fa-times modal-close" onclick="closePatientModal()"></i>
-            <h2 id="modal-name" style="margin-bottom: 5px; color: var(--primary-dark);">Patient Name</h2>
-            <p style="color: var(--slate); margin-bottom: 25px;"><i class="fas fa-hashtag"></i> <span id="modal-id"></span> &nbsp; • &nbsp; <i class="fas fa-calendar"></i> <span id="modal-date"></span></p>
+            <h2 id="modal-name" style="margin-bottom: 5px; color: var(--navy); font-size: 1.8rem;">Patient Name</h2>
+            <p style="color: var(--slate); margin-bottom: 20px; font-size: 0.95rem;">
+                <i class="fas fa-hashtag" style="color: var(--accent);"></i> <b id="modal-id" style="color: var(--body-text);"></b> &nbsp; • &nbsp; 
+                <i class="fas fa-calendar" style="color: var(--accent);"></i> <span id="modal-date"></span>
+            </p>
             
             <div id="modal-details-container">
             </div>
-            
-            <button class="btn btn-outline" style="width: 100%; margin-top: 20px; justify-content: center;" onclick="closePatientModal()">Close Record</button>
         </div>
     </div>
 
@@ -149,12 +178,11 @@
     <script src="/script.js"></script>
 
     <script>
+        // ── Auth Handling ──
         document.getElementById('tracker-login-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const u = document.getElementById('userid').value;
             const p = document.getElementById('password').value;
-            
-            // Set loading state
             document.querySelector('#tracker-login-form button').innerText = "Authenticating...";
             
             try {
@@ -168,11 +196,11 @@
                 
                 if(res.ok) {
                     const data = await res.json();
-                    sessionStorage.setItem('trackerAuth', data.token); // Store secure token
+                    sessionStorage.setItem('trackerAuth', data.token); 
                     document.getElementById('login-view').classList.add('hidden');
                     document.getElementById('dashboard-view').classList.remove('hidden');
                     document.getElementById('auth-name').innerText = data.user;
-                    fetchPatientData(); // Load the database seamlessly
+                    fetchPatientData(); 
                 } else {
                     document.getElementById('login-error').style.display = 'block';
                 }
@@ -184,8 +212,64 @@
             }
         });
 
+        // ── Database Writing (Global Sync) ──
+        document.getElementById('patient-data-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const btn = document.getElementById('btn-save-record');
+            const statusLabel = document.getElementById('save-status');
+            btn.innerText = "Encrypting & Syncing to Cloud...";
+            
+            const pdata = {
+                id: document.getElementById('add-id').value,
+                date: document.getElementById('add-date').value,
+                name: document.getElementById('add-name').value,
+                age: document.getElementById('add-age').value,
+                gender: document.getElementById('add-gender').value,
+                city: document.getElementById('add-city').value,
+                occup: '', // or add a field if wanted
+                diagnosis: document.getElementById('add-diagnosis').value,
+                notes: document.getElementById('add-notes').value
+            };
+            
+            try {
+                const res = await fetch('/api/add-patient', {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${sessionStorage.getItem('trackerAuth')}`
+                    },
+                    body: JSON.stringify(pdata)
+                });
+                
+                if(res.ok) {
+                    statusLabel.style.color = "green";
+                    statusLabel.innerText = "Successfully logged to cloud database!";
+                    statusLabel.style.display = "block";
+                    btn.innerText = "Push to Global Database";
+                    document.getElementById('patient-data-form').reset();
+                    
+                    // Refresh table
+                    fetchPatientData();
+                    
+                    setTimeout(() => statusLabel.style.display="none", 4000);
+                } else {
+                    const data = await res.json();
+                    statusLabel.style.color = "red";
+                    statusLabel.innerText = data.error || "Failed to save.";
+                    statusLabel.style.display = "block";
+                    btn.innerText = "Push to Global Database";
+                }
+            } catch(err) {
+                statusLabel.style.color = "red";
+                statusLabel.innerText = "Network transmission failed!";
+                statusLabel.style.display = "block";
+                btn.innerText = "Push to Global Database";
+            }
+        });
+
         // ── Data Loading Logic ──
-        let memoryPatients = []; // Cached array for searching
+        let memoryPatients = []; 
 
         async function fetchPatientData() {
             const token = sessionStorage.getItem('trackerAuth');
@@ -195,14 +279,14 @@
                 });
                 if(res.ok) {
                     const data = await res.json();
-                    memoryPatients = data;
-                    renderTable(data);
+                    memoryPatients = data.reverse(); // Show latest first
+                    renderTable(memoryPatients);
                 } else {
-                    document.getElementById('patients-table-body').innerHTML = '<tr><td colspan="6" style="color:red; text-align: center;">Error validating token.</td></tr>';
+                    document.getElementById('patients-table-body').innerHTML = '<tr><td colspan="5" style="color:red; text-align: center;">Error validating token.</td></tr>';
                 }
             } catch (err) {
                 console.error(err);
-                document.getElementById('patients-table-body').innerHTML = '<tr><td colspan="6" style="color:red; text-align: center;">Connection lost to secure server.</td></tr>';
+                document.getElementById('patients-table-body').innerHTML = '<tr><td colspan="5" style="color:red; text-align: center;">Connection lost to secure server.</td></tr>';
             }
         }
 
@@ -222,8 +306,8 @@
                     <td style="font-size: 0.85rem; color: var(--slate); font-weight: 600;">${p['Patient ID'] || ''}</td>
                     <td style="font-size: 0.85rem; color: var(--slate);">${p['Date'] || ''}</td>
                     <td style="font-weight: 600; color: var(--navy); white-space: nowrap;">${p['Patient Name'] || ''}</td>
-                    <td><span style="background: rgba(0, 163, 204, 0.1); color: var(--primary-dark); padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; display: inline-block;">${p['Diagnosis'] || 'Check Notes'}</span></td>
-                    <td style="font-size: 0.85rem; max-width: 250px;">${p['Treatment Notes'] || ''}</td>
+                    <td><span style="background: rgba(0, 163, 204, 0.1); color: var(--primary-dark); padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; display: inline-block;">${p['Diagnosis'] || 'Consultation'}</span></td>
+                    <td style="font-size: 0.85rem; max-width: 250px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">${p['Treatment Notes'] || ''}</td>
                 `;
                 tbody.appendChild(tr);
             });
@@ -236,20 +320,47 @@
             document.getElementById('modal-date').innerText = p['Date'] || 'N/A';
             
             const container = document.getElementById('modal-details-container');
-            container.innerHTML = '';
             
-            Object.keys(p).forEach(key => {
-                if (key === 'Patient Name' || key === 'Patient ID' || key === 'Date') return; 
-                if (!p[key] || p[key] === '') return; 
-                
-                container.innerHTML += `
-                    <div class="detail-row">
-                        <span class="detail-label">${key}</span>
-                        <span class="detail-value">${p[key]}</span>
-                    </div>
-                `;
+            let profileCard = \`<div style="display:flex; gap:15px; flex-wrap:wrap; margin-bottom:25px;">
+                <div class="stat-box"><small>Age / Sex</small><br><b>\${p['Age'] || '-'} / \${p['Gender'] || '-'}</b></div>
+                <div class="stat-box"><small>Location</small><br><b>\${p['City'] || '-'}</b></div>
+                <div class="stat-box"><small>Occupation</small><br><b>\${p['Occupation'] || '-'}</b></div>
+            </div>\`;
+            
+            let clinicalCard = \`
+            <div class="medical-card">
+                <h5><i class="fas fa-stethoscope"></i> Clinical Diagnosis</h5>
+                <p style="font-size: 1.05rem; font-weight: 600; color: var(--body-text);">\${p['Diagnosis'] || '-'}</p>
+            </div>
+            <div class="medical-card">
+                <h5><i class="fas fa-pills"></i> Treatment & Prescriptions</h5>
+                <p style="white-space: pre-wrap; font-size: 0.95rem; line-height: 1.6;">\${p['Treatment Notes'] || '-'}</p>
+            </div>\`;
+            
+            let followUpCard = '';
+            if (p['FollowUp Notes'] && p['FollowUp Notes'].trim() !== '') {
+                followUpCard = \`<div class="medical-card">
+                    <h5><i class="fas fa-calendar-check"></i> Follow-Up Logs & History</h5>
+                    <p style="white-space: pre-wrap; font-size: 0.95rem; line-height: 1.6;">\${p['FollowUp Notes']}</p>
+                </div>\`;
+            }
+            
+            let feesCard = '';
+            let feeData = [];
+            Object.keys(p).forEach(k => {
+                if(k.startsWith('Fees') && p[k] && p[k].trim() !== '') feeData.push(p[k]);
             });
             
+            if(feeData.length > 0) {
+                feesCard = \`<div class="medical-card">
+                    <h5><i class="fas fa-rupee-sign"></i> Visit / Fee History</h5>
+                    <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                        \${feeData.map((f, i) => \`<span class="fee-badge">V\${i+1}: ₹\${f}</span>\`).join('')}
+                    </div>
+                </div>\`;
+            }
+            
+            container.innerHTML = profileCard + clinicalCard + followUpCard + feesCard;
             document.getElementById('patient-modal').classList.add('active');
         }
 
@@ -261,7 +372,7 @@
         document.getElementById('patient-search').addEventListener('input', (e) => {
             const term = e.target.value.toLowerCase();
             const filtered = memoryPatients.filter(p => Object.values(p).join(' ').toLowerCase().includes(term));
-            renderTable(filtered); // Instantly re-render dynamically
+            renderTable(filtered); 
         });
     </script>
 </body>
