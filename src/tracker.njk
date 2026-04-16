@@ -10,67 +10,96 @@
     <style>
         body { background: var(--gradient-hero); min-height: 100vh; display: flex; align-items: flex-start; justify-content: center; padding: 40px 0; overflow-y: auto;}
         
-        /* Master Container */
-        .tracker-container { width: 98%; max-width: 1400px; background: var(--white); border-radius: var(--radius-xl); padding: 30px; box-shadow: var(--shadow-xl); position: relative; overflow: hidden; margin-top:20px; min-height: 80vh;}
+        .tracker-container { width: 98%; max-width: 1400px; background: var(--white); border-radius: var(--radius-xl); padding: 30px; box-shadow: var(--shadow-xl); position: relative; overflow: hidden; margin-top:20px; min-height: 80vh; transition: all 0.3s ease;}
         
         .hidden { display: none !important; }
         .tracker-header { text-align: center; margin-bottom: 20px; }
         .tracker-header i { font-size: 2.5rem; color: var(--primary); margin-bottom: 10px; }
         
+        /* Forms */
         .form-group { margin-bottom: 15px; text-align: left; }
         .form-group label { display: block; margin-bottom: 6px; font-weight: 600; color: var(--navy); font-size: 0.85rem;}
-        .form-control { width: 100%; padding: 10px 14px; border: 1px solid var(--slate-light); border-radius: var(--radius-md); font-family: inherit; font-size: 0.9rem; }
+        .form-control { width: 100%; padding: 12px 14px; border: 1px solid var(--slate-light); border-radius: var(--radius-md); font-family: inherit; font-size: 0.95rem; transition: border-color 0.2s;}
+        .form-control:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px rgba(0, 163, 204, 0.1); }
         .form-control:read-only { background: var(--lighter); cursor: not-allowed; }
         
-        /* Grid Form Layout */
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; }
         .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 15px; }
 
-        /* Dashboard Application Layout */
+        /* Dashboard Layout */
         .dashboard-layout { display: flex; gap: 20px; height: 100%; min-height: 70vh; margin-top: 15px;}
-        .sidebar { width: 220px; flex-shrink: 0; background: #f8fafc; border-right: 1px solid var(--slate-light); padding: 20px 15px; border-radius: var(--radius-md); display: flex; flex-direction: column; gap: 10px;}
+        .sidebar { width: 240px; flex-shrink: 0; background: #f8fafc; border-right: 1px solid var(--slate-light); padding: 20px 15px; border-radius: var(--radius-md); display: flex; flex-direction: column; gap: 10px;}
         .main-content { flex-grow: 1; overflow-y: auto; padding: 10px 0;}
 
-        .sidebar-btn { background: transparent; border: none; font-size: 1rem; font-weight: 600; color: var(--slate); padding: 12px 15px; cursor: pointer; border-radius: var(--radius-md); text-align: left; transition: all 0.2s; display: flex; align-items: center; gap: 10px;}
+        .sidebar-btn { background: transparent; border: none; font-size: 1rem; font-weight: 600; color: var(--slate); padding: 12px 15px; cursor: pointer; border-radius: var(--radius-md); text-align: left; transition: all 0.2s; display: flex; align-items: center; gap: 12px;}
         .sidebar-btn:hover { background: rgba(0, 163, 204, 0.1); color: var(--navy); }
-        .sidebar-btn.active { background: var(--primary); color: white; }
+        .sidebar-btn.active { background: var(--primary); color: white; box-shadow: var(--shadow-md); }
 
-        /* Simplified Data Table */
-        .data-table-container { margin-top: 20px; overflow: auto; border: 1px solid var(--slate-light); border-radius: var(--radius-md); }
-        .data-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
-        .data-table th, .data-table td { padding: 12px 15px; text-align: left; border-bottom: 1px solid var(--slate-light); }
-        .data-table th { background: #f1f5f9; font-weight: 700; color: var(--navy); }
-        .data-table tbody tr:hover { background: rgba(0, 163, 204, 0.05); }
+        /* Filter Controls */
+        .controls-bar { background: #f8fafc; padding: 20px; border-radius: var(--radius-lg); margin-bottom: 25px; display: flex; flex-wrap: wrap; gap: 15px; border: 1px solid var(--slate-light); box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);}
+        .filter-item { flex: 1; min-width: 200px; }
+        .filter-item label { font-size: 0.75rem; color: var(--slate); font-weight: 700; text-transform: uppercase; margin-bottom: 6px; display: block; letter-spacing: 0.5px;}
+
+        /* Data Table */
+        .data-table-container { margin-top: 10px; overflow: auto; border: 1px solid var(--slate-light); border-radius: var(--radius-md); }
+        .data-table { width: 100%; border-collapse: collapse; font-size: 0.95rem; min-width: 800px; }
+        .data-table th, .data-table td { padding: 16px 15px; text-align: left; border-bottom: 1px solid var(--slate-light); }
+        .data-table th { background: #f8fafc; font-weight: 700; color: var(--navy); cursor: pointer; user-select: none; position: relative; transition: background 0.2s; white-space: nowrap;}
+        .data-table th:hover { background: #e2e8f0; }
+        .data-table th i { margin-left: 8px; font-size: 0.8rem; color: var(--slate); }
+        .data-table th.active-sort { color: var(--primary); }
+        .data-table th.active-sort i { color: var(--primary); }
+        .data-table tbody tr:hover { background: rgba(0, 163, 204, 0.03); }
         
-        .search-box { width: 100%; padding: 12px 15px; border-radius: var(--radius-md); border: 2px solid var(--slate-light); margin-bottom: 15px; font-size: 0.95rem; }
-        .search-box:focus { border-color: var(--primary); outline: none; }
+        .btn-action { width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.9rem; margin-right: 5px; border-radius: var(--radius-md); cursor: pointer; border: none; transition: all 0.2s; color: white;}
+        .btn-view { background: var(--primary); }
+        .btn-edit { background: #f59e0b; }
+        .btn-delete { background: #dc2626; }
+        .btn-action:hover { transform: translateY(-2px); box-shadow: var(--shadow-sm); filter: brightness(1.1); }
 
-        .btn-action { padding: 6px 12px; font-size: 0.8rem; margin-right: 5px; border-radius: var(--radius-sm); cursor: pointer; border: none; font-weight: bold; transition: opacity 0.2s;}
-        .btn-action:hover { opacity: 0.8; }
-        .btn-view { background: var(--primary); color: white; }
-        .btn-edit { background: #f59e0b; color: white; }
-        .btn-delete { background: #dc2626; color: white; }
+        /* Mobile Cards (Hidden by default) */
+        .cards-view { display: none; grid-template-columns: 1fr; gap: 15px; margin-top: 10px; }
+        .patient-card { background: white; border: 1px solid var(--slate-light); padding: 18px; border-radius: var(--radius-lg); position: relative; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border-left: 5px solid var(--primary); transition: transform 0.2s ease;}
+        .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+        .card-id { font-size: 0.75rem; font-weight: 800; color: var(--primary-dark); background: rgba(0, 163, 204, 0.1); padding: 4px 10px; border-radius: var(--radius-sm); }
+        .card-date { font-size: 0.8rem; color: var(--slate); font-weight: 600; }
+        .card-name { font-size: 1.25rem; font-weight: 800; color: var(--navy); margin-bottom: 6px; display: block; }
+        .card-diagnosis { font-size: 0.95rem; color: var(--body-text); margin-bottom: 12px; line-height: 1.4; font-weight: 500;}
+        .card-meta { display: flex; gap: 15px; font-size: 0.85rem; color: var(--slate); margin-bottom: 15px; }
+        .card-meta span i { color: var(--primary); margin-right: 5px; }
+        .card-actions { display: flex; gap: 10px; border-top: 1px solid #f1f5f9; padding-top: 15px; }
+        .card-actions .btn-action { flex: 1; height: 48px; font-size: 1.1rem; border-radius: var(--radius-lg); }
 
-        /* Full Details Modal Overlay */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; z-index: 1000; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+        /* Details Modal */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); display: flex; justify-content: center; align-items: center; z-index: 2000; opacity: 0; pointer-events: none; transition: opacity 0.3s; padding: 20px;}
         .modal-overlay.active { opacity: 1; pointer-events: auto; }
-        .modal-card { background: white; width: 90%; max-width: 800px; border-radius: var(--radius-lg); padding: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); max-height: 90vh; overflow-y: auto; position: relative;}
-        .modal-close { position: absolute; top: 20px; right: 20px; background: none; border: none; font-size: 1.5rem; color: var(--slate); cursor: pointer; }
-        .modal-header h3 { color: var(--primary-dark); margin-bottom: 5px; font-size: 1.5rem;}
-        .modal-body { margin-top: 20px; }
-        .detail-group { margin-bottom: 15px; }
-        .detail-label { font-weight: 600; color: var(--navy); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px;}
-        .detail-value { font-size: 1rem; color: var(--body-text); background: #f8fafc; padding: 10px; border-radius: var(--radius-sm); margin-top: 4px; min-height: 40px; white-space: pre-wrap;}
+        .modal-card { background: white; width: 100%; max-width: 850px; border-radius: var(--radius-xl); padding: 35px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.3); max-height: 90vh; overflow-y: auto; position: relative; border-top: 8px solid var(--primary);}
+        .modal-close { position: absolute; top: 25px; right: 25px; width: 44px; height: 44px; background: #f1f5f9; border: none; font-size: 1.4rem; color: var(--slate); border-radius: 50%; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center;}
+        .modal-close:hover { background: #fee2e2; color: #dc2626; transform: rotate(90deg); }
+        .modal-header h3 { color: var(--primary-dark); margin: 0; font-size: 2rem; margin-bottom: 8px;}
         
-        .fee-input-group label { color: #e63946; }
+        .detail-group { margin-bottom: 20px; }
+        .detail-label { font-weight: 800; color: var(--slate); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; display: block;}
+        .detail-value { font-size: 1.05rem; color: var(--navy); background: #f8fafc; padding: 14px; border-radius: var(--radius-lg); border: 1px solid #f1f5f9; line-height: 1.6; min-height: 52px; white-space: pre-wrap; box-shadow: inset 0 1px 2px rgba(0,0,0,0.02);}
+        
+        .fee-input-group label { color: #e11d48; font-weight: 700; }
 
-        /* Responsive Dashboard */
-        @media (max-width: 768px) {
+        /* PERFECT MOBILE ADAPTATION */
+        @media (max-width: 992px) {
             .dashboard-layout { flex-direction: column; }
-            .sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--slate-light); flex-direction: row; flex-wrap: wrap;}
-            .sidebar-btn { flex: 1; text-align: center; justify-content: center;}
-            .grid-4, .grid-3 { grid-template-columns: 1fr; }
+            .sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--slate-light); flex-direction: row; flex-wrap: nowrap; overflow-x: auto; padding: 12px; background: white; position: sticky; top: -30px; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.05);}
+            .sidebar::-webkit-scrollbar { display: none; }
+            .sidebar-btn { white-space: nowrap; font-size: 0.95rem; padding: 12px 18px; flex-shrink: 0; }
+            .tracker-container { padding: 15px; border-radius: 0; width: 100%; margin-top: 0; box-shadow: none;}
+            body { padding: 0; align-items: flex-start; }
+            
+            .data-table-container { display: none; }
+            .cards-view { display: grid; }
+            
+            .grid-4, .grid-3 { grid-template-columns: 1fr; gap: 15px; }
+            .controls-bar { padding: 15px; gap: 10px; }
+            .filter-item { min-width: 100%; }
         }
     </style>
 
@@ -135,24 +164,53 @@
                 
                 <!-- VIEW DB SCREEN -->
                 <div id="screen-db">
-                    <input type="text" id="patient-search" class="search-box" placeholder="Search by Name, ID, City, or Diagnosis...">
+                    <div class="controls-bar">
+                        <div class="filter-item" style="flex: 2;">
+                            <label>Adaptive Search</label>
+                            <input type="text" id="patient-search" class="form-control" placeholder="Search Patient Name, ID, or Diagnosis...">
+                        </div>
+                        <div class="filter-item">
+                            <label>Filter by City</label>
+                            <select id="city-filter" class="form-control" onchange="applyFiltersAndSort()">
+                                <option value="all">All Locations</option>
+                            </select>
+                        </div>
+                        <div class="filter-item">
+                            <label>Gender</label>
+                            <select id="gender-filter" class="form-control" onchange="applyFiltersAndSort()">
+                                <option value="all">All Genders</option>
+                                <option value="M">Male</option>
+                                <option value="F">Female</option>
+                            </select>
+                        </div>
+                        <div class="filter-item" style="flex: 0; min-width: auto; align-self: flex-end;">
+                            <button class="btn btn-secondary" onclick="resetFilters()" title="Reset Filters" style="height: 48px; width: 48px; padding: 0; display: flex; align-items: center; justify-content: center; background: white; border: 1px solid var(--slate-light); color: var(--slate);">
+                                <i class="fas fa-sync-alt"></i>
+                            </button>
+                        </div>
+                    </div>
                     
                     <div class="data-table-container">
                         <table class="data-table">
                             <thead>
                                 <tr>
-                                    <th>Date</th>
-                                    <th>Patient ID</th>
-                                    <th>Full Name</th>
-                                    <th>City</th>
+                                    <th id="th-date" onclick="handleSort('Date')">Date <i class="fas fa-sort"></i></th>
+                                    <th id="th-id" onclick="handleSort('Patient ID')">Patient ID <i class="fas fa-sort"></i></th>
+                                    <th id="th-name" onclick="handleSort('Patient Name')">Full Name <i class="fas fa-sort"></i></th>
+                                    <th id="th-city" onclick="handleSort('City')">City <i class="fas fa-sort"></i></th>
                                     <th>Diagnosis</th>
                                     <th style="text-align:center;">Actions</th>
                                 </tr>
                             </thead>
                             <tbody id="patients-table-body">
-                                <tr><td colspan="6" style="text-align: center; padding: 20px;">Fetching secure database cloud...</td></tr>
+                                <tr><td colspan="6" style="text-align: center; padding: 30px;">Connecting to secure clinical database...</td></tr>
                             </tbody>
                         </table>
+                    </div>
+
+                    <!-- Card View for Mobile -->
+                    <div class="cards-view" id="patients-cards-view">
+                        <!-- Cards injected by JS -->
                     </div>
                 </div>
 
@@ -455,6 +513,9 @@
 
         // Load DB
         let memoryPatients = []; 
+        let filteredPatients = [];
+        let currentSortField = 'Date';
+        let currentSortOrder = 'desc';
 
         async function fetchPatientData() {
             const token = sessionStorage.getItem('trackerAuth');
@@ -465,8 +526,9 @@
                 });
                 if(res.ok) {
                     const data = await res.json();
-                    memoryPatients = data.reverse(); 
-                    renderTable(memoryPatients);
+                    memoryPatients = data; 
+                    populateFilters(memoryPatients);
+                    applyFiltersAndSort();
                 } else {
                     document.getElementById('patients-table-body').innerHTML = '<tr><td colspan="6" style="color:red; text-align: center;">Error validating token.</td></tr>';
                 }
@@ -476,37 +538,162 @@
             }
         }
 
-        // Render Simplified Table
+        function populateFilters(data) {
+            const citySelect = document.getElementById('city-filter');
+            const cities = [...new Set(data.map(p => p['City']).filter(Boolean))].sort();
+            
+            // Re-render options but keep placeholder
+            citySelect.innerHTML = '<option value="all">All Locations</option>';
+            cities.forEach(city => {
+                const opt = document.createElement('option');
+                opt.value = city;
+                opt.textContent = city;
+                citySelect.appendChild(opt);
+            });
+        }
+
+        function applyFiltersAndSort() {
+            const searchTerm = document.getElementById('patient-search').value.toLowerCase();
+            const cityValue = document.getElementById('city-filter').value;
+            const genderValue = document.getElementById('gender-filter').value;
+
+            filteredPatients = memoryPatients.filter(p => {
+                const matchesSearch = Object.values(p).join(' ').toLowerCase().includes(searchTerm);
+                const matchesCity = cityValue === 'all' || p['City'] === cityValue;
+                const matchesGender = genderValue === 'all' || p['Gender'] === genderValue;
+                return matchesSearch && matchesCity && matchesGender;
+            });
+
+            sortData();
+            renderTable(filteredPatients);
+        }
+
+        function handleSort(field) {
+            if (currentSortField === field) {
+                currentSortOrder = currentSortOrder === 'asc' ? 'desc' : 'asc';
+            } else {
+                currentSortField = field;
+                currentSortOrder = 'asc';
+            }
+            applyFiltersAndSort();
+        }
+
+        function sortData() {
+            filteredPatients.sort((a, b) => {
+                let valA = a[currentSortField] || '';
+                let valB = b[currentSortField] || '';
+
+                // Custom sorting for Date DD/MM/YY
+                if (currentSortField === 'Date') {
+                    const [d1, m1, y1] = valA.split('/').map(Number);
+                    const [d2, m2, y2] = valB.split('/').map(Number);
+                    const dateA = new Date(y1 < 50 ? 2000 + y1 : 1900 + y1, m1 - 1, d1);
+                    const dateB = new Date(y2 < 50 ? 2000 + y2 : 1900 + y2, m2 - 1, d2);
+                    return currentSortOrder === 'asc' ? dateA - dateB : dateB - dateA;
+                }
+
+                // Numeric sorting
+                if (currentSortField === 'Patient ID') {
+                    return currentSortOrder === 'asc' ? Number(valA) - Number(valB) : Number(valB) - Number(valA);
+                }
+
+                // String sorting
+                const comparison = valA.toString().localeCompare(valB.toString());
+                return currentSortOrder === 'asc' ? comparison : -comparison;
+            });
+
+            // Update Header Visuals
+            updateSortHeaders();
+        }
+
+        function updateSortHeaders() {
+            const keys = { 'Date': 'th-date', 'Patient ID': 'th-id', 'Patient Name': 'th-name', 'City': 'th-city' };
+            Object.values(keys).forEach(id => {
+                const th = document.getElementById(id);
+                if(th) {
+                    th.classList.remove('active-sort');
+                    th.querySelector('i').className = 'fas fa-sort';
+                }
+            });
+
+            const activeTh = document.getElementById(keys[currentSortField]);
+            if (activeTh) {
+                activeTh.classList.add('active-sort');
+                activeTh.querySelector('i').className = currentSortOrder === 'asc' ? 'fas fa-sort-up' : 'fas fa-sort-down';
+            }
+        }
+
+        // Render Combined Table & Cards
         function renderTable(dataArray) {
             const tbody = document.getElementById('patients-table-body');
+            const cardContainer = document.getElementById('patients-cards-view');
+            
             tbody.innerHTML = '';
+            cardContainer.innerHTML = '';
             
             if(dataArray.length === 0) {
                 tbody.innerHTML = '<tr><td colspan="6" style="text-align: center;">No patient records found.</td></tr>';
+                cardContainer.innerHTML = '<div style="text-align:center; padding: 40px; color: var(--slate);">No records match your filters.</div>';
                 return;
             }
 
             dataArray.forEach((p, idx) => {
+                // Real data index in memoryPatients for callbacks
+                const trueIdx = memoryPatients.indexOf(p);
+
+                // Table Row (Desktop)
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
                     <td>${p['Date'] || ''}</td>
-                    <td style="font-weight: 600; color: var(--navy);">${p['Patient ID'] || ''}</td>
-                    <td style="font-weight: 700; color: var(--primary-dark);">${p['Patient Name'] || ''}</td>
+                    <td style="font-weight: 700; color: var(--navy);">${p['Patient ID'] || ''}</td>
+                    <td style="font-weight: 800; color: var(--primary-dark);">${p['Patient Name'] || ''}</td>
                     <td>${p['City'] || ''}</td>
-                    <td>${p['Diagnosis'] || ''}</td>
+                    <td><div style="max-width:250px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${p['Diagnosis'] || ''}</div></td>
                     <td style="text-align:center; white-space:nowrap;">
-                        <button class="btn-action btn-view" onclick="openDetailsModal(${idx})" title="View Details"><i class="fas fa-eye"></i></button>
-                        <button class="btn-action btn-edit" onclick="triggerEditWorkflow(${idx})" title="Edit Patient"><i class="fas fa-edit"></i></button>
-                        <button class="btn-action btn-delete" onclick="triggerDeleteWorkflow(${idx})" title="Delete Patient"><i class="fas fa-trash"></i></button>
+                        <button class="btn-action btn-view" onclick="openDetailsModal(${trueIdx})" title="View Details"><i class="fas fa-eye"></i></button>
+                        <button class="btn-action btn-edit" onclick="triggerEditWorkflow(${trueIdx})" title="Edit Patient"><i class="fas fa-edit"></i></button>
+                        <button class="btn-action btn-delete" onclick="triggerDeleteWorkflow(${trueIdx})" title="Delete Patient"><i class="fas fa-trash"></i></button>
                     </td>
                 `;
                 tbody.appendChild(tr);
+
+                // Card View (Mobile)
+                const card = document.createElement('div');
+                card.className = 'patient-card';
+                card.innerHTML = `
+                    <div class="card-header">
+                        <span class="card-date">${p['Date'] || ''}</span>
+                        <span class="card-id">#${p['Patient ID'] || ''}</span>
+                    </div>
+                    <span class="card-name">${p['Patient Name'] || ''}</span>
+                    <div class="card-diagnosis">${p['Diagnosis'] || ''}</div>
+                    <div class="card-meta">
+                        <span><i class="fas fa-map-marker-alt"></i> ${p['City'] || '-'}</span>
+                        <span><i class="fas fa-venus-mars"></i> ${p['Gender'] || '-'}</span>
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn-action btn-view" onclick="openDetailsModal(${trueIdx})"><i class="fas fa-eye"></i> View</button>
+                        <button class="btn-action btn-edit" onclick="triggerEditWorkflow(${trueIdx})"><i class="fas fa-edit"></i> Edit</button>
+                        <button class="btn-action btn-delete" onclick="triggerDeleteWorkflow(${trueIdx})"><i class="fas fa-trash"></i></button>
+                    </div>
+                `;
+                cardContainer.appendChild(card);
             });
         }
 
+        // Global Event Listeners
+        document.getElementById('patient-search').addEventListener('input', applyFiltersAndSort);
+        
+        function resetFilters() {
+            document.getElementById('patient-search').value = '';
+            document.getElementById('city-filter').value = 'all';
+            document.getElementById('gender-filter').value = 'all';
+            applyFiltersAndSort();
+        }
+
         // Read Full Details Modal
-        function openDetailsModal(idx) {
-            const p = memoryPatients[idx];
+        function openDetailsModal(trueIdx) {
+            const p = memoryPatients[trueIdx];
             if(!p) return;
 
             document.getElementById('modal-name').innerText = p['Patient Name'] || 'Unknown';
@@ -608,13 +795,6 @@ This action cannot be undone on the cloud database.`;
                 alert("Network communication failure for deletion command.");
             }
         }
-
-        // Search engine
-        document.getElementById('patient-search').addEventListener('input', (e) => {
-            const term = e.target.value.toLowerCase();
-            const filtered = memoryPatients.filter(p => Object.values(p).join(' ').toLowerCase().includes(term));
-            renderTable(filtered); 
-        });
     </script>
 </body>
 </html>
