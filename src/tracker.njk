@@ -10,8 +10,8 @@
     <style>
         body { background: var(--gradient-hero); min-height: 100vh; display: flex; align-items: flex-start; justify-content: center; padding: 40px 0; overflow-y: auto;}
         
-        /* Master Container overrides */
-        .tracker-container { width: 98%; max-width: 1400px; background: var(--white); border-radius: var(--radius-xl); padding: 30px; box-shadow: var(--shadow-xl); position: relative; overflow: hidden; margin-top:20px;}
+        /* Master Container */
+        .tracker-container { width: 98%; max-width: 1400px; background: var(--white); border-radius: var(--radius-xl); padding: 30px; box-shadow: var(--shadow-xl); position: relative; overflow: hidden; margin-top:20px; min-height: 80vh;}
         
         .hidden { display: none !important; }
         .tracker-header { text-align: center; margin-bottom: 20px; }
@@ -20,30 +20,57 @@
         .form-group { margin-bottom: 15px; text-align: left; }
         .form-group label { display: block; margin-bottom: 6px; font-weight: 600; color: var(--navy); font-size: 0.85rem;}
         .form-control { width: 100%; padding: 10px 14px; border: 1px solid var(--slate-light); border-radius: var(--radius-md); font-family: inherit; font-size: 0.9rem; }
+        .form-control:read-only { background: var(--lighter); cursor: not-allowed; }
         
         /* Grid Form Layout */
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; }
         .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 15px; }
 
-        /* Massive Excel-like Data Table */
-        .data-table-container { margin-top: 20px; overflow: auto; border: 1px solid var(--slate-light); border-radius: var(--radius-md); max-height: 70vh;}
-        .data-table { width: max-content; border-collapse: collapse; font-size: 0.85rem; }
-        .data-table th, .data-table td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--slate-light); border-right: 1px solid var(--slate-light); line-height: 1.4; max-width: 300px; word-wrap: break-word;}
-        .data-table th { background: var(--lighter); font-weight: 700; color: var(--navy); white-space: nowrap; position: sticky; top:0; z-index: 5; box-shadow: 0 2px 5px rgba(0,0,0,0.05);}
-        .data-table tbody tr:hover { background: rgba(0, 163, 204, 0.05); }
-        .data-table td { color: var(--body-text); }
-        
-        .search-box { width: 100%; padding: 12px 15px; border-radius: var(--radius-md); border: 2px solid var(--slate-light); margin-bottom: 15px; font-size: 0.95rem; transition: border-color 0.2s; }
-        .search-box:focus { border-color: var(--primary); outline: none; }
-        
-        /* Dashboard Navigation Tabs */
-        .tabs { display: flex; gap: 10px; margin-bottom: 25px; border-bottom: 2px solid var(--slate-light); padding-bottom: 10px;}
-        .tab-btn { background: none; border: none; font-size: 1.05rem; font-weight: 600; color: var(--slate); padding: 8px 15px; cursor: pointer; border-radius: var(--radius-md); transition: all 0.2s;}
-        .tab-btn:hover { background: var(--lighter); color: var(--navy); }
-        .tab-btn.active { background: var(--primary); color: white; }
+        /* Dashboard Application Layout */
+        .dashboard-layout { display: flex; gap: 20px; height: 100%; min-height: 70vh; margin-top: 15px;}
+        .sidebar { width: 220px; flex-shrink: 0; background: #f8fafc; border-right: 1px solid var(--slate-light); padding: 20px 15px; border-radius: var(--radius-md); display: flex; flex-direction: column; gap: 10px;}
+        .main-content { flex-grow: 1; overflow-y: auto; padding: 10px 0;}
 
+        .sidebar-btn { background: transparent; border: none; font-size: 1rem; font-weight: 600; color: var(--slate); padding: 12px 15px; cursor: pointer; border-radius: var(--radius-md); text-align: left; transition: all 0.2s; display: flex; align-items: center; gap: 10px;}
+        .sidebar-btn:hover { background: rgba(0, 163, 204, 0.1); color: var(--navy); }
+        .sidebar-btn.active { background: var(--primary); color: white; }
+
+        /* Simplified Data Table */
+        .data-table-container { margin-top: 20px; overflow: auto; border: 1px solid var(--slate-light); border-radius: var(--radius-md); }
+        .data-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+        .data-table th, .data-table td { padding: 12px 15px; text-align: left; border-bottom: 1px solid var(--slate-light); }
+        .data-table th { background: #f1f5f9; font-weight: 700; color: var(--navy); }
+        .data-table tbody tr:hover { background: rgba(0, 163, 204, 0.05); }
+        
+        .search-box { width: 100%; padding: 12px 15px; border-radius: var(--radius-md); border: 2px solid var(--slate-light); margin-bottom: 15px; font-size: 0.95rem; }
+        .search-box:focus { border-color: var(--primary); outline: none; }
+
+        .btn-action { padding: 6px 12px; font-size: 0.8rem; margin-right: 5px; border-radius: var(--radius-sm); cursor: pointer; border: none; font-weight: bold; transition: opacity 0.2s;}
+        .btn-action:hover { opacity: 0.8; }
+        .btn-view { background: var(--primary); color: white; }
+        .btn-edit { background: #f59e0b; color: white; }
+
+        /* Full Details Modal Overlay */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; z-index: 1000; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+        .modal-card { background: white; width: 90%; max-width: 800px; border-radius: var(--radius-lg); padding: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); max-height: 90vh; overflow-y: auto; position: relative;}
+        .modal-close { position: absolute; top: 20px; right: 20px; background: none; border: none; font-size: 1.5rem; color: var(--slate); cursor: pointer; }
+        .modal-header h3 { color: var(--primary-dark); margin-bottom: 5px; font-size: 1.5rem;}
+        .modal-body { margin-top: 20px; }
+        .detail-group { margin-bottom: 15px; }
+        .detail-label { font-weight: 600; color: var(--navy); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px;}
+        .detail-value { font-size: 1rem; color: var(--body-text); background: #f8fafc; padding: 10px; border-radius: var(--radius-sm); margin-top: 4px; min-height: 40px; white-space: pre-wrap;}
+        
         .fee-input-group label { color: #e63946; }
+
+        /* Responsive Dashboard */
+        @media (max-width: 768px) {
+            .dashboard-layout { flex-direction: column; }
+            .sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--slate-light); flex-direction: row; flex-wrap: wrap;}
+            .sidebar-btn { flex: 1; text-align: center; justify-content: center;}
+            .grid-4, .grid-3 { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 
@@ -56,7 +83,7 @@
     </div>
 
     <!-- Login View -->
-    <div class="tracker-container" id="login-view" style="max-width: 500px; margin-top: 100px;">
+    <div class="tracker-container" id="login-view" style="max-width: 500px; margin-top: 100px; min-height: auto;">
         <a href="/" style="position: absolute; top: 20px; left: 20px; color: var(--slate); font-size: 1.2rem;"><i class="fas fa-arrow-left"></i></a>
         <div class="tracker-header">
             <i class="fas fa-user-md"></i>
@@ -79,121 +106,160 @@
 
     <!-- Authenticated Dashboard -->
     <div class="tracker-container hidden" id="dashboard-view">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--slate-light); padding-bottom: 15px;">
             <h2 style="color: var(--navy); margin: 0;"><i class="fas fa-heartbeat" style="color: var(--primary);"></i> Tracker Administration</h2>
             <p style="color: var(--slate); margin: 0; font-size: 0.9rem;"><span data-i18n="tracker.session">Session Active: </span><span id="auth-name" style="font-weight:bold;"></span></p>
         </div>
 
-        <div class="tabs">
-            <button class="tab-btn active" id="tab-view-db" onclick="switchTab('db')"><i class="fas fa-table"></i> Database Explorer</button>
-            <button class="tab-btn" id="tab-add-pt" onclick="switchTab('add')"><i class="fas fa-user-plus"></i> New Data Entry</button>
-        </div>
+        <div class="dashboard-layout">
+            <!-- Sidebar Navigation -->
+            <div class="sidebar">
+                <button class="sidebar-btn active" id="btn-nav-db" onclick="switchNav('db')"><i class="fas fa-table"></i> Patient Database</button>
+                <button class="sidebar-btn" id="btn-nav-add" onclick="switchNav('add')"><i class="fas fa-user-plus"></i> Add New Patient</button>
+            </div>
 
-        <!-- TAB 1: Database Explorer (Excel mimic) -->
-        <div id="view-db-section">
-            <input type="text" id="patient-search" class="search-box" placeholder="Search across all fields globally (Name, Symptoms, City, Notes)...">
-            
-            <div class="data-table-container">
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>Patient ID</th>
-                            <th>Date</th>
-                            <th>Full Name</th>
-                            <th>Age</th>
-                            <th>Gender</th>
-                            <th>Occupation</th>
-                            <th>City</th>
-                            <th>Diagnosis</th>
-                            <th>Treatment Notes</th>
-                            <th>Follow-Up History</th>
-                            <th>Fee 1</th>
-                            <th>Fee 2</th>
-                            <th>Fee 3</th>
-                            <th>Fee 4</th>
-                            <th>Fee 5</th>
-                            <th>Fee 6</th>
-                            <th>Fee 7</th>
-                            <th>Fee 8</th>
-                        </tr>
-                    </thead>
-                    <tbody id="patients-table-body">
-                        <tr><td colspan="18" style="text-align: center; padding: 20px;">Fetching secure database cloud...</td></tr>
-                    </tbody>
-                </table>
+            <!-- Main Content Area -->
+            <div class="main-content">
+                
+                <!-- VIEW DB SCREEN -->
+                <div id="screen-db">
+                    <input type="text" id="patient-search" class="search-box" placeholder="Search by Name, ID, City, or Diagnosis...">
+                    
+                    <div class="data-table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Patient ID</th>
+                                    <th>Full Name</th>
+                                    <th>City</th>
+                                    <th>Diagnosis</th>
+                                    <th style="text-align:center;">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="patients-table-body">
+                                <tr><td colspan="6" style="text-align: center; padding: 20px;">Fetching secure database cloud...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- ADD/EDIT SCREEN -->
+                <div id="screen-add" class="hidden">
+                    <div style="background: rgba(0, 163, 204, 0.05); padding: 25px; border-radius: var(--radius-md); border: 1px solid var(--slate-light);">
+                        <form id="patient-data-form">
+                            <h3 id="form-screen-title" style="color: var(--primary-dark); margin-top:0; margin-bottom: 15px;"><i class="fas fa-user-plus"></i> Register New Patient</h3>
+                            <!-- hidden flag for edit mode -->
+                            <input type="hidden" id="edit-mode-flag" value="false">
+
+                            <h4 style="color: var(--navy); margin-bottom: 15px; border-bottom: 1px solid var(--slate-light); padding-bottom: 10px;">Primary Profile</h4>
+                            <div class="grid-4">
+                                <div class="form-group">
+                                    <label>Patient ID <span style="color:red">*</span></label>
+                                    <input type="text" id="add-id" class="form-control" required placeholder="e.g. 250101">
+                                </div>
+                                <div class="form-group">
+                                    <label>Date (DD/MM/YY)</label>
+                                    <input type="text" id="add-date" class="form-control" placeholder="DD/MM/YY">
+                                </div>
+                                <div class="form-group">
+                                    <label>Patient Full Name <span style="color:red">*</span></label>
+                                    <input type="text" id="add-name" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>City / Location</label>
+                                    <input type="text" id="add-city" class="form-control">
+                                </div>
+                            </div>
+                            
+                            <div class="grid-3">
+                                <div class="form-group">
+                                    <label>Age</label>
+                                    <input type="text" id="add-age" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>Gender (M/F)</label>
+                                    <input type="text" id="add-gender" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>Occupation</label>
+                                    <input type="text" id="add-occup" class="form-control">
+                                </div>
+                            </div>
+
+                            <h4 style="color: var(--navy); margin-top: 15px; margin-bottom: 15px; border-bottom: 1px solid var(--slate-light); padding-bottom: 10px;">Clinical Data</h4>
+                            <div class="form-group">
+                                <label>Clinical Diagnosis / Symptoms <span style="color:red">*</span></label>
+                                <input type="text" id="add-diagnosis" class="form-control" required>
+                            </div>
+                            <div class="grid-2">
+                                <div class="form-group">
+                                    <label>Treatment Notes & Prescriptions</label>
+                                    <textarea id="add-notes" class="form-control" rows="4"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>FollowUp Logging</label>
+                                    <textarea id="add-followup" class="form-control" rows="4"></textarea>
+                                </div>
+                            </div>
+
+                            <h4 style="color: var(--navy); margin-top: 15px; margin-bottom: 15px; border-bottom: 1px solid var(--slate-light); padding-bottom: 10px;">Payment Logs</h4>
+                            <div class="grid-4 fee-input-group">
+                                <div class="form-group"><label>Fee 1 (₹)</label><input type="number" id="add-fee1" class="form-control"></div>
+                                <div class="form-group"><label>Fee 2 (₹)</label><input type="number" id="add-fee2" class="form-control"></div>
+                                <div class="form-group"><label>Fee 3 (₹)</label><input type="number" id="add-fee3" class="form-control"></div>
+                                <div class="form-group"><label>Fee 4 (₹)</label><input type="number" id="add-fee4" class="form-control"></div>
+                                <div class="form-group"><label>Fee 5 (₹)</label><input type="number" id="add-fee5" class="form-control"></div>
+                                <div class="form-group"><label>Fee 6 (₹)</label><input type="number" id="add-fee6" class="form-control"></div>
+                                <div class="form-group"><label>Fee 7 (₹)</label><input type="number" id="add-fee7" class="form-control"></div>
+                                <div class="form-group"><label>Fee 8 (₹)</label><input type="number" id="add-fee8" class="form-control"></div>
+                            </div>
+                            
+                            <p id="save-status" style="display:none; text-align:center; font-weight:bold; margin-top: 20px; margin-bottom:15px; color: green; font-size: 1.1rem;"></p>
+                            <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; font-size: 1.1rem; padding: 15px;" id="btn-save-record">Commit Record to Database</button>
+                        </form>
+                    </div>
+                </div>
+
             </div>
         </div>
+    </div>
 
-        <!-- TAB 2: New Data Entry -->
-        <div id="add-pt-section" class="hidden">
-            <div style="background: rgba(0, 163, 204, 0.05); padding: 25px; border-radius: var(--radius-md); border: 1px dashed var(--primary);">
-                <form id="patient-data-form">
-                    <h4 style="color: var(--navy); margin-bottom: 15px; border-bottom: 1px solid var(--slate-light); padding-bottom: 10px;">Primary Profile</h4>
-                    <div class="grid-4">
-                        <div class="form-group">
-                            <label>Patient ID</label>
-                            <input type="text" id="add-id" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Date (DD/MM/YY)</label>
-                            <input type="text" id="add-date" class="form-control" placeholder="e.g. 15/04/26">
-                        </div>
-                        <div class="form-group">
-                            <label>Patient Full Name</label>
-                            <input type="text" id="add-name" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label>City / Location</label>
-                            <input type="text" id="add-city" class="form-control">
-                        </div>
+    <!-- Patient Details Modal -->
+    <div id="details-modal" class="modal-overlay">
+        <div class="modal-card">
+            <button class="modal-close" onclick="closeDetailsModal()"><i class="fas fa-times"></i></button>
+            <div class="modal-header">
+                <h3 id="modal-name">Patient Name</h3>
+                <p style="color: var(--slate); font-weight: 600;">ID: <span id="modal-id">---</span> | Date: <span id="modal-date">---</span></p>
+            </div>
+            <div class="modal-body">
+                <div class="grid-3" style="margin-bottom: 20px;">
+                    <div class="detail-group"><div class="detail-label">Age/Gender</div><div class="detail-value" id="modal-age-gen"></div></div>
+                    <div class="detail-group"><div class="detail-label">City</div><div class="detail-value" id="modal-city"></div></div>
+                    <div class="detail-group"><div class="detail-label">Occupation</div><div class="detail-value" id="modal-occup"></div></div>
+                </div>
+                
+                <div class="detail-group">
+                    <div class="detail-label">Diagnosis</div>
+                    <div class="detail-value" id="modal-diagnosis" style="font-weight: bold; background: rgba(0, 163, 204, 0.1);"></div>
+                </div>
+                
+                <div class="grid-2">
+                    <div class="detail-group">
+                        <div class="detail-label">Treatment Notes</div>
+                        <div class="detail-value" id="modal-notes" style="min-height: 100px;"></div>
                     </div>
-                    
-                    <div class="grid-3">
-                        <div class="form-group">
-                            <label>Age</label>
-                            <input type="text" id="add-age" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label>Gender (M/F)</label>
-                            <input type="text" id="add-gender" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label>Occupation</label>
-                            <input type="text" id="add-occup" class="form-control">
-                        </div>
+                    <div class="detail-group">
+                        <div class="detail-label">Follow Up History</div>
+                        <div class="detail-value" id="modal-followup" style="min-height: 100px;"></div>
                     </div>
+                </div>
 
-                    <h4 style="color: var(--navy); margin-top: 15px; margin-bottom: 15px; border-bottom: 1px solid var(--slate-light); padding-bottom: 10px;">Clinical Data</h4>
-                    <div class="form-group">
-                        <label>Clinical Diagnosis / Symptoms</label>
-                        <input type="text" id="add-diagnosis" class="form-control" required>
-                    </div>
-                    <div class="grid-2">
-                        <div class="form-group">
-                            <label>Treatment Notes & Prescriptions</label>
-                            <textarea id="add-notes" class="form-control" rows="4"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>FollowUp Logging</label>
-                            <textarea id="add-followup" class="form-control" rows="4"></textarea>
-                        </div>
-                    </div>
-
-                    <h4 style="color: var(--navy); margin-top: 15px; margin-bottom: 15px; border-bottom: 1px solid var(--slate-light); padding-bottom: 10px;">Payment Logs</h4>
-                    <div class="grid-4 fee-input-group">
-                        <div class="form-group"><label>Fee 1 (₹)</label><input type="number" id="add-fee1" class="form-control"></div>
-                        <div class="form-group"><label>Fee 2 (₹)</label><input type="number" id="add-fee2" class="form-control"></div>
-                        <div class="form-group"><label>Fee 3 (₹)</label><input type="number" id="add-fee3" class="form-control"></div>
-                        <div class="form-group"><label>Fee 4 (₹)</label><input type="number" id="add-fee4" class="form-control"></div>
-                        <div class="form-group"><label>Fee 5 (₹)</label><input type="number" id="add-fee5" class="form-control"></div>
-                        <div class="form-group"><label>Fee 6 (₹)</label><input type="number" id="add-fee6" class="form-control"></div>
-                        <div class="form-group"><label>Fee 7 (₹)</label><input type="number" id="add-fee7" class="form-control"></div>
-                        <div class="form-group"><label>Fee 8 (₹)</label><input type="number" id="add-fee8" class="form-control"></div>
-                    </div>
-                    
-                    <p id="save-status" style="display:none; text-align:center; font-weight:bold; margin-top: 20px; margin-bottom:15px; color: green; font-size: 1.1rem;"></p>
-                    <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; font-size: 1.1rem; padding: 15px;" id="btn-save-record">Commit Record to Global Database</button>
-                </form>
+                <div class="detail-group" style="margin-top: 15px;">
+                    <div class="detail-label">Fee History Tracking</div>
+                    <div class="detail-value" style="background: #fdf2f8;" id="modal-fees"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -201,20 +267,36 @@
     <script src="/script.js"></script>
 
     <script>
-        // Tab System
-        function switchTab(tabId) {
-            document.getElementById('tab-view-db').classList.remove('active');
-            document.getElementById('tab-add-pt').classList.remove('active');
-            document.getElementById('view-db-section').classList.add('hidden');
-            document.getElementById('add-pt-section').classList.add('hidden');
+        // Sidebar Navigation
+        function switchNav(screenId) {
+            document.getElementById('btn-nav-db').classList.remove('active');
+            document.getElementById('btn-nav-add').classList.remove('active');
+            document.getElementById('screen-db').classList.add('hidden');
+            document.getElementById('screen-add').classList.add('hidden');
 
-            if(tabId === 'db') {
-                document.getElementById('tab-view-db').classList.add('active');
-                document.getElementById('view-db-section').classList.remove('hidden');
+            if(screenId === 'db') {
+                document.getElementById('btn-nav-db').classList.add('active');
+                document.getElementById('screen-db').classList.remove('hidden');
+                fetchPatientData(); // Refresh list just in case
             } else {
-                document.getElementById('tab-add-pt').classList.add('active');
-                document.getElementById('add-pt-section').classList.remove('hidden');
+                document.getElementById('btn-nav-add').classList.add('active');
+                document.getElementById('screen-add').classList.remove('hidden');
+                
+                // If we are clicking 'Add New' from sidebar, reset the form.
+                // But only if we weren't programmatically pushed here by "Edit" (we handle edit elsewhere)
+                if(event && event.type === 'click') {
+                    resetFormForAdd();
+                }
             }
+        }
+
+        // Add/Edit Form State
+        function resetFormForAdd() {
+            document.getElementById('patient-data-form').reset();
+            document.getElementById('edit-mode-flag').value = 'false';
+            document.getElementById('form-screen-title').innerHTML = '<i class="fas fa-user-plus"></i> Register New Patient';
+            document.getElementById('btn-save-record').innerText = 'Commit Record to Database';
+            document.getElementById('add-id').readOnly = false;
         }
 
         // Auth Logic
@@ -251,12 +333,14 @@
             }
         });
 
-        // Global Sync logic
+        // Global Sync logic (Add & Edit)
         document.getElementById('patient-data-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             
             const btn = document.getElementById('btn-save-record');
             const statusLabel = document.getElementById('save-status');
+            const isEdit = document.getElementById('edit-mode-flag').value === 'true';
+            
             btn.innerText = "Transmitting to Cloud...";
             
             const pdata = {
@@ -280,8 +364,10 @@
                 fees8: document.getElementById('add-fee8').value
             };
             
+            const endpoint = isEdit ? '/api/edit-patient' : '/api/add-patient';
+
             try {
-                const res = await fetch('/api/add-patient', {
+                const res = await fetch(endpoint, {
                     method: 'POST',
                     headers: { 
                         'Content-Type': 'application/json',
@@ -292,25 +378,30 @@
                 
                 if(res.ok) {
                     statusLabel.style.color = "green";
-                    statusLabel.innerText = "Successfully logged to cloud database!";
+                    statusLabel.innerText = isEdit ? "Success: Record Updated." : "Success: Logged to database.";
                     statusLabel.style.display = "block";
-                    btn.innerText = "Commit Record to Global Database";
-                    document.getElementById('patient-data-form').reset();
+                    btn.innerText = isEdit ? "Update Patient Record" : "Commit Record to Database";
                     
-                    fetchPatientData(); // Pre-fetch for the view tab
-                    setTimeout(() => statusLabel.style.display="none", 4000);
+                    if(!isEdit) document.getElementById('patient-data-form').reset();
+                    
+                    setTimeout(() => {
+                        statusLabel.style.display="none";
+                        if(isEdit) {
+                            switchNav('db'); // Auto return to DB view after edit
+                        }
+                    }, 2000);
                 } else {
                     const data = await res.json();
                     statusLabel.style.color = "red";
                     statusLabel.innerText = data.error || "Failed to save.";
                     statusLabel.style.display = "block";
-                    btn.innerText = "Commit Record to Global Database";
+                    btn.innerText = isEdit ? "Update Patient Record" : "Commit Record to Database";
                 }
             } catch(err) {
                 statusLabel.style.color = "red";
                 statusLabel.innerText = "Network transmission failed!";
                 statusLabel.style.display = "block";
-                btn.innerText = "Commit Record to Global Database";
+                btn.innerText = isEdit ? "Update Patient Record" : "Commit Record to Database";
             }
         });
 
@@ -319,6 +410,7 @@
 
         async function fetchPatientData() {
             const token = sessionStorage.getItem('trackerAuth');
+            if(!token) return;
             try {
                 const res = await fetch('/api/patients-data', {
                     headers: { 'Authorization': `Bearer ${token}` }
@@ -328,47 +420,109 @@
                     memoryPatients = data.reverse(); 
                     renderTable(memoryPatients);
                 } else {
-                    document.getElementById('patients-table-body').innerHTML = '<tr><td colspan="18" style="color:red; text-align: center;">Error validating token.</td></tr>';
+                    document.getElementById('patients-table-body').innerHTML = '<tr><td colspan="6" style="color:red; text-align: center;">Error validating token.</td></tr>';
                 }
             } catch (err) {
                 console.error(err);
-                document.getElementById('patients-table-body').innerHTML = '<tr><td colspan="18" style="color:red; text-align: center;">Connection lost to secure server.</td></tr>';
+                document.getElementById('patients-table-body').innerHTML = '<tr><td colspan="6" style="color:red; text-align: center;">Connection lost to secure server.</td></tr>';
             }
         }
 
+        // Render Simplified Table
         function renderTable(dataArray) {
             const tbody = document.getElementById('patients-table-body');
             tbody.innerHTML = '';
             
             if(dataArray.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="18" style="text-align: center;">No patient records found in network.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center;">No patient records found.</td></tr>';
                 return;
             }
 
-            dataArray.forEach((p) => {
+            dataArray.forEach((p, idx) => {
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
-                    <td style="font-weight: 600;">${p['Patient ID'] || ''}</td>
                     <td>${p['Date'] || ''}</td>
+                    <td style="font-weight: 600; color: var(--navy);">${p['Patient ID'] || ''}</td>
                     <td style="font-weight: 700; color: var(--primary-dark);">${p['Patient Name'] || ''}</td>
-                    <td>${p['Age'] || ''}</td>
-                    <td>${p['Gender'] || ''}</td>
-                    <td>${p['Occupation'] || ''}</td>
-                    <td style="white-space: nowrap;">${p['City'] || ''}</td>
-                    <td style="font-weight: 600; color: #000;">${p['Diagnosis'] || ''}</td>
-                    <td style="min-width: 250px;">${p['Treatment Notes'] || ''}</td>
-                    <td style="min-width: 250px;">${p['FollowUp Notes'] || ''}</td>
-                    <td>${p['Fees1'] || ''}</td>
-                    <td>${p['Fees2'] || ''}</td>
-                    <td>${p['Fees3'] || ''}</td>
-                    <td>${p['Fees4'] || ''}</td>
-                    <td>${p['Fees5'] || ''}</td>
-                    <td>${p['Fees6'] || ''}</td>
-                    <td>${p['Fees7'] || ''}</td>
-                    <td>${p['Fees8'] || ''}</td>
+                    <td>${p['City'] || ''}</td>
+                    <td>${p['Diagnosis'] || ''}</td>
+                    <td style="text-align:center; white-space:nowrap;">
+                        <button class="btn-action btn-view" onclick="openDetailsModal(${idx})" title="View Details"><i class="fas fa-eye"></i></button>
+                        <button class="btn-action btn-edit" onclick="triggerEditWorkflow(${idx})" title="Edit Patient"><i class="fas fa-edit"></i></button>
+                    </td>
                 `;
                 tbody.appendChild(tr);
             });
+        }
+
+        // Read Full Details Modal
+        function openDetailsModal(idx) {
+            const p = memoryPatients[idx];
+            if(!p) return;
+
+            document.getElementById('modal-name').innerText = p['Patient Name'] || 'Unknown';
+            document.getElementById('modal-id').innerText = p['Patient ID'] || '-';
+            document.getElementById('modal-date').innerText = p['Date'] || '-';
+            
+            const ageGen = [p['Age'], p['Gender']].filter(Boolean).join(' / ') || 'N/A';
+            document.getElementById('modal-age-gen').innerText = ageGen;
+            document.getElementById('modal-city').innerText = p['City'] || 'N/A';
+            document.getElementById('modal-occup').innerText = p['Occupation'] || 'N/A';
+            
+            document.getElementById('modal-diagnosis').innerText = p['Diagnosis'] || 'N/A';
+            document.getElementById('modal-notes').innerText = p['Treatment Notes'] || 'None';
+            document.getElementById('modal-followup').innerText = p['FollowUp Notes'] || 'None';
+            
+            // Format fees nicely
+            const feeKeys = ['Fees1', 'Fees2', 'Fees3', 'Fees4', 'Fees5', 'Fees6', 'Fees7', 'Fees8'];
+            let feeString = [];
+            feeKeys.forEach((fk, i) => {
+                if(p[fk]) feeString.push(`Fee ${i+1}: ₹${p[fk]}`);
+            });
+            document.getElementById('modal-fees').innerText = feeString.length > 0 ? feeString.join(' | ') : 'No fees logged.';
+
+            document.getElementById('details-modal').classList.add('active');
+        }
+
+        function closeDetailsModal() {
+            document.getElementById('details-modal').classList.remove('active');
+        }
+
+        // Edit Workflow logic
+        function triggerEditWorkflow(idx) {
+            const p = memoryPatients[idx];
+            if(!p) return;
+
+            // Switch view
+            switchNav('add');
+            
+            // Set State Context
+            document.getElementById('edit-mode-flag').value = 'true';
+            document.getElementById('form-screen-title').innerHTML = '<i class="fas fa-user-edit"></i> Edit Patient Record';
+            document.getElementById('btn-save-record').innerText = 'Update Patient Record';
+            
+            // Populate form
+            document.getElementById('add-id').value = p['Patient ID'] || '';
+            document.getElementById('add-id').readOnly = true; // Prevent changing ID since we use it as pk
+            
+            document.getElementById('add-date').value = p['Date'] || '';
+            document.getElementById('add-name').value = p['Patient Name'] || '';
+            document.getElementById('add-age').value = p['Age'] || '';
+            document.getElementById('add-gender').value = p['Gender'] || '';
+            document.getElementById('add-occup').value = p['Occupation'] || '';
+            document.getElementById('add-city').value = p['City'] || '';
+            document.getElementById('add-diagnosis').value = p['Diagnosis'] || '';
+            document.getElementById('add-notes').value = p['Treatment Notes'] || '';
+            document.getElementById('add-followup').value = p['FollowUp Notes'] || '';
+            
+            document.getElementById('add-fee1').value = p['Fees1'] || '';
+            document.getElementById('add-fee2').value = p['Fees2'] || '';
+            document.getElementById('add-fee3').value = p['Fees3'] || '';
+            document.getElementById('add-fee4').value = p['Fees4'] || '';
+            document.getElementById('add-fee5').value = p['Fees5'] || '';
+            document.getElementById('add-fee6').value = p['Fees6'] || '';
+            document.getElementById('add-fee7').value = p['Fees7'] || '';
+            document.getElementById('add-fee8').value = p['Fees8'] || '';
         }
 
         // Search engine
