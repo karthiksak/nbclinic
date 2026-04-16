@@ -126,6 +126,7 @@
             <div class="sidebar">
                 <button class="sidebar-btn active" id="btn-nav-db" onclick="switchNav('db')"><i class="fas fa-table"></i> Patient Database</button>
                 <button class="sidebar-btn" id="btn-nav-add" onclick="switchNav('add')"><i class="fas fa-user-plus"></i> Add New Patient</button>
+                <button class="sidebar-btn" id="btn-nav-analytics" onclick="switchNav('analytics')"><i class="fas fa-chart-line"></i> Analytics Dashboard</button>
             </div>
 
             <!-- Main Content Area -->
@@ -231,6 +232,34 @@
                     </div>
                 </div>
 
+                <!-- ANALYTICS SCREEN -->
+                <div id="screen-analytics" class="hidden">
+                    <div style="background: rgba(0, 163, 204, 0.05); padding: 30px; border-radius: var(--radius-md); border: 1px solid var(--slate-light); text-align: center;">
+                        <i class="fas fa-chart-pie" style="font-size: 3rem; color: var(--primary); margin-bottom: 15px;"></i>
+                        <h3 style="color: var(--primary-dark); margin-top:0; margin-bottom: 10px;">Website Analytics & Metrics</h3>
+                        <p style="color: var(--slate); font-size: 1.05rem; max-width: 600px; margin: 0 auto 25px;">
+                            Your website is currently configured to log visitor statistics via Google Analytics. For security reasons, Google Analytics data must be viewed directly through the Google portal.
+                        </p>
+                        
+                        <div style="background: white; border: 1px solid var(--slate-light); padding: 20px; border-radius: var(--radius-sm); display: inline-block; text-align: left; margin-bottom: 30px;">
+                            <p style="margin: 0 0 5px; font-weight: 600; color: var(--navy);"><i class="fas fa-tag"></i> Active Tracking ID</p>
+                            <p style="margin: 0; font-family: monospace; font-size: 1.2rem; color: var(--primary-dark);">G-KH547591DF</p>
+                        </div>
+                        
+                        <br>
+                        
+                        <a href="https://analytics.google.com/" target="_blank" rel="noopener" class="btn btn-primary" style="font-size: 1.1rem; padding: 12px 25px;">
+                            <i class="fas fa-external-link-alt"></i> Open Google Analytics Dashboard
+                        </a>
+                        
+                        <div style="margin-top: 40px; border-top: 1px dashed var(--slate-light); padding-top: 30px;">
+                            <p style="color: var(--slate); font-size: 0.9rem; max-width: 600px; margin: 0 auto;">
+                                <strong>Want inline charts here?</strong> You can create a free <a href="https://lookerstudio.google.com/" target="_blank" style="color: var(--primary);">Google Looker Studio</a> report connected to your Analytics property, generate an embed link, and paste the iframe code here.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
@@ -279,16 +308,21 @@
     <script>
         // Sidebar Navigation
         function switchNav(screenId) {
+            // Remove active status from all buttons
             document.getElementById('btn-nav-db').classList.remove('active');
             document.getElementById('btn-nav-add').classList.remove('active');
+            document.getElementById('btn-nav-analytics').classList.remove('active');
+            
+            // Hide all screens
             document.getElementById('screen-db').classList.add('hidden');
             document.getElementById('screen-add').classList.add('hidden');
+            document.getElementById('screen-analytics').classList.add('hidden');
 
             if(screenId === 'db') {
                 document.getElementById('btn-nav-db').classList.add('active');
                 document.getElementById('screen-db').classList.remove('hidden');
                 fetchPatientData(); // Refresh list just in case
-            } else {
+            } else if(screenId === 'add') {
                 document.getElementById('btn-nav-add').classList.add('active');
                 document.getElementById('screen-add').classList.remove('hidden');
                 
@@ -297,6 +331,9 @@
                 if(event && event.type === 'click') {
                     resetFormForAdd();
                 }
+            } else if(screenId === 'analytics') {
+                document.getElementById('btn-nav-analytics').classList.add('active');
+                document.getElementById('screen-analytics').classList.remove('hidden');
             }
         }
 
