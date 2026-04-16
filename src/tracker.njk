@@ -50,6 +50,7 @@
         .btn-action:hover { opacity: 0.8; }
         .btn-view { background: var(--primary); color: white; }
         .btn-edit { background: #f59e0b; color: white; }
+        .btn-delete { background: #dc2626; color: white; }
 
         /* Full Details Modal Overlay */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; z-index: 1000; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
@@ -496,6 +497,7 @@
                     <td style="text-align:center; white-space:nowrap;">
                         <button class="btn-action btn-view" onclick="openDetailsModal(${idx})" title="View Details"><i class="fas fa-eye"></i></button>
                         <button class="btn-action btn-edit" onclick="triggerEditWorkflow(${idx})" title="Edit Patient"><i class="fas fa-edit"></i></button>
+                        <button class="btn-action btn-delete" onclick="triggerDeleteWorkflow(${idx})" title="Delete Patient"><i class="fas fa-trash"></i></button>
                     </td>
                 `;
                 tbody.appendChild(tr);
@@ -570,6 +572,41 @@
             document.getElementById('add-fee6').value = p['Fees6'] || '';
             document.getElementById('add-fee7').value = p['Fees7'] || '';
             document.getElementById('add-fee8').value = p['Fees8'] || '';
+        }
+
+        // Delete Workflow logic
+        async function triggerDeleteWorkflow(idx) {
+            const p = memoryPatients[idx];
+            if(!p) return;
+
+            const confirmMsg = `Are you sure you want to PERMANENTLY delete patient record "${p['Patient Name']}"? 
+This action cannot be undone on the cloud database.`;
+            
+            if(!confirm(confirmMsg)) return;
+
+            const token = sessionStorage.getItem('trackerAuth');
+            try {
+                // Show temporary overlay or disable table
+                const res = await fetch('/api/delete-patient', {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ id: p['Patient ID'], name: p['Patient Name'] })
+                });
+
+                if(res.ok) {
+                    alert("Patient record deleted successfully from the cloud.");
+                    fetchPatientData(); // Refresh table
+                } else {
+                    const data = await res.json();
+                    alert("Delete Failed: " + (data.error || "Server issue."));
+                }
+            } catch(err) {
+                console.error(err);
+                alert("Network communication failure for deletion command.");
+            }
         }
 
         // Search engine
