@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Secure Patient Tracker - Noble Homoeopathy</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { background: var(--gradient-hero); min-height: 100vh; display: flex; align-items: flex-start; justify-content: center; padding: 40px 0; overflow-y: auto;}
+        
+        .tracker-container { width: 98%; max-width: 1400px; background: var(--white); border-radius: var(--radius-xl); padding: 30px; box-shadow: var(--shadow-xl); position: relative; overflow: hidden; margin-top:20px; min-height: 80vh; transition: all 0.3s ease;}
+        
+        .hidden { display: none !important; }
+        .tracker-header { text-align: center; margin-bottom: 20px; }
+        .tracker-header i { font-size: 2.5rem; color: var(--primary); margin-bottom: 10px; }
+        
+        /* Forms */
+        .form-group { margin-bottom: 15px; text-align: left; }
+        .form-group label { display: block; margin-bottom: 6px; font-weight: 600; color: var(--navy); font-size: 0.85rem;}
+        .form-control { width: 100%; padding: 12px 14px; border: 1px solid var(--slate-light); border-radius: var(--radius-md); font-family: inherit; font-size: 0.95rem; transition: border-color 0.2s;}
+        .form-control:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px rgba(0, 163, 204, 0.1); }
+        .form-control:read-only { background: var(--lighter); cursor: not-allowed; }
+        
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; }
+        .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 15px; }
+
+        /* Dashboard Layout */
+        .dashboard-layout { display: flex; gap: 20px; height: 100%; min-height: 70vh; margin-top: 15px;}
+        .sidebar { width: 240px; flex-shrink: 0; background: #f8fafc; border-right: 1px solid var(--slate-light); padding: 20px 15px; border-radius: var(--radius-md); display: flex; flex-direction: column; gap: 10px;}
+        .main-content { flex-grow: 1; overflow-y: auto; padding: 10px 0;}
+
+        .sidebar-btn { background: transparent; border: none; font-size: 1rem; font-weight: 600; color: var(--slate); padding: 12px 15px; cursor: pointer; border-radius: var(--radius-md); text-align: left; transition: all 0.2s; display: flex; align-items: center; gap: 12px;}
+        .sidebar-btn:hover { background: rgba(0, 163, 204, 0.1); color: var(--navy); }
+        .sidebar-btn.active { background: var(--primary); color: white; box-shadow: var(--shadow-md); }
+
+        /* Filter Controls */
+        .controls-bar { background: #f8fafc; padding: 20px; border-radius: var(--radius-lg); margin-bottom: 25px; display: flex; flex-wrap: wrap; gap: 15px; border: 1px solid var(--slate-light); box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);}
+        .filter-item { flex: 1; min-width: 200px; }
+        .filter-item label { font-size: 0.75rem; color: var(--slate); font-weight: 700; text-transform: uppercase; margin-bottom: 6px; display: block; letter-spacing: 0.5px;}
+
+        /* Data Table */
+        .data-table-container { margin-top: 10px; overflow: auto; border: 1px solid var(--slate-light); border-radius: var(--radius-md); }
+        .data-table { width: 100%; border-collapse: collapse; font-size: 0.95rem; min-width: 800px; }
+        .data-table th, .data-table td { padding: 16px 15px; text-align: left; border-bottom: 1px solid var(--slate-light); }
+        .data-table th { background: #f8fafc; font-weight: 700; color: var(--navy); cursor: pointer; user-select: none; position: relative; transition: background 0.2s; white-space: nowrap;}
+        .data-table th:hover { background: #e2e8f0; }
+        .data-table th i { margin-left: 8px; font-size: 0.8rem; color: var(--slate); }
+        .data-table th.active-sort { color: var(--primary); }
+        .data-table th.active-sort i { color: var(--primary); }
+        .data-table tbody tr:hover { background: rgba(0, 163, 204, 0.03); }
+        
+        .btn-action { width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.9rem; margin-right: 5px; border-radius: var(--radius-md); cursor: pointer; border: none; transition: all 0.2s; color: white;}
+        .btn-view { background: var(--primary); }
+        .btn-edit { background: #f59e0b; }
+        .btn-delete { background: #dc2626; }
+        .btn-action:hover { transform: translateY(-2px); box-shadow: var(--shadow-sm); filter: brightness(1.1); }
+
+        /* Mobile Cards (Hidden by default) */
+        .cards-view { display: none; grid-template-columns: 1fr; gap: 15px; margin-top: 10px; }
+        .patient-card { background: white; border: 1px solid var(--slate-light); padding: 18px; border-radius: var(--radius-lg); position: relative; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border-left: 5px solid var(--primary); transition: transform 0.2s ease;}
+        .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+        .card-id { font-size: 0.75rem; font-weight: 800; color: var(--primary-dark); background: rgba(0, 163, 204, 0.1); padding: 4px 10px; border-radius: var(--radius-sm); }
+        .card-date { font-size: 0.8rem; color: var(--slate); font-weight: 600; }
+        .card-name { font-size: 1.25rem; font-weight: 800; color: var(--navy); margin-bottom: 6px; display: block; }
+        .card-diagnosis { font-size: 0.95rem; color: var(--body-text); margin-bottom: 12px; line-height: 1.4; font-weight: 500;}
+        .card-meta { display: flex; gap: 15px; font-size: 0.85rem; color: var(--slate); margin-bottom: 15px; }
+        .card-meta span i { color: var(--primary); margin-right: 5px; }
+        .card-actions { display: flex; gap: 10px; border-top: 1px solid #f1f5f9; padding-top: 15px; }
+        .card-actions .btn-action { flex: 1; height: 48px; font-size: 1.1rem; border-radius: var(--radius-lg); }
+
+        /* Details Modal */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); display: flex; justify-content: center; align-items: center; z-index: 2000; opacity: 0; pointer-events: none; transition: opacity 0.3s; padding: 20px;}
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+        .modal-card { background: white; width: 100%; max-width: 850px; border-radius: var(--radius-xl); padding: 35px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.3); max-height: 90vh; overflow-y: auto; position: relative; border-top: 8px solid var(--primary);}
+        .modal-close { position: absolute; top: 25px; right: 25px; width: 44px; height: 44px; background: #f1f5f9; border: none; font-size: 1.4rem; color: var(--slate); border-radius: 50%; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center;}
+        .modal-close:hover { background: #fee2e2; color: #dc2626; transform: rotate(90deg); }
+        .modal-header h3 { color: var(--primary-dark); margin: 0; font-size: 2rem; margin-bottom: 8px;}
+        
+        .detail-group { margin-bottom: 20px; }
+        .detail-label { font-weight: 800; color: var(--slate); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; display: block;}
+        .detail-value { font-size: 1.05rem; color: var(--navy); background: #f8fafc; padding: 14px; border-radius: var(--radius-lg); border: 1px solid #f1f5f9; line-height: 1.6; min-height: 52px; white-space: pre-wrap; box-shadow: inset 0 1px 2px rgba(0,0,0,0.02);}
+        
+        .fee-input-group label { color: #e11d48; font-weight: 700; }
+
+        /* PERFECT MOBILE ADAPTATION */
+        @media (max-width: 992px) {
+            .dashboard-layout { flex-direction: column; }
+            .sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--slate-light); flex-direction: row; flex-wrap: nowrap; overflow-x: auto; padding: 12px; background: white; position: sticky; top: -30px; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.05);}
+            .sidebar::-webkit-scrollbar { display: none; }
+            .sidebar-btn { white-space: nowrap; font-size: 0.95rem; padding: 12px 18px; flex-shrink: 0; }
+            .tracker-container { padding: 15px; border-radius: 0; width: 100%; margin-top: 0; box-shadow: none;}
+            body { padding: 0; align-items: flex-start; }
+            
+            .data-table-container { display: none; }
+            .cards-view { display: grid; }
+            
+            .grid-4, .grid-3 { grid-template-columns: 1fr; gap: 15px; }
+            .controls-bar { padding: 15px; gap: 10px; }
+            .filter-item { min-width: 100%; }
+        }
+
+        /* Stats Dashboard Styling */
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .stat-card { background: white; padding: 25px; border-radius: var(--radius-lg); border: 1px solid var(--slate-light); display: flex; align-items: center; gap: 20px; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);}
+        .stat-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); border-color: var(--primary); }
+        .stat-icon { width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; flex-shrink: 0; }
+        .stat-info h4 { margin: 0; font-size: 0.85rem; color: var(--slate); text-transform: uppercase; letter-spacing: 1px; }
+        .stat-info .stat-value { font-size: 1.75rem; font-weight: 800; color: var(--primary-dark); margin: 5px 0 0; }
+        
+        .stats-row { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-top: 10px; }
+        .chart-box { background: white; padding: 25px; border-radius: var(--radius-lg); border: 1px solid var(--slate-light); }
+        .chart-box h3 { margin-top: 0; margin-bottom: 20px; font-size: 1.1rem; color: var(--navy); border-bottom: 2px solid #f1f5f9; padding-bottom: 10px; }
+        
+        .progress-bar-container { margin-bottom: 15px; }
+        .progress-info { display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 0.9rem; font-weight: 600; }
+        .progress-bar-bg { background: #f1f5f9; height: 10px; border-radius: 5px; overflow: hidden; }
+        .progress-bar-fill { height: 100%; background: var(--primary); transition: width 0.6s ease; }
+
+        @media (max-width: 768px) {
+            .stats-row { grid-template-columns: 1fr; }
+        }
+    </style>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KH547591DF"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-KH547591DF');
+    </script>
+</head>
+
+<body>
+
+    <div class="lang-switcher" style="position: absolute; top: 15px; right: 20px; z-index: 10;">
+        <button class="lang-btn active" id="lang-en" data-lang="en" onclick="switchLanguage('en')">EN</button>
+        <button class="lang-btn" id="lang-ta" data-lang="ta" onclick="switchLanguage('ta')">தமிழ்</button>
+        <button class="lang-btn" id="lang-hi" data-lang="hi" onclick="switchLanguage('hi')">हिंदी</button>
+    </div>
+
+    <!-- Login View -->
+    <div class="tracker-container" id="login-view" style="max-width: 500px; margin-top: 100px; min-height: auto;">
+        <a href="/" style="position: absolute; top: 20px; left: 20px; color: var(--slate); font-size: 1.2rem;"><i class="fas fa-arrow-left"></i></a>
+        <div class="tracker-header">
+            <i class="fas fa-user-md"></i>
+            <h2 data-i18n="tracker.loginTitle">Secure Portal</h2>
+            <p style="color: var(--slate);" data-i18n="tracker.loginDesc">Restricted Access - Enter Credentials</p>
+        </div>
+        <form id="tracker-login-form">
+            <div class="form-group">
+                <label data-i18n="tracker.userid">User ID</label>
+                <input type="text" id="userid" class="form-control" required placeholder="Authorized User ID">
+            </div>
+            <div class="form-group">
+                <label data-i18n="tracker.password">Password</label>
+                <input type="password" id="password" class="form-control" required placeholder="Secure Password">
+            </div>
+            <p id="login-error" style="color: red; display: none; margin-bottom: 15px; text-align: center; font-weight: bold;" data-i18n="tracker.invalid">Invalid Credentials</p>
+            <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;" data-i18n="tracker.authBtn">Authenticate</button>
+        </form>
+    </div>
+
+    <!-- Authenticated Dashboard -->
+    <div class="tracker-container hidden" id="dashboard-view">
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--slate-light); padding-bottom: 15px;">
+            <h2 style="color: var(--navy); margin: 0;"><i class="fas fa-heartbeat" style="color: var(--primary);"></i> Tracker Administration</h2>
+            <p style="color: var(--slate); margin: 0; font-size: 0.9rem;"><span data-i18n="tracker.session">Session Active: </span><span id="auth-name" style="font-weight:bold;"></span></p>
+        </div>
+
+        <div class="dashboard-layout">
+            <!-- Sidebar Navigation -->
+            <div class="sidebar">
+                <button class="sidebar-btn active" id="btn-nav-db" onclick="switchNav('db')"><i class="fas fa-table"></i> Patient Database</button>
+                <button class="sidebar-btn" id="btn-nav-add" onclick="switchNav('add')"><i class="fas fa-user-plus"></i> New Patient</button>
+                <button class="sidebar-btn" id="btn-nav-stats" onclick="switchNav('stats')"><i class="fas fa-chart-bar"></i> Clinical Statistics</button>
+                <button class="sidebar-btn" id="btn-nav-analytics" onclick="switchNav('analytics')"><i class="fas fa-chart-line"></i> Analytics Profile</button>
+            </div>
+
+            <!-- Main Content Area -->
+            <div class="main-content">
+                
+                <!-- VIEW DB SCREEN -->
+                <div id="screen-db">
+                    <div class="controls-bar">
+                        <div class="filter-item" style="flex: 2;">
+                            <label>Adaptive Search</label>
+                            <input type="text" id="patient-search" class="form-control" placeholder="Search Patient Name, ID, or Diagnosis...">
+                        </div>
+                        <div class="filter-item">
+                            <label>Filter by City</label>
+                            <select id="city-filter" class="form-control" onchange="applyFiltersAndSort()">
+                                <option value="all">All Locations</option>
+                            </select>
+                        </div>
+                        <div class="filter-item">
+                            <label>Gender</label>
+                            <select id="gender-filter" class="form-control" onchange="applyFiltersAndSort()">
+                                <option value="all">All Genders</option>
+                                <option value="M">Male</option>
+                                <option value="F">Female</option>
+                            </select>
+                        </div>
+                        <div class="filter-item" style="flex: 0; min-width: auto; align-self: flex-end;">
+                            <button class="btn btn-secondary" onclick="resetFilters()" title="Reset Filters" style="height: 48px; width: 48px; padding: 0; display: flex; align-items: center; justify-content: center; background: white; border: 1px solid var(--slate-light); color: var(--slate);">
+                                <i class="fas fa-sync-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="data-table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th id="th-date" onclick="handleSort('Date')">Date <i class="fas fa-sort"></i></th>
+                                    <th id="th-id" onclick="handleSort('Patient ID')">Patient ID <i class="fas fa-sort"></i></th>
+                                    <th id="th-name" onclick="handleSort('Patient Name')">Full Name <i class="fas fa-sort"></i></th>
+                                    <th id="th-city" onclick="handleSort('City')">City <i class="fas fa-sort"></i></th>
+                                    <th>Diagnosis</th>
+                                    <th style="text-align:center;">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="patients-table-body">
+                                <tr><td colspan="6" style="text-align: center; padding: 30px;">Connecting to secure clinical database...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Card View for Mobile -->
+                    <div class="cards-view" id="patients-cards-view">
+                        <!-- Cards injected by JS -->
+                    </div>
+                </div>
+
+                <!-- ADD/EDIT SCREEN -->
+                <div id="screen-add" class="hidden">
+                    <div style="background: rgba(0, 163, 204, 0.05); padding: 25px; border-radius: var(--radius-md); border: 1px solid var(--slate-light);">
+                        <form id="patient-data-form">
+                            <h3 id="form-screen-title" style="color: var(--primary-dark); margin-top:0; margin-bottom: 15px;"><i class="fas fa-user-plus"></i> Register New Patient</h3>
+                            <!-- hidden flag for edit mode -->
+                            <input type="hidden" id="edit-mode-flag" value="false">
+
+                            <h4 style="color: var(--navy); margin-bottom: 15px; border-bottom: 1px solid var(--slate-light); padding-bottom: 10px;">Primary Profile</h4>
+                            <div class="grid-4">
+                                <div class="form-group">
+                                    <label>Patient ID <span style="color:red">*</span></label>
+                                    <input type="text" id="add-id" class="form-control" required placeholder="e.g. 250101">
+                                </div>
+                                <div class="form-group">
+                                    <label>Date (DD/MM/YY)</label>
+                                    <input type="text" id="add-date" class="form-control" placeholder="DD/MM/YY">
+                                </div>
+                                <div class="form-group">
+                                    <label>Patient Full Name <span style="color:red">*</span></label>
+                                    <input type="text" id="add-name" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>City / Location</label>
+                                    <input type="text" id="add-city" class="form-control">
+                                </div>
+                            </div>
+                            
+                            <div class="grid-3">
+                                <div class="form-group">
+                                    <label>Age</label>
+                                    <input type="text" id="add-age" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>Gender (M/F)</label>
+                                    <input type="text" id="add-gender" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>Occupation</label>
+                                    <input type="text" id="add-occup" class="form-control">
+                                </div>
+                            </div>
+
+                            <h4 style="color: var(--navy); margin-top: 15px; margin-bottom: 15px; border-bottom: 1px solid var(--slate-light); padding-bottom: 10px;">Clinical Data</h4>
+                            <div class="form-group">
+                                <label>Clinical Diagnosis / Symptoms <span style="color:red">*</span></label>
+                                <input type="text" id="add-diagnosis" class="form-control" required>
+                            </div>
+                            <div class="grid-2">
+                                <div class="form-group">
+                                    <label>Treatment Notes & Prescriptions</label>
+                                    <textarea id="add-notes" class="form-control" rows="4"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>FollowUp Logging</label>
+                                    <textarea id="add-followup" class="form-control" rows="4"></textarea>
+                                </div>
+                            </div>
+
+                            <h4 style="color: var(--navy); margin-top: 15px; margin-bottom: 15px; border-bottom: 1px solid var(--slate-light); padding-bottom: 10px;">Payment Logs</h4>
+                            <div class="grid-4 fee-input-group">
+                                <div class="form-group"><label>Fee 1 (₹)</label><input type="number" id="add-fee1" class="form-control"></div>
+                                <div class="form-group"><label>Fee 2 (₹)</label><input type="number" id="add-fee2" class="form-control"></div>
+                                <div class="form-group"><label>Fee 3 (₹)</label><input type="number" id="add-fee3" class="form-control"></div>
+                                <div class="form-group"><label>Fee 4 (₹)</label><input type="number" id="add-fee4" class="form-control"></div>
+                                <div class="form-group"><label>Fee 5 (₹)</label><input type="number" id="add-fee5" class="form-control"></div>
+                                <div class="form-group"><label>Fee 6 (₹)</label><input type="number" id="add-fee6" class="form-control"></div>
+                                <div class="form-group"><label>Fee 7 (₹)</label><input type="number" id="add-fee7" class="form-control"></div>
+                                <div class="form-group"><label>Fee 8 (₹)</label><input type="number" id="add-fee8" class="form-control"></div>
+                            </div>
+                            
+                            <p id="save-status" style="display:none; text-align:center; font-weight:bold; margin-top: 20px; margin-bottom:15px; color: green; font-size: 1.1rem;"></p>
+                            <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; font-size: 1.1rem; padding: 15px;" id="btn-save-record">Commit Record to Database</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- ANALYTICS SCREEN -->
+                <div id="screen-analytics" class="hidden">
+                    <div style="background: rgba(0, 163, 204, 0.05); padding: 30px; border-radius: var(--radius-md); border: 1px solid var(--slate-light); text-align: center;">
+                        <i class="fas fa-chart-pie" style="font-size: 3rem; color: var(--primary); margin-bottom: 15px;"></i>
+                        <h3 style="color: var(--primary-dark); margin-top:0; margin-bottom: 10px;">Website Analytics & Metrics</h3>
+                        <p style="color: var(--slate); font-size: 1.05rem; max-width: 600px; margin: 0 auto 25px;">
+                            Your website is currently configured to log visitor statistics via Google Analytics. For security reasons, Google Analytics data must be viewed directly through the Google portal.
+                        </p>
+                        
+                        <div style="background: white; border: 1px solid var(--slate-light); padding: 20px; border-radius: var(--radius-sm); display: inline-block; text-align: left; margin-bottom: 30px;">
+                            <p style="margin: 0 0 5px; font-weight: 600; color: var(--navy);"><i class="fas fa-tag"></i> Active Tracking ID</p>
+                            <p style="margin: 0; font-family: monospace; font-size: 1.2rem; color: var(--primary-dark);">G-KH547591DF</p>
+                        </div>
+                        
+                        <br>
+                        
+                        <a href="https://analytics.google.com/" target="_blank" rel="noopener" class="btn btn-primary" style="font-size: 1.1rem; padding: 12px 25px;">
+                            <i class="fas fa-external-link-alt"></i> Open Google Analytics Dashboard
+                        </a>
+                        
+                        <div style="margin-top: 40px; border-top: 1px dashed var(--slate-light); padding-top: 30px;">
+                            <p style="color: var(--slate); font-size: 0.9rem; max-width: 600px; margin: 0 auto;">
+                                <strong>Want inline charts here?</strong> You can create a free <a href="https://lookerstudio.google.com/" target="_blank" style="color: var(--primary);">Google Looker Studio</a> report connected to your Analytics property, generate an embed link, and paste the iframe code here.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CLINICAL STATISTICS SCREEN -->
+                <div id="screen-stats" class="hidden">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon" style="background: rgba(0, 163, 204, 0.1); color: var(--primary);"><i class="fas fa-users"></i></div>
+                            <div class="stat-info">
+                                <h4>Total Patients</h4>
+                                <p class="stat-value" id="stat-total-patients">0</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon" style="background: rgba(16, 185, 129, 0.1); color: #10b981;"><i class="fas fa-calendar-check"></i></div>
+                            <div class="stat-info">
+                                <h4>New This Month</h4>
+                                <p class="stat-value" id="stat-new-month">0</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon" style="background: rgba(245, 158, 11, 0.1); color: #f59e0b;"><i class="fas fa-rupee-sign"></i></div>
+                            <div class="stat-info">
+                                <h4>Total Revenue</h4>
+                                <p class="stat-value" id="stat-total-revenue">₹0</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="stats-row">
+                        <div class="chart-box">
+                            <h3><i class="fas fa-venus-mars"></i> Gender Distribution</h3>
+                            <div id="gender-stats-container">
+                                <!-- JS Injected Content -->
+                            </div>
+                        </div>
+                        <div class="chart-box">
+                            <h3><i class="fas fa-map-marked-alt"></i> Top Patient Locations</h3>
+                            <div id="location-stats-container">
+                                <!-- JS Injected Content -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chart-box" style="margin-top: 25px;">
+                        <h3><i class="fas fa-stethoscope"></i> Clinical Insights: Frequent Diagnoses</h3>
+                        <div id="diagnosis-stats-container">
+                            <!-- JS Injected Content -->
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Patient Details Modal -->
+    <div id="details-modal" class="modal-overlay">
+        <div class="modal-card">
+            <button class="modal-close" onclick="closeDetailsModal()"><i class="fas fa-times"></i></button>
+            <div class="modal-header">
+                <h3 id="modal-name">Patient Name</h3>
+                <p style="color: var(--slate); font-weight: 600;">ID: <span id="modal-id">---</span> | Date: <span id="modal-date">---</span></p>
+            </div>
+            <div class="modal-body">
+                <div class="grid-3" style="margin-bottom: 20px;">
+                    <div class="detail-group"><div class="detail-label">Age/Gender</div><div class="detail-value" id="modal-age-gen"></div></div>
+                    <div class="detail-group"><div class="detail-label">City</div><div class="detail-value" id="modal-city"></div></div>
+                    <div class="detail-group"><div class="detail-label">Occupation</div><div class="detail-value" id="modal-occup"></div></div>
+                </div>
+                
+                <div class="detail-group">
+                    <div class="detail-label">Diagnosis</div>
+                    <div class="detail-value" id="modal-diagnosis" style="font-weight: bold; background: rgba(0, 163, 204, 0.1);"></div>
+                </div>
+                
+                <div class="grid-2">
+                    <div class="detail-group">
+                        <div class="detail-label">Treatment Notes</div>
+                        <div class="detail-value" id="modal-notes" style="min-height: 100px;"></div>
+                    </div>
+                    <div class="detail-group">
+                        <div class="detail-label">Follow Up History</div>
+                        <div class="detail-value" id="modal-followup" style="min-height: 100px;"></div>
+                    </div>
+                </div>
+
+                <div class="detail-group" style="margin-top: 15px;">
+                    <div class="detail-label">Fee History Tracking</div>
+                    <div class="detail-value" style="background: #fdf2f8;" id="modal-fees"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/script.js"></script>
+
+    <script>
+        // Sidebar Navigation
+        function switchNav(screenId) {
+            // Remove active status from all buttons
+            document.getElementById('btn-nav-db').classList.remove('active');
+            document.getElementById('btn-nav-add').classList.remove('active');
+            document.getElementById('btn-nav-stats').classList.remove('active');
+            document.getElementById('btn-nav-analytics').classList.remove('active');
+            
+            // Hide all screens
+            document.getElementById('screen-db').classList.add('hidden');
+            document.getElementById('screen-add').classList.add('hidden');
+            document.getElementById('screen-stats').classList.add('hidden');
+            document.getElementById('screen-analytics').classList.add('hidden');
+
+            if(screenId === 'db') {
+                document.getElementById('btn-nav-db').classList.add('active');
+                document.getElementById('screen-db').classList.remove('hidden');
+                fetchPatientData(); // Refresh list just in case
+            } else if(screenId === 'add') {
+                document.getElementById('btn-nav-add').classList.add('active');
+                document.getElementById('screen-add').classList.remove('hidden');
+                
+                if(event && event.type === 'click') {
+                    resetFormForAdd();
+                }
+            } else if(screenId === 'stats') {
+                document.getElementById('btn-nav-stats').classList.add('active');
+                document.getElementById('screen-stats').classList.remove('hidden');
+                calculateStats();
+            } else if(screenId === 'analytics') {
+                document.getElementById('btn-nav-analytics').classList.add('active');
+                document.getElementById('screen-analytics').classList.remove('hidden');
+            }
+        }
+
+        // Add/Edit Form State
+        function resetFormForAdd() {
+            document.getElementById('patient-data-form').reset();
+            document.getElementById('edit-mode-flag').value = 'false';
+            document.getElementById('form-screen-title').innerHTML = '<i class="fas fa-user-plus"></i> Register New Patient';
+            document.getElementById('btn-save-record').innerText = 'Commit Record to Database';
+            document.getElementById('add-id').readOnly = false;
+        }
+
+        // Auth Logic
+        document.getElementById('tracker-login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const u = document.getElementById('userid').value;
+            const p = document.getElementById('password').value;
+            document.querySelector('#tracker-login-form button').innerText = "Authenticating...";
+            
+            try {
+                const res = await fetch('/api/tracker-login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username: u, password: p })
+                });
+                
+                document.querySelector('#tracker-login-form button').innerText = "Authenticate";
+                
+                if(res.ok) {
+                    const data = await res.json();
+                    sessionStorage.setItem('trackerAuth', data.token); 
+                    document.getElementById('login-view').classList.add('hidden');
+                    document.getElementById('dashboard-view').classList.remove('hidden');
+                    document.getElementById('auth-name').innerText = data.user;
+                    fetchPatientData(); 
+                } else {
+                    document.getElementById('login-error').style.display = 'block';
+                }
+            } catch(err) {
+                console.error(err);
+                document.querySelector('#tracker-login-form button').innerText = "Authenticate";
+                document.getElementById('login-error').innerText = "Connection Error";
+                document.getElementById('login-error').style.display = 'block';
+            }
+        });
+
+        // Global Sync logic (Add & Edit)
+        document.getElementById('patient-data-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const btn = document.getElementById('btn-save-record');
+            const statusLabel = document.getElementById('save-status');
+            const isEdit = document.getElementById('edit-mode-flag').value === 'true';
+            
+            btn.innerText = "Transmitting to Cloud...";
+            
+            const pdata = {
+                id: document.getElementById('add-id').value,
+                date: document.getElementById('add-date').value,
+                name: document.getElementById('add-name').value,
+                age: document.getElementById('add-age').value,
+                gender: document.getElementById('add-gender').value,
+                occup: document.getElementById('add-occup').value,
+                city: document.getElementById('add-city').value,
+                diagnosis: document.getElementById('add-diagnosis').value,
+                notes: document.getElementById('add-notes').value,
+                followUp: document.getElementById('add-followup').value,
+                fees1: document.getElementById('add-fee1').value,
+                fees2: document.getElementById('add-fee2').value,
+                fees3: document.getElementById('add-fee3').value,
+                fees4: document.getElementById('add-fee4').value,
+                fees5: document.getElementById('add-fee5').value,
+                fees6: document.getElementById('add-fee6').value,
+                fees7: document.getElementById('add-fee7').value,
+                fees8: document.getElementById('add-fee8').value
+            };
+            
+            const endpoint = isEdit ? '/api/edit-patient' : '/api/add-patient';
+
+            try {
+                const res = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${sessionStorage.getItem('trackerAuth')}`
+                    },
+                    body: JSON.stringify(pdata)
+                });
+                
+                if(res.ok) {
+                    statusLabel.style.color = "green";
+                    statusLabel.innerText = isEdit ? "Success: Record Updated." : "Success: Logged to database.";
+                    statusLabel.style.display = "block";
+                    btn.innerText = isEdit ? "Update Patient Record" : "Commit Record to Database";
+                    
+                    if(!isEdit) document.getElementById('patient-data-form').reset();
+                    
+                    setTimeout(() => {
+                        statusLabel.style.display="none";
+                        if(isEdit) {
+                            switchNav('db'); // Auto return to DB view after edit
+                        }
+                    }, 2000);
+                } else {
+                    const data = await res.json();
+                    statusLabel.style.color = "red";
+                    statusLabel.innerText = data.error || "Failed to save.";
+                    statusLabel.style.display = "block";
+                    btn.innerText = isEdit ? "Update Patient Record" : "Commit Record to Database";
+                }
+            } catch(err) {
+                statusLabel.style.color = "red";
+                statusLabel.innerText = "Network transmission failed!";
+                statusLabel.style.display = "block";
+                btn.innerText = isEdit ? "Update Patient Record" : "Commit Record to Database";
+            }
+        });
+
+        // Load DB
+        let memoryPatients = []; 
+        let filteredPatients = [];
+        let currentSortField = 'Date';
+        let currentSortOrder = 'desc';
+
+        async function fetchPatientData() {
+            const token = sessionStorage.getItem('trackerAuth');
+            if(!token) return;
+            try {
+                const res = await fetch('/api/patients-data', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if(res.ok) {
+                    const data = await res.json();
+                    memoryPatients = data; 
+                    populateFilters(memoryPatients);
+                    calculateStats(); // Pre-calculate statistics
+                    applyFiltersAndSort();
+                } else {
+                    document.getElementById('patients-table-body').innerHTML = '<tr><td colspan="6" style="color:red; text-align: center;">Error validating token.</td></tr>';
+                }
+            } catch (err) {
+                console.error(err);
+                document.getElementById('patients-table-body').innerHTML = '<tr><td colspan="6" style="color:red; text-align: center;">Connection lost to secure server.</td></tr>';
+            }
+        }
+
+        // --- STATISTICS ENGINE ---
+        function calculateStats() {
+            if(!memoryPatients.length) return;
+
+            // 1. Basic Counts
+            const total = memoryPatients.length;
+            document.getElementById('stat-total-patients').innerText = total;
+
+            // 2. New This Month
+            const now = new Date();
+            const currentMonth = now.getMonth() + 1;
+            const currentYear = now.getFullYear() % 100; // YY format
+            
+            const newThisMonth = memoryPatients.filter(p => {
+                if(!p['Date']) return false;
+                const [d, m, y] = p['Date'].split('/').map(Number);
+                return m === currentMonth && y === currentYear;
+            }).length;
+            document.getElementById('stat-new-month').innerText = newThisMonth;
+
+            // 3. Revenue
+            let revenue = 0;
+            memoryPatients.forEach(p => {
+                for(let i=1; i<=8; i++) {
+                    const val = parseFloat(p[`Fees${i}`]);
+                    if(!isNaN(val)) revenue += val;
+                }
+            });
+            document.getElementById('stat-total-revenue').innerText = `₹${revenue.toLocaleString()}`;
+
+            // 4. Gender Stats
+            const males = memoryPatients.filter(p => p['Gender'] === 'M').length;
+            const females = memoryPatients.filter(p => p['Gender'] === 'F').length;
+            renderProgressBar('gender-stats-container', [
+                { label: 'Male', count: males, total: total, color: '#00a3cc' },
+                { label: 'Female', count: females, total: total, color: '#ec4899' }
+            ]);
+
+            // 5. top Locations
+            const cityCounts = {};
+            memoryPatients.forEach(p => {
+                if(p['City']) cityCounts[p['City']] = (cityCounts[p['City']] || 0) + 1;
+            });
+            const sortedCities = Object.entries(cityCounts).sort((a,b) => b[1] - a[1]).slice(0, 5);
+            renderProgressBar('location-stats-container', sortedCities.map(c => ({
+                label: c[0], count: c[1], total: total, color: '#64748b'
+            })));
+
+            // 6. Top Diagnoses
+            const diagCounts = {};
+            memoryPatients.forEach(p => {
+                if(p['Diagnosis']) {
+                    const d = p['Diagnosis'].trim();
+                    diagCounts[d] = (diagCounts[d] || 0) + 1;
+                }
+            });
+            const sortedDiags = Object.entries(diagCounts).sort((a,b) => b[1] - a[1]).slice(0, 5);
+            renderProgressBar('diagnosis-stats-container', sortedDiags.map(d => ({
+                label: d[0], count: d[1], total: total, color: '#8b5cf6'
+            })));
+        }
+
+        function renderProgressBar(containerId, items) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+            items.forEach(item => {
+                const percent = Math.round((item.count / item.total) * 100) || 0;
+                const div = document.createElement('div');
+                div.className = 'progress-bar-container';
+                div.innerHTML = `
+                    <div class="progress-info">
+                        <span>${item.label}</span>
+                        <span>${item.count} (${percent}%)</span>
+                    </div>
+                    <div class="progress-bar-bg">
+                        <div class="progress-bar-fill" style="width: ${percent}%; background: ${item.color};"></div>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function populateFilters(data) {
+            const citySelect = document.getElementById('city-filter');
+            const cities = [...new Set(data.map(p => p['City']).filter(Boolean))].sort();
+            
+            // Re-render options but keep placeholder
+            citySelect.innerHTML = '<option value="all">All Locations</option>';
+            cities.forEach(city => {
+                const opt = document.createElement('option');
+                opt.value = city;
+                opt.textContent = city;
+                citySelect.appendChild(opt);
+            });
+        }
+
+        function applyFiltersAndSort() {
+            const searchTerm = document.getElementById('patient-search').value.toLowerCase();
+            const cityValue = document.getElementById('city-filter').value;
+            const genderValue = document.getElementById('gender-filter').value;
+
+            filteredPatients = memoryPatients.filter(p => {
+                const matchesSearch = Object.values(p).join(' ').toLowerCase().includes(searchTerm);
+                const matchesCity = cityValue === 'all' || p['City'] === cityValue;
+                const matchesGender = genderValue === 'all' || p['Gender'] === genderValue;
+                return matchesSearch && matchesCity && matchesGender;
+            });
+
+            sortData();
+            renderTable(filteredPatients);
+        }
+
+        function handleSort(field) {
+            if (currentSortField === field) {
+                currentSortOrder = currentSortOrder === 'asc' ? 'desc' : 'asc';
+            } else {
+                currentSortField = field;
+                currentSortOrder = 'asc';
+            }
+            applyFiltersAndSort();
+        }
+
+        function sortData() {
+            filteredPatients.sort((a, b) => {
+                let valA = a[currentSortField] || '';
+                let valB = b[currentSortField] || '';
+
+                // Custom sorting for Date DD/MM/YY
+                if (currentSortField === 'Date') {
+                    const [d1, m1, y1] = valA.split('/').map(Number);
+                    const [d2, m2, y2] = valB.split('/').map(Number);
+                    const dateA = new Date(y1 < 50 ? 2000 + y1 : 1900 + y1, m1 - 1, d1);
+                    const dateB = new Date(y2 < 50 ? 2000 + y2 : 1900 + y2, m2 - 1, d2);
+                    return currentSortOrder === 'asc' ? dateA - dateB : dateB - dateA;
+                }
+
+                // Numeric sorting
+                if (currentSortField === 'Patient ID') {
+                    return currentSortOrder === 'asc' ? Number(valA) - Number(valB) : Number(valB) - Number(valA);
+                }
+
+                // String sorting
+                const comparison = valA.toString().localeCompare(valB.toString());
+                return currentSortOrder === 'asc' ? comparison : -comparison;
+            });
+
+            // Update Header Visuals
+            updateSortHeaders();
+        }
+
+        function updateSortHeaders() {
+            const keys = { 'Date': 'th-date', 'Patient ID': 'th-id', 'Patient Name': 'th-name', 'City': 'th-city' };
+            Object.values(keys).forEach(id => {
+                const th = document.getElementById(id);
+                if(th) {
+                    th.classList.remove('active-sort');
+                    th.querySelector('i').className = 'fas fa-sort';
+                }
+            });
+
+            const activeTh = document.getElementById(keys[currentSortField]);
+            if (activeTh) {
+                activeTh.classList.add('active-sort');
+                activeTh.querySelector('i').className = currentSortOrder === 'asc' ? 'fas fa-sort-up' : 'fas fa-sort-down';
+            }
+        }
+
+        // Render Combined Table & Cards
+        function renderTable(dataArray) {
+            const tbody = document.getElementById('patients-table-body');
+            const cardContainer = document.getElementById('patients-cards-view');
+            
+            tbody.innerHTML = '';
+            cardContainer.innerHTML = '';
+            
+            if(dataArray.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center;">No patient records found.</td></tr>';
+                cardContainer.innerHTML = '<div style="text-align:center; padding: 40px; color: var(--slate);">No records match your filters.</div>';
+                return;
+            }
+
+            dataArray.forEach((p, idx) => {
+                // Real data index in memoryPatients for callbacks
+                const trueIdx = memoryPatients.indexOf(p);
+
+                // Table Row (Desktop)
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${p['Date'] || ''}</td>
+                    <td style="font-weight: 700; color: var(--navy);">${p['Patient ID'] || ''}</td>
+                    <td style="font-weight: 800; color: var(--primary-dark);">${p['Patient Name'] || ''}</td>
+                    <td>${p['City'] || ''}</td>
+                    <td><div style="max-width:250px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${p['Diagnosis'] || ''}</div></td>
+                    <td style="text-align:center; white-space:nowrap;">
+                        <button class="btn-action btn-view" onclick="openDetailsModal(${trueIdx})" title="View Details"><i class="fas fa-eye"></i></button>
+                        <button class="btn-action btn-edit" onclick="triggerEditWorkflow(${trueIdx})" title="Edit Patient"><i class="fas fa-edit"></i></button>
+                        <button class="btn-action btn-delete" onclick="triggerDeleteWorkflow(${trueIdx})" title="Delete Patient"><i class="fas fa-trash"></i></button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+
+                // Card View (Mobile)
+                const card = document.createElement('div');
+                card.className = 'patient-card';
+                card.innerHTML = `
+                    <div class="card-header">
+                        <span class="card-date">${p['Date'] || ''}</span>
+                        <span class="card-id">#${p['Patient ID'] || ''}</span>
+                    </div>
+                    <span class="card-name">${p['Patient Name'] || ''}</span>
+                    <div class="card-diagnosis">${p['Diagnosis'] || ''}</div>
+                    <div class="card-meta">
+                        <span><i class="fas fa-map-marker-alt"></i> ${p['City'] || '-'}</span>
+                        <span><i class="fas fa-venus-mars"></i> ${p['Gender'] || '-'}</span>
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn-action btn-view" onclick="openDetailsModal(${trueIdx})"><i class="fas fa-eye"></i> View</button>
+                        <button class="btn-action btn-edit" onclick="triggerEditWorkflow(${trueIdx})"><i class="fas fa-edit"></i> Edit</button>
+                        <button class="btn-action btn-delete" onclick="triggerDeleteWorkflow(${trueIdx})"><i class="fas fa-trash"></i></button>
+                    </div>
+                `;
+                cardContainer.appendChild(card);
+            });
+        }
+
+        // Global Event Listeners
+        document.getElementById('patient-search').addEventListener('input', applyFiltersAndSort);
+        
+        function resetFilters() {
+            document.getElementById('patient-search').value = '';
+            document.getElementById('city-filter').value = 'all';
+            document.getElementById('gender-filter').value = 'all';
+            applyFiltersAndSort();
+        }
+
+        // Read Full Details Modal
+        function openDetailsModal(trueIdx) {
+            const p = memoryPatients[trueIdx];
+            if(!p) return;
+
+            document.getElementById('modal-name').innerText = p['Patient Name'] || 'Unknown';
+            document.getElementById('modal-id').innerText = p['Patient ID'] || '-';
+            document.getElementById('modal-date').innerText = p['Date'] || '-';
+            
+            const ageGen = [p['Age'], p['Gender']].filter(Boolean).join(' / ') || 'N/A';
+            document.getElementById('modal-age-gen').innerText = ageGen;
+            document.getElementById('modal-city').innerText = p['City'] || 'N/A';
+            document.getElementById('modal-occup').innerText = p['Occupation'] || 'N/A';
+            
+            document.getElementById('modal-diagnosis').innerText = p['Diagnosis'] || 'N/A';
+            document.getElementById('modal-notes').innerText = p['Treatment Notes'] || 'None';
+            document.getElementById('modal-followup').innerText = p['FollowUp Notes'] || 'None';
+            
+            // Format fees nicely
+            const feeKeys = ['Fees1', 'Fees2', 'Fees3', 'Fees4', 'Fees5', 'Fees6', 'Fees7', 'Fees8'];
+            let feeString = [];
+            feeKeys.forEach((fk, i) => {
+                if(p[fk]) feeString.push(`Fee ${i+1}: ₹${p[fk]}`);
+            });
+            document.getElementById('modal-fees').innerText = feeString.length > 0 ? feeString.join(' | ') : 'No fees logged.';
+
+            document.getElementById('details-modal').classList.add('active');
+        }
+
+        function closeDetailsModal() {
+            document.getElementById('details-modal').classList.remove('active');
+        }
+
+        // Edit Workflow logic
+        function triggerEditWorkflow(idx) {
+            const p = memoryPatients[idx];
+            if(!p) return;
+
+            // Switch view
+            switchNav('add');
+            
+            // Set State Context
+            document.getElementById('edit-mode-flag').value = 'true';
+            document.getElementById('form-screen-title').innerHTML = '<i class="fas fa-user-edit"></i> Edit Patient Record';
+            document.getElementById('btn-save-record').innerText = 'Update Patient Record';
+            
+            // Populate form
+            document.getElementById('add-id').value = p['Patient ID'] || '';
+            document.getElementById('add-id').readOnly = true; // Prevent changing ID since we use it as pk
+            
+            document.getElementById('add-date').value = p['Date'] || '';
+            document.getElementById('add-name').value = p['Patient Name'] || '';
+            document.getElementById('add-age').value = p['Age'] || '';
+            document.getElementById('add-gender').value = p['Gender'] || '';
+            document.getElementById('add-occup').value = p['Occupation'] || '';
+            document.getElementById('add-city').value = p['City'] || '';
+            document.getElementById('add-diagnosis').value = p['Diagnosis'] || '';
+            document.getElementById('add-notes').value = p['Treatment Notes'] || '';
+            document.getElementById('add-followup').value = p['FollowUp Notes'] || '';
+            
+            document.getElementById('add-fee1').value = p['Fees1'] || '';
+            document.getElementById('add-fee2').value = p['Fees2'] || '';
+            document.getElementById('add-fee3').value = p['Fees3'] || '';
+            document.getElementById('add-fee4').value = p['Fees4'] || '';
+            document.getElementById('add-fee5').value = p['Fees5'] || '';
+            document.getElementById('add-fee6').value = p['Fees6'] || '';
+            document.getElementById('add-fee7').value = p['Fees7'] || '';
+            document.getElementById('add-fee8').value = p['Fees8'] || '';
+        }
+
+        // Delete Workflow logic
+        async function triggerDeleteWorkflow(idx) {
+            const p = memoryPatients[idx];
+            if(!p) return;
+
+            const confirmMsg = `Are you sure you want to PERMANENTLY delete patient record "${p['Patient Name']}"? 
+This action cannot be undone on the cloud database.`;
+            
+            if(!confirm(confirmMsg)) return;
+
+            const token = sessionStorage.getItem('trackerAuth');
+            try {
+                // Show temporary overlay or disable table
+                const res = await fetch('/api/delete-patient', {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ id: p['Patient ID'], name: p['Patient Name'] })
+                });
+
+                if(res.ok) {
+                    alert("Patient record deleted successfully from the cloud.");
+                    fetchPatientData(); // Refresh table
+                } else {
+                    const data = await res.json();
+                    alert("Delete Failed: " + (data.error || "Server issue."));
+                }
+            } catch(err) {
+                console.error(err);
+                alert("Network communication failure for deletion command.");
+            }
+        }
+    </script>
+</body>
+</html>

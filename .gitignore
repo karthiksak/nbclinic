@@ -1,0 +1,12 @@
+node_modules
+_site
+.env
+
+ai-agent/
+*.pyc
+__pycache__/
+
+# 🔒 Patient Data - NEVER commit sensitive patient information
+src/_data/patients.csv
+src/_data/patients/*
+!src/_data/patients/.gitkeep

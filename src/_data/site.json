@@ -1,0 +1,37 @@
+{
+  "general": {
+    "title": "NOBLE HOMOEOPATHY",
+    "tagline": "Holistic Health & Wellness in Chennai",
+    "phone": "+91-6383095276",
+    "email": "noblehomoeopathyclinic@gmail.com",
+    "address": "Noble Homoeopathy Clinic,Akshaya Adena, A2 block, Ground floor,  Rajiv Gandhi Salai, Padur, Chennai, Tamil Nadu 603103",
+    "google_maps_embed": "https://www.google.com/maps/place/Noble+Homeopathy+Clinic/@12.8128882,80.2232313,17z/data=!3m1!4b1!4m6!3m5!1s0x3a525b1cbbbb96f7:0x5699e2f1966d3d46!8m2!3d12.812883!4d80.2258062!16s%2Fg%2F11y785cqr1?entry=ttu&g_ep=EgoyMDI2MDMzMS4wIKXMDSoASAFQAw%3D%3D"
+  },
+  "reviews": [
+    {
+      "text": "Pain reduced after first dose of medicines. Good treatment for migraine and chronic neck pain.",
+      "author": "Mrs. Supraja (08/02/2025)",
+      "stars": 5
+    },
+    {
+      "text": "Good doctor, giving appropriate time. Hearing patients' concerns carefully.",
+      "author": "Mr. Ravishankar Sharma (01/03/2025)",
+      "stars": 5
+    },
+    {
+      "text": "After treatment i got my menses and my gut issues also improved.Thank you doctor for your kind and effective treatment",
+      "author": "Ms.Priya(23/03/2026)",
+      "stars": 5
+    },
+    {
+      "text": "My skin allergies have significantly improved after starting treatment here.",
+      "author": "Happy Patient",
+      "stars": 5
+    },
+    {
+      "text": "Keep up the excellent work",
+      "author": " Mr. Prashanth",
+      "stars": 5
+    }
+  ]
+}
