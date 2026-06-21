@@ -179,6 +179,12 @@
                 <button class="sidebar-btn" id="btn-nav-add" onclick="switchNav('add')"><i class="fas fa-user-plus"></i> New Patient</button>
                 <button class="sidebar-btn" id="btn-nav-stats" onclick="switchNav('stats')"><i class="fas fa-chart-bar"></i> Clinical Statistics</button>
                 <button class="sidebar-btn" id="btn-nav-analytics" onclick="switchNav('analytics')"><i class="fas fa-chart-line"></i> Analytics Profile</button>
+                <div style="margin-top: auto; padding-top: 10px; border-top: 1px solid var(--slate-light);">
+                    <button class="sidebar-btn" id="btn-send-report" onclick="sendFullReport()" style="background: linear-gradient(135deg, #be185d, #9d174d); color: white; width: 100%; justify-content: center;">
+                        <i class="fas fa-paper-plane"></i> Email Full Report
+                    </button>
+                    <p id="report-status" style="display:none; font-size:0.78rem; text-align:center; margin: 8px 0 0; padding: 6px 10px; border-radius: 8px; font-weight:600;"></p>
+                </div>
             </div>
 
             <!-- Main Content Area -->
@@ -917,6 +923,52 @@
             document.getElementById('add-fee6').value = p['Fees6'] || '';
             document.getElementById('add-fee7').value = p['Fees7'] || '';
             document.getElementById('add-fee8').value = p['Fees8'] || '';
+        }
+
+        // Send Full Report via Email
+        async function sendFullReport() {
+            const token = sessionStorage.getItem('trackerAuth');
+            if (!token) { alert('Please login first.'); return; }
+
+            const btn = document.getElementById('btn-send-report');
+            const statusEl = document.getElementById('report-status');
+
+            if (!confirm(`Send a detailed report of ALL patient records to noblehomoeopathyclinic24@gmail.com?`)) return;
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+            statusEl.style.display = 'none';
+
+            try {
+                const res = await fetch('/api/send-report', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                const data = await res.json();
+
+                if (res.ok) {
+                    statusEl.style.background = 'rgba(16, 185, 129, 0.1)';
+                    statusEl.style.color = '#065f46';
+                    statusEl.innerText = '✅ Report sent!';
+                } else {
+                    statusEl.style.background = 'rgba(220, 38, 38, 0.1)';
+                    statusEl.style.color = '#7f1d1d';
+                    statusEl.innerText = '❌ ' + (data.error || 'Send failed');
+                }
+            } catch (err) {
+                statusEl.style.background = 'rgba(220, 38, 38, 0.1)';
+                statusEl.style.color = '#7f1d1d';
+                statusEl.innerText = '❌ Network error';
+            } finally {
+                statusEl.style.display = 'block';
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-paper-plane"></i> Email Full Report';
+                setTimeout(() => { statusEl.style.display = 'none'; }, 5000);
+            }
         }
 
         // Delete Workflow logic
