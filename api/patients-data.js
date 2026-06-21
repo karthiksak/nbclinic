@@ -1,3 +1,70 @@
+/**
+ * Robust CSV parser — handles quoted fields containing commas AND newlines.
+ * Returns array of row-arrays. Row 0 is the header.
+ */
+function parseCSVContent(content) {
+  const rows = [];
+  let row = [];
+  let field = '';
+  let inQuotes = false;
+  let i = 0;
+
+  while (i < content.length) {
+    const ch = content[i];
+    const next = content[i + 1];
+
+    if (inQuotes) {
+      if (ch === '"' && next === '"') {
+        // Escaped double-quote inside quoted field
+        field += '"';
+        i += 2;
+      } else if (ch === '"') {
+        // End of quoted field
+        inQuotes = false;
+        i++;
+      } else {
+        // Normal char inside quotes (including \n, \r)
+        field += ch;
+        i++;
+      }
+    } else {
+      if (ch === '"') {
+        inQuotes = true;
+        i++;
+      } else if (ch === ',') {
+        row.push(field.trim());
+        field = '';
+        i++;
+      } else if (ch === '\r' && next === '\n') {
+        // Windows CRLF
+        row.push(field.trim());
+        if (row.some(f => f !== '')) rows.push(row);
+        row = [];
+        field = '';
+        i += 2;
+      } else if (ch === '\n' || ch === '\r') {
+        // Unix LF or old Mac CR
+        row.push(field.trim());
+        if (row.some(f => f !== '')) rows.push(row);
+        row = [];
+        field = '';
+        i++;
+      } else {
+        field += ch;
+        i++;
+      }
+    }
+  }
+
+  // Flush last field/row
+  if (field !== '' || row.length > 0) {
+    row.push(field.trim());
+    if (row.some(f => f !== '')) rows.push(row);
+  }
+
+  return rows;
+}
+
 export default async function handler(req, res) {
   // Validate token
   const authHeader = req.headers.authorization;
@@ -7,7 +74,7 @@ export default async function handler(req, res) {
 
   const token = process.env.GITHUB_TOKEN;
   if (!token) {
-    return res.status(400).json({ error: 'Missing Setup! Vercel Environment Variable GITHUB_TOKEN is not configured.' });
+    return res.status(400).json({ error: 'Missing Setup! GITHUB_TOKEN not configured in Vercel.' });
   }
 
   const repo = 'karthiksak/nbclinic-patients';
@@ -15,7 +82,6 @@ export default async function handler(req, res) {
   const url = `https://api.github.com/repos/${repo}/contents/${filePath}`;
 
   try {
-    // Fetch live data directly from GitHub (same source as add/edit/delete)
     const getRes = await fetch(url, {
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -33,33 +99,22 @@ export default async function handler(req, res) {
     const getJson = await getRes.json();
     const csvContent = Buffer.from(getJson.content, 'base64').toString('utf8');
 
-    const lines = csvContent.split(/\r?\n/).filter(line => line.trim() !== '');
+    const rows = parseCSVContent(csvContent);
 
-    if (lines.length < 2) return res.status(200).json([]); // Only headers or empty
+    if (rows.length < 2) return res.status(200).json([]);
 
-    const headers = lines[0].split(',').map(h => h.trim());
-    const results = [];
-
-    for (let i = 1; i < lines.length; i++) {
-      // Advanced Regex to split by commas ONLY if they are outside of double quotes
-      const values = lines[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+    const headers = rows[0];
+    const results = rows.slice(1).map(values => {
       const obj = {};
-      headers.forEach((h, index) => {
-        let val = values[index] ? values[index].trim() : '';
-        // Remove leading/trailing quotes if they wrap the content
-        if (val.startsWith('"') && val.endsWith('"')) {
-          val = val.substring(1, val.length - 1);
-        }
-        // Unescape doubled quotes inside CSV values
-        val = val.replace(/""/g, '"');
-        obj[h] = val;
+      headers.forEach((h, idx) => {
+        obj[h] = values[idx] !== undefined ? values[idx] : '';
       });
-      results.push(obj);
-    }
+      return obj;
+    });
 
     res.status(200).json(results);
   } catch (error) {
-    console.error("GitHub API Read Error:", error);
+    console.error('GitHub API Read Error:', error);
     res.status(500).json({ error: 'Failed to securely read the database from GitHub.' });
   }
 }

@@ -179,12 +179,11 @@
                 <button class="sidebar-btn" id="btn-nav-add" onclick="switchNav('add')"><i class="fas fa-user-plus"></i> New Patient</button>
                 <button class="sidebar-btn" id="btn-nav-stats" onclick="switchNav('stats')"><i class="fas fa-chart-bar"></i> Clinical Statistics</button>
                 <button class="sidebar-btn" id="btn-nav-analytics" onclick="switchNav('analytics')"><i class="fas fa-chart-line"></i> Analytics Profile</button>
-                <div style="margin-top: auto; padding-top: 10px; border-top: 1px solid var(--slate-light);">
-                    <button class="sidebar-btn" id="btn-send-report" onclick="sendFullReport()" style="background: linear-gradient(135deg, #be185d, #9d174d); color: white; width: 100%; justify-content: center;">
-                        <i class="fas fa-paper-plane"></i> Email Full Report
-                    </button>
-                    <p id="report-status" style="display:none; font-size:0.78rem; text-align:center; margin: 8px 0 0; padding: 6px 10px; border-radius: 8px; font-weight:600;"></p>
-                </div>
+                <hr style="border:none; border-top: 1px solid var(--slate-light); margin: 4px 0;">
+                <button class="sidebar-btn" id="btn-send-report" onclick="sendFullReport()" style="background: linear-gradient(135deg, #be185d, #9d174d); color: white; justify-content: center;">
+                    <i class="fas fa-paper-plane"></i> Email Full Report
+                </button>
+                <p id="report-status" style="display:none; font-size:0.78rem; text-align:center; margin: 0; padding: 6px 10px; border-radius: 8px; font-weight:600;"></p>
             </div>
 
             <!-- Main Content Area -->
