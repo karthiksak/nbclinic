@@ -184,6 +184,10 @@
                     <i class="fas fa-paper-plane"></i> Email Full Report
                 </button>
                 <p id="report-status" style="display:none; font-size:0.78rem; text-align:center; margin: 0; padding: 6px 10px; border-radius: 8px; font-weight:600;"></p>
+                <button class="sidebar-btn" id="btn-repair-db" onclick="repairDatabase()" style="background: linear-gradient(135deg, #d97706, #b45309); color: white; justify-content: center; margin-top: 6px;">
+                    <i class="fas fa-wrench"></i> Repair Database
+                </button>
+                <p id="repair-status" style="display:none; font-size:0.78rem; text-align:center; margin: 0; padding: 6px 10px; border-radius: 8px; font-weight:600;"></p>
             </div>
 
             <!-- Main Content Area -->
@@ -1002,6 +1006,59 @@ This action cannot be undone on the cloud database.`;
             } catch(err) {
                 console.error(err);
                 alert("Network communication failure for deletion command.");
+            }
+        }
+
+        // Repair DB — removes corrupt/stray lines from the CSV
+        async function repairDatabase() {
+            const token = sessionStorage.getItem('trackerAuth');
+            if (!token) { alert('Please login first.'); return; }
+
+            const btn = document.getElementById('btn-repair-db');
+            const statusEl = document.getElementById('repair-status');
+
+            if (!confirm('Scan and repair the patient database?\nThis will remove any corrupt/stray lines and keep all valid patient records intact.')) return;
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Repairing...';
+            statusEl.style.display = 'none';
+
+            try {
+                const res = await fetch('/api/repair-db', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                const data = await res.json();
+
+                if (res.ok) {
+                    statusEl.style.background = 'rgba(16, 185, 129, 0.1)';
+                    statusEl.style.color = '#065f46';
+                    statusEl.innerText = `✅ ${data.message}`;
+                    statusEl.style.display = 'block';
+                    // Reload table after repair
+                    setTimeout(() => {
+                        fetchPatientData();
+                        statusEl.style.display = 'none';
+                    }, 3000);
+                } else {
+                    statusEl.style.background = 'rgba(220, 38, 38, 0.1)';
+                    statusEl.style.color = '#7f1d1d';
+                    statusEl.innerText = '❌ ' + (data.error || 'Repair failed');
+                    statusEl.style.display = 'block';
+                }
+            } catch (err) {
+                statusEl.style.background = 'rgba(220, 38, 38, 0.1)';
+                statusEl.style.color = '#7f1d1d';
+                statusEl.innerText = '❌ Network error';
+                statusEl.style.display = 'block';
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-wrench"></i> Repair Database';
+                setTimeout(() => { statusEl.style.display = 'none'; }, 5000);
             }
         }
     </script>
