@@ -784,3 +784,42 @@ function initFAQ() {
 
 initFAQ();
 
+// ══════════════════════════════════════
+// ── TIMINGS BANNER — Open/Closed Status
+// ══════════════════════════════════════
+function updateClinicStatus() {
+    const dot  = document.getElementById('timings-dot');
+    const text = document.getElementById('timings-text');
+    if (!dot || !text) return;
+
+    // Get current IST time (UTC+5:30)
+    const now = new Date();
+    const istOffset = 5.5 * 60; // minutes
+    const utc = now.getTime() + now.getTimezoneOffset() * 60000;
+    const ist = new Date(utc + istOffset * 60000);
+
+    const day    = ist.getDay();   // 0=Sun, 1=Mon … 6=Sat
+    const hour   = ist.getHours();
+    const min    = ist.getMinutes();
+    const timeNum = hour * 60 + min; // minutes since midnight
+
+    // Mon–Sat (1–6), 10:00 AM (600) to 8:00 PM (1200)
+    const isOpen = day >= 1 && day <= 6 && timeNum >= 600 && timeNum < 1200;
+
+    if (isOpen) {
+        dot.classList.remove('closed');
+        text.innerHTML = '<strong style="color:#4ade80">Open Now</strong> &nbsp;|&nbsp; Mon – Sat &nbsp;|&nbsp; 10:00 AM – 8:00 PM';
+    } else {
+        dot.classList.add('closed');
+        const isSunday = day === 0;
+        const afterHours = timeNum >= 1200;
+        const msg = isSunday
+            ? 'Closed Today (Sunday)'
+            : afterHours
+            ? 'Closed for the Day'
+            : 'Opens at 10:00 AM';
+        text.innerHTML = `<strong style="color:#f87171">${msg}</strong> &nbsp;|&nbsp; Mon – Sat &nbsp;|&nbsp; 10:00 AM – 8:00 PM`;
+    }
+}
+
+updateClinicStatus();
