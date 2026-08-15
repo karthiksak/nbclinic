@@ -685,3 +685,102 @@ function initWelcomeModal() {
       }
   });
 }
+
+// ══════════════════════════════════════
+// ── STATS STRIP — Live Counter
+// ══════════════════════════════════════
+function animateCounter(el, target, duration = 1800) {
+    const start = performance.now();
+    const from = 0;
+
+    function step(timestamp) {
+        const elapsed = timestamp - start;
+        const progress = Math.min(elapsed / duration, 1);
+        // Ease out cubic
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const current = Math.round(from + (target - from) * eased);
+        el.textContent = current;
+        if (progress < 1) requestAnimationFrame(step);
+        else el.textContent = target;
+    }
+    requestAnimationFrame(step);
+}
+
+async function loadPublicStats() {
+    const elPatients   = document.getElementById('stat-patients');
+    const elYears      = document.getElementById('stat-years');
+    const elConditions = document.getElementById('stat-conditions');
+    const elCities     = document.getElementById('stat-cities');
+
+    if (!elPatients) return; // not on home page
+
+    // Observe when stats strip enters viewport, then fetch + animate
+    const statsSection = document.getElementById('stats');
+    let fetched = false;
+
+    const observer = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && !fetched) {
+            fetched = true;
+            observer.disconnect();
+
+            fetch('/api/public-stats')
+                .then(r => r.ok ? r.json() : Promise.reject())
+                .then(data => {
+                    elPatients.dataset.target   = data.totalPatients;
+                    elYears.dataset.target      = data.yearsActive;
+                    elConditions.dataset.target = data.conditionsTreated;
+                    elCities.dataset.target     = data.totalCities;
+
+                    animateCounter(elPatients,   data.totalPatients);
+                    animateCounter(elYears,      data.yearsActive, 1200);
+                    animateCounter(elConditions, data.conditionsTreated);
+                    animateCounter(elCities,     data.totalCities, 1400);
+                })
+                .catch(() => {
+                    // Graceful fallback — show static values
+                    elPatients.textContent   = '100+';
+                    elYears.textContent      = '3+';
+                    elConditions.textContent = '20+';
+                    elCities.textContent     = '5+';
+                });
+        }
+    }, { threshold: 0.2 });
+
+    if (statsSection) observer.observe(statsSection);
+}
+
+loadPublicStats();
+
+// ══════════════════════════════════════
+// ── FAQ ACCORDION
+// ══════════════════════════════════════
+function initFAQ() {
+    const faqList = document.querySelector('.faq-list');
+    if (!faqList) return;
+
+    faqList.addEventListener('click', (e) => {
+        const btn = e.target.closest('.faq-question');
+        if (!btn) return;
+
+        const item   = btn.closest('.faq-item');
+        const answer = item.querySelector('.faq-answer');
+        const isOpen = btn.classList.contains('open');
+
+        // Close all others
+        faqList.querySelectorAll('.faq-question.open').forEach(openBtn => {
+            openBtn.classList.remove('open');
+            openBtn.setAttribute('aria-expanded', 'false');
+            openBtn.closest('.faq-item').querySelector('.faq-answer').classList.remove('open');
+        });
+
+        // Toggle current
+        if (!isOpen) {
+            btn.classList.add('open');
+            btn.setAttribute('aria-expanded', 'true');
+            answer.classList.add('open');
+        }
+    });
+}
+
+initFAQ();
+
