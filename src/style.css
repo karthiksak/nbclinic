@@ -2038,4 +2038,207 @@ footer a:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 16px rgba(22,163,74,0.3);
 }
+
+/* ── FREE CONSULTATION CTA BANNER ── */
+.free-consult-banner {
+    background: linear-gradient(135deg, #0e1e38 0%, #17325b 100%);
+    padding: 50px 0;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 4px solid var(--primary);
+}
+
+.free-consult-banner::before {
+    content: '';
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(14, 165, 233, 0.2) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.free-consult-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.free-consult-left {
+    flex: 1;
+    min-width: 300px;
+}
+
+.free-consult-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(245, 158, 11, 0.15);
+    color: var(--accent-light);
+    padding: 6px 14px;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+    border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.free-consult-text h3 {
+    color: #ffffff;
+    font-size: 2.2rem;
+    margin-bottom: 12px;
+}
+
+.highlight-free {
+    color: #4ade80;
+    position: relative;
+}
+
+.free-consult-text p {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1.05rem;
+    line-height: 1.6;
+    margin: 0;
+    max-width: 600px;
+}
+
+.free-consult-actions {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.fcb-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 28px;
+    border-radius: var(--radius-full);
+    font-weight: 700;
+    font-size: 1.05rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.fcb-whatsapp {
+    background: #25d366;
+    color: #ffffff;
+}
+
+.fcb-whatsapp:hover {
+    background: #20bd5a;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4);
+}
+
+.fcb-book {
+    background: transparent;
+    color: #ffffff;
+    border: 2px solid var(--primary);
+}
+
+.fcb-book:hover {
+    background: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(14, 165, 233, 0.4);
+}
+
+@media (max-width: 900px) {
+    .free-consult-inner {
+        flex-direction: column;
+        text-align: center;
+    }
+    .free-consult-text p {
+        margin: 0 auto;
+    }
+    .free-consult-actions {
+        justify-content: center;
+        width: 100%;
+    }
+    .fcb-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* ── MOBILE STICKY BAR ── */
+.mobile-sticky-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #ffffff;
+    display: flex;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+    z-index: 1000;
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(100%);
+    transition: all 0.3s ease;
+}
+
+.mobile-sticky-bar.show {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+
+.msb-btn {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 5px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.8rem;
+    gap: 4px;
+    transition: background 0.2s;
+}
+
+.msb-btn i {
+    font-size: 1.2rem;
+}
+
+.msb-call {
+    background: #f8fafc;
+    color: var(--primary-dark);
+    border-right: 1px solid #e2e8f0;
+}
+
+.msb-call:hover {
+    background: #f1f5f9;
+}
+
+.msb-whatsapp {
+    background: #25d366;
+    color: #ffffff;
+}
+
+.msb-whatsapp:hover {
+    background: #20bd5a;
+}
+
+@media (max-width: 768px) {
+    .mobile-sticky-bar {
+        visibility: visible;
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0);
+    }
+    
+    .whatsapp-float {
+        bottom: 80px; /* Adjust float above sticky bar */
+    }
+}
 
