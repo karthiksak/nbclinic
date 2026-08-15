@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /tracker/
+Disallow: /admin/
+Disallow: /api/
+
+Sitemap: https://www.noblehomoeopathy.com/sitemap.xml

@@ -3,6 +3,9 @@ export default function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/script.js");
   eleventyConfig.addPassthroughCopy("src/images");
   eleventyConfig.addPassthroughCopy("src/admin");
+  eleventyConfig.addPassthroughCopy("src/robots.txt");
+  eleventyConfig.addPassthroughCopy("src/sitemap.xml");
+  eleventyConfig.addPassthroughCopy("src/site.webmanifest");
 
   return {
     dir: {
