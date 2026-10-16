@@ -623,10 +623,11 @@
             }
         }
 
-        // --- DATE PARSER: handles DD/MM/YY · DD/MM/YYYY · YYYY-MM-DD · separators / - . ---
+        // --- DATE PARSER: handles DD/MM/YY · DD/MM/YYYY · YYYY-MM-DD · separators / - . · double-slash typos ---
         function parsePatientDate(raw) {
             if (!raw || !raw.trim()) return null;
-            const s = raw.trim();
+            // Collapse repeated separators e.g. "10/10//26" → "10/10/26"
+            const s = raw.trim().replace(/[\/\-\.]{2,}/g, m => m[0]);
 
             // Try ISO format: YYYY-MM-DD
             const iso = s.match(/^(\d{4})[\/\-\.](\d{1,2})[\/\-\.](\d{1,2})$/);
