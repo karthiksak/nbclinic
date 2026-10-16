@@ -631,15 +631,19 @@
             const total = memoryPatients.length;
             document.getElementById('stat-total-patients').innerText = total;
 
-            // 2. New This Month
+            // 2. New This Month — handles both DD/MM/YY and DD/MM/YYYY
             const now = new Date();
             const currentMonth = now.getMonth() + 1;
-            const currentYear = now.getFullYear() % 100; // YY format
-            
+            const currentFullYear = now.getFullYear(); // e.g. 2026
+
             const newThisMonth = memoryPatients.filter(p => {
                 if(!p['Date']) return false;
-                const [d, m, y] = p['Date'].split('/').map(Number);
-                return m === currentMonth && y === currentYear;
+                const parts = p['Date'].split('/').map(Number);
+                if(parts.length < 3) return false;
+                const [d, m, y] = parts;
+                // Support both YY (26) and YYYY (2026)
+                const fullYear = y < 100 ? 2000 + y : y;
+                return m === currentMonth && fullYear === currentFullYear;
             }).length;
             document.getElementById('stat-new-month').innerText = newThisMonth;
 
@@ -671,15 +675,18 @@
                 label: c[0], count: c[1], total: total, color: '#64748b'
             })));
 
-            // 6. Top Diagnoses
+            // 6. Top Diagnoses — normalise case & split comma/semicolon-separated entries
             const diagCounts = {};
             memoryPatients.forEach(p => {
                 if(p['Diagnosis']) {
-                    const d = p['Diagnosis'].trim();
-                    diagCounts[d] = (diagCounts[d] || 0) + 1;
+                    // Split on common separators, normalise each part
+                    p['Diagnosis'].split(/[,;/]+/).forEach(part => {
+                        const d = part.trim().toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
+                        if(d.length > 1) diagCounts[d] = (diagCounts[d] || 0) + 1;
+                    });
                 }
             });
-            const sortedDiags = Object.entries(diagCounts).sort((a,b) => b[1] - a[1]).slice(0, 5);
+            const sortedDiags = Object.entries(diagCounts).sort((a,b) => b[1] - a[1]).slice(0, 8);
             renderProgressBar('diagnosis-stats-container', sortedDiags.map(d => ({
                 label: d[0], count: d[1], total: total, color: '#8b5cf6'
             })));
