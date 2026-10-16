@@ -4,7 +4,8 @@
   "description": "",
   "main": "script.js",
   "scripts": {
-    "build": "node ./node_modules/@11ty/eleventy/cmd.cjs"
+    "build": "node ./node_modules/@11ty/eleventy/cmd.cjs",
+    "dev": "node ./node_modules/@11ty/eleventy/cmd.cjs --serve --port 8080"
   },
   "repository": {
     "type": "git",

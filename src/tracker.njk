@@ -623,6 +623,24 @@
             }
         }
 
+        // --- DATE PARSER: handles DD/MM/YY · DD/MM/YYYY · YYYY-MM-DD · separators / - . ---
+        function parsePatientDate(raw) {
+            if (!raw || !raw.trim()) return null;
+            const s = raw.trim();
+
+            // Try ISO format: YYYY-MM-DD
+            const iso = s.match(/^(\d{4})[\/\-\.](\d{1,2})[\/\-\.](\d{1,2})$/);
+            if (iso) return { d: +iso[3], m: +iso[2], y: +iso[1] };
+
+            // Try DD/MM/YY or DD/MM/YYYY (any separator)
+            const dmy = s.match(/^(\d{1,2})[\/\-\.](\d{1,2})[\/\-\.](\d{2,4})$/);
+            if (dmy) {
+                const y = +dmy[3];
+                return { d: +dmy[1], m: +dmy[2], y: y < 100 ? 2000 + y : y };
+            }
+            return null;
+        }
+
         // --- STATISTICS ENGINE ---
         function calculateStats() {
             if(!memoryPatients.length) return;
@@ -631,19 +649,15 @@
             const total = memoryPatients.length;
             document.getElementById('stat-total-patients').innerText = total;
 
-            // 2. New This Month — handles both DD/MM/YY and DD/MM/YYYY
+            // 2. New This Month — robust across all date formats
             const now = new Date();
             const currentMonth = now.getMonth() + 1;
-            const currentFullYear = now.getFullYear(); // e.g. 2026
+            const currentFullYear = now.getFullYear();
 
             const newThisMonth = memoryPatients.filter(p => {
-                if(!p['Date']) return false;
-                const parts = p['Date'].split('/').map(Number);
-                if(parts.length < 3) return false;
-                const [d, m, y] = parts;
-                // Support both YY (26) and YYYY (2026)
-                const fullYear = y < 100 ? 2000 + y : y;
-                return m === currentMonth && fullYear === currentFullYear;
+                const parsed = parsePatientDate(p['Date']);
+                if (!parsed) return false;
+                return parsed.m === currentMonth && parsed.y === currentFullYear;
             }).length;
             document.getElementById('stat-new-month').innerText = newThisMonth;
 
@@ -757,12 +771,12 @@
                 let valA = a[currentSortField] || '';
                 let valB = b[currentSortField] || '';
 
-                // Custom sorting for Date DD/MM/YY
+                // Custom sorting for Date — uses robust parsePatientDate()
                 if (currentSortField === 'Date') {
-                    const [d1, m1, y1] = valA.split('/').map(Number);
-                    const [d2, m2, y2] = valB.split('/').map(Number);
-                    const dateA = new Date(y1 < 50 ? 2000 + y1 : 1900 + y1, m1 - 1, d1);
-                    const dateB = new Date(y2 < 50 ? 2000 + y2 : 1900 + y2, m2 - 1, d2);
+                    const pA = parsePatientDate(valA);
+                    const pB = parsePatientDate(valB);
+                    const dateA = pA ? new Date(pA.y, pA.m - 1, pA.d) : new Date(0);
+                    const dateB = pB ? new Date(pB.y, pB.m - 1, pB.d) : new Date(0);
                     return currentSortOrder === 'asc' ? dateA - dateB : dateB - dateA;
                 }
 
