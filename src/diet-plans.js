@@ -394,10 +394,11 @@ function handlePaymentSuccess(planId, details = {}) {
   }
 
   // Trigger optional non-blocking serverless webhook
-  fetch('/api/send-diet-plan', {
+  fetch('/api/diet-orders', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
+      action: 'record-order',
       planId,
       planTitle: plan.title,
       customerName: details.name,

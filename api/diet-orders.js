@@ -1,7 +1,7 @@
 import nodemailer from 'nodemailer';
 
 export default async function handler(req, res) {
-  // Set CORS headers
+  // CORS Headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -15,11 +15,50 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { planId, planTitle, customerName, customerPhone, method, utr, timestamp } = req.body || {};
+    const { action, planId, planTitle, amount = 25, customerName, customerPhone, method, utr, timestamp } = req.body || {};
 
+    // 1. Action: Create Razorpay Order
+    if (action === 'create-order') {
+      const keyId = process.env.RAZORPAY_KEY_ID || 'rzp_live_Trixn1lBJT41Iz';
+      const keySecret = process.env.RAZORPAY_KEY_SECRET || 'kT8KP957I1TTRi7pukzmFdTE';
+
+      if (!keyId || !keySecret) {
+        return res.status(500).json({ error: 'Razorpay keys not configured' });
+      }
+
+      const authHeader = 'Basic ' + Buffer.from(`${keyId}:${keySecret}`).toString('base64');
+
+      const response = await fetch('https://api.razorpay.com/v1/orders', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': authHeader
+        },
+        body: JSON.stringify({
+          amount: Math.round(amount * 100),
+          currency: 'INR',
+          receipt: `nhc_diet_${Date.now().toString().slice(-8)}`,
+          notes: { planId: planId || 'diet-plan', planTitle: planTitle || 'Clinical Diet Plan' }
+        })
+      });
+
+      const orderData = await response.json();
+      if (!response.ok) {
+        return res.status(response.status).json({ error: orderData.error?.description || 'Failed to create order' });
+      }
+
+      return res.status(200).json({
+        success: true,
+        orderId: orderData.id,
+        amount: orderData.amount,
+        currency: orderData.currency,
+        keyId
+      });
+    }
+
+    // 2. Action: Record / Email Diet Plan Order
     console.log(`[Diet Plan Order] Plan: ${planTitle} (${planId}) | Customer: ${customerName} (${customerPhone}) | Method: ${method} | Ref: ${utr}`);
 
-    // If SMTP credentials are configured on Vercel, send notification email to clinic
     const emailUser = process.env.EMAIL_USER;
     const emailPass = process.env.EMAIL_PASS;
     const destEmail = process.env.DEST_EMAIL || 'noblehomoeopathyclinic@gmail.com';
@@ -34,7 +73,7 @@ export default async function handler(req, res) {
         await transporter.sendMail({
           from: `Noble Homoeopathy Clinic <${emailUser}>`,
           to: destEmail,
-          subject: `\uD83C\uDF4F New Diet Plan Order: ${planTitle} — ₹25`,
+          subject: `🍎 New Diet Plan Order: ${planTitle} — ₹25`,
           html: `
             <div style="font-family: Arial, sans-serif; padding: 20px; color: #0f172a; max-width: 600px;">
               <h2 style="color: #0ea5e9; border-bottom: 2px solid #0ea5e9; padding-bottom: 8px;">New Diet Plan Order Received</h2>
@@ -65,7 +104,7 @@ export default async function handler(req, res) {
     });
 
   } catch (error) {
-    console.error('Diet plan webhook error:', error);
+    console.error('Diet orders API error:', error);
     return res.status(500).json({ error: error.message });
   }
 }
