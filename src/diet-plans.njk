@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Affordable clinical diet plans formulated by Dr. Kokhila at Noble Homoeopathy Clinic, Chennai. Specialized Indian nutrition plans for Weight Loss, PCOD/PCOS, Acidity, Fatty Liver & Diabetes for just ₹25.">
+    <meta name="keywords" content="diet plans chennai, homeopathic diet plan, weight loss diet 25 rupees, pcod diet plan indian, fatty liver diet, acidity gerd diet plan, noble homoeopathy">
+    <link rel="canonical" href="https://www.noblehomoeopathy.com/diet-plans/">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Clinical Diet Plans — Only ₹25 | Noble Homoeopathy Clinic">
+    <meta property="og:description" content="Doctor-formulated Indian clinical nutrition protocols for Weight Loss, PCOD, Acidity, Fatty Liver & Diabetes. Instant PDF & WhatsApp access for just ₹25.">
+    <meta property="og:image" content="https://www.noblehomoeopathy.com/images/logo.png">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.noblehomoeopathy.com/diet-plans/">
+    <meta property="og:locale" content="en_IN">
+
+    <title>Clinical Diet Plans (₹25 Only) — Noble Homoeopathy Clinic</title>
+
+    <link rel="icon" href="/images/logo.png" type="image/png">
+    <link rel="apple-touch-icon" href="/images/logo.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <meta name="theme-color" content="#0a1628">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="/style.css">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KH547591DF"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-KH547591DF');
+    </script>
+
+    <!-- Razorpay Checkout Library -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+
+<body>
+    <!-- ═══════════════ NAVBAR ═══════════════ -->
+    <nav class="navbar scrolled" role="navigation" aria-label="Main Navigation">
+        <a href="/index.html" class="logo-link" aria-label="Noble Homoeopathy Clinic Home">
+            <img src="/images/logo.png" alt="Noble Homoeopathy Logo" width="44" height="44">
+            <div class="logo-text">
+                <h1>{{ site.general.title }}</h1>
+                <p>{{ site.general.tagline }}</p>
+            </div>
+        </a>
+
+        <div class="nav-right">
+            <!-- Language Switcher -->
+            <div class="lang-switcher" role="group" aria-label="Language switcher">
+                <button class="lang-btn active" id="lang-en" data-lang="en" onclick="switchLanguage('en')">EN</button>
+                <button class="lang-btn" id="lang-ta" data-lang="ta" onclick="switchLanguage('ta')">தமிழ்</button>
+                <button class="lang-btn" id="lang-hi" data-lang="hi" onclick="switchLanguage('hi')">हिंदी</button>
+            </div>
+
+            <div class="nav-menu">
+                <div class="nav-links" role="menubar">
+                    <a href="/index.html#hero" role="menuitem" data-i18n="nav.home">Home</a>
+                    <a href="/index.html#overview" role="menuitem" data-i18n="nav.overview">Overview</a>
+                    <a href="/index.html#about" role="menuitem" data-i18n="nav.about">About</a>
+                    <a href="/index.html#treatments" role="menuitem" data-i18n="nav.treatments">Treatments</a>
+                    <a href="/index.html#why-us" role="menuitem" data-i18n="nav.whyUs">Why Us</a>
+                    <a href="/index.html#doctor" role="menuitem" data-i18n="nav.doctor">Doctor</a>
+                    <a href="/index.html#reviews" role="menuitem" data-i18n="nav.reviews">Reviews</a>
+                    <a href="/diet-plans.html" role="menuitem" class="active" data-i18n="nav.dietPlans">Diet Plans <span class="badge-nav-hot">₹25</span></a>
+                    <a href="/feedback.html" role="menuitem" data-i18n="nav.feedback">Feedback</a>
+                </div>
+            </div>
+
+            <button class="hamburger" aria-label="Toggle navigation menu" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <main id="main">
+        <!-- ═══════════════ HERO SECTION ═══════════════ -->
+        <section class="diet-hero">
+            <div class="container">
+                <div class="diet-hero-badge">
+                    <i class="fas fa-certificate"></i> Doctor-Formulated Clinical Nutrition • ₹25 Micro-Price
+                </div>
+                <h1>Clinical Indian Diet Plans by Dr. Kokhila</h1>
+                <p>Scientifically designed nutrition protocols crafted to reverse metabolic sluggishness, balance hormones, heal gut inflammation, and complement homoeopathic treatments. Instant digital access for just ₹25.</p>
+
+                <div class="diet-trust-strip">
+                    <div class="diet-trust-item"><i class="fas fa-bolt"></i> Instant 1-Click UPI & QR</div>
+                    <div class="diet-trust-item"><i class="fas fa-file-pdf"></i> Printable PDF + Online Reader</div>
+                    <div class="diet-trust-item"><i class="fab fa-whatsapp"></i> Delivery to WhatsApp</div>
+                    <div class="diet-trust-item"><i class="fas fa-seedling"></i> Homoeopathy Synergistic</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════════ FILTER TABS ═══════════════ -->
+        <section class="section section-light" style="padding-top: 40px; padding-bottom: 30px;">
+            <div class="container">
+                <div class="diet-filter-nav" role="tablist">
+                    <button class="diet-filter-btn active" data-filter="all">All Plans ({{ dietPlans.length }})</button>
+                    <button class="diet-filter-btn" data-filter="Weight Management">Weight Loss</button>
+                    <button class="diet-filter-btn" data-filter="Women's Health">PCOD & Hormones</button>
+                    <button class="diet-filter-btn" data-filter="Digestive Wellness">Gut Health & Acidity</button>
+                    <button class="diet-filter-btn" data-filter="Liver & Metabolism">Fatty Liver</button>
+                    <button class="diet-filter-btn" data-filter="Endocrine Health">Diabetes</button>
+                    <button class="diet-filter-btn" data-filter="Dermatology & Glow">Skin Glow</button>
+                </div>
+
+                <!-- ═══════════════ DIET PLANS GRID ═══════════════ -->
+                <div class="diet-grid">
+                    {% for plan in dietPlans %}
+                    <article class="diet-card" id="diet-card-{{ plan.id }}" data-category="{{ plan.category }}">
+                        <div class="diet-card-top">
+                            <span class="diet-card-badge">{{ plan.badge }}</span>
+                            <div class="diet-card-category">
+                                <i class="fas {{ plan.icon }}"></i> {{ plan.category }}
+                            </div>
+                            <h2 class="diet-card-title">{{ plan.title }}</h2>
+                            <p class="diet-card-tagline">{{ plan.tagline }}</p>
+                        </div>
+
+                        <div class="diet-card-body">
+                            <ul class="diet-card-highlights">
+                                {% for item in plan.highlights %}
+                                <li><i class="fas fa-circle-check"></i> <span>{{ item }}</span></li>
+                                {% endfor %}
+                            </ul>
+
+                            <div class="diet-rating-strip">
+                                <span class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </span>
+                                <strong>{{ plan.rating }}</strong>
+                                <span>({{ plan.reviewsCount }} verified patients)</span>
+                            </div>
+                        </div>
+
+                        <div class="diet-card-footer">
+                            <div class="diet-price-row">
+                                <div class="diet-price-main">
+                                    <span class="curr">₹</span>
+                                    <span class="val">{{ plan.price }}</span>
+                                    <span class="diet-price-orig">₹{{ plan.originalPrice }}</span>
+                                </div>
+                                <span class="diet-discount-badge">95% OFF</span>
+                            </div>
+
+                            <div class="diet-btn-group">
+                                <button type="button" class="btn-preview" onclick="openPreview('{{ plan.id }}')">
+                                    <i class="fas fa-eye"></i> Sample
+                                </button>
+                                <button type="button" class="btn-buy-diet" id="btn-buy-{{ plan.id }}" onclick="openCheckout('{{ plan.id }}')">
+                                    <i class="fas fa-shopping-bag"></i> Get for ₹{{ plan.price }}
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════════ CLINICAL DOCTOR'S NOTE ═══════════════ -->
+        <section class="section section-dark" style="padding: 70px 20px;">
+            <div class="container" style="max-width: 900px;">
+                <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: var(--radius-xl); padding: 40px; display: flex; flex-direction: column; gap: 20px; align-items: center; text-align: center;">
+                    <img src="/images/logo.png" alt="Dr. Kokhila" width="70" height="70" style="border-radius: 50%; border: 2px solid var(--accent);">
+                    <div>
+                        <span style="color: var(--accent); font-weight: 700; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px;">A Note From The Doctor</span>
+                        <h2 style="color: white; font-size: 1.8rem; margin: 8px 0 15px;">"Food is Medicine When Synchronized with Your Body"</h2>
+                        <p style="color: #cbd5e1; font-size: 1.05rem; line-height: 1.7; margin-bottom: 15px;">
+                            "In classical homoeopathy, remedies stimulate your innate vital force to heal chronic ailments. However, feeding your body inflammatory or incompatible foods sabotages that healing. I formulated these ₹25 clinical meal protocols using authentic, easily accessible Indian ingredients to empower our patients with affordable, practical nutrition that works synergistically with homeopathic remedies."
+                        </p>
+                        <p style="color: var(--primary-light); font-weight: 700; margin: 0;">— Dr. Kokhila, B.H.M.S &bull; Noble Homoeopathy Clinic</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════════ FREQUENTLY ASKED QUESTIONS ═══════════════ -->
+        <section class="section section-light" style="padding: 70px 20px;">
+            <div class="container" style="max-width: 900px;">
+                <div class="section-header" style="text-align: center; margin-bottom: 40px;">
+                    <h2 style="font-size: 2.2rem; color: var(--navy); margin-bottom: 10px;">Frequently Asked Questions</h2>
+                    <p style="color: var(--slate); font-size: 1.05rem;">Everything you need to know about our ₹25 clinical diet plans</p>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 16px;">
+                    <details style="background: white; border: 1px solid #e2e8f0; border-radius: var(--radius-md); padding: 18px 22px; cursor: pointer;">
+                        <summary style="font-weight: 700; color: var(--navy); font-size: 1.05rem; list-style: none; display: flex; justify-content: space-between; align-items: center;">
+                            <span>Why are these plans priced at just ₹25?</span>
+                            <i class="fas fa-chevron-down" style="color: var(--primary);"></i>
+                        </summary>
+                        <p style="margin: 12px 0 0; color: #475569; line-height: 1.6; font-size: 0.95rem;">
+                            Our mission at Noble Homoeopathy Clinic is to make genuine preventive health accessible to every individual and household. We believe vital dietary guidance shouldn't cost thousands of rupees. At ₹25, anyone can instantly access scientifically verified Indian nutrition without financial hesitation.
+                        </p>
+                    </details>
+
+                    <details style="background: white; border: 1px solid #e2e8f0; border-radius: var(--radius-md); padding: 18px 22px; cursor: pointer;">
+                        <summary style="font-weight: 700; color: var(--navy); font-size: 1.05rem; list-style: none; display: flex; justify-content: space-between; align-items: center;">
+                            <span>How will I receive the diet plan after payment?</span>
+                            <i class="fas fa-chevron-down" style="color: var(--primary);"></i>
+                        </summary>
+                        <p style="margin: 12px 0 0; color: #475569; line-height: 1.6; font-size: 0.95rem;">
+                            Immediately upon completing payment (via Google Pay, PhonePe, Paytm, or Cards), the plan unlocks on your screen! You can immediately <strong>Download the Printable PDF</strong>, <strong>Read the Complete Guide Online</strong>, and click to <strong>Receive a Copy on WhatsApp</strong> for easy daily reference. It is also saved to your browser so you can return anytime.
+                        </p>
+                    </details>
+
+                    <details style="background: white; border: 1px solid #e2e8f0; border-radius: var(--radius-md); padding: 18px 22px; cursor: pointer;">
+                        <summary style="font-weight: 700; color: var(--navy); font-size: 1.05rem; list-style: none; display: flex; justify-content: space-between; align-items: center;">
+                            <span>Are these plans safe to follow alongside homoeopathic medicines?</span>
+                            <i class="fas fa-chevron-down" style="color: var(--primary);"></i>
+                        </summary>
+                        <p style="margin: 12px 0 0; color: #475569; line-height: 1.6; font-size: 0.95rem;">
+                            Yes, absolutely! Unlike generic crash diets, every single plan created here includes explicit guidelines for homoeopathy patients — including ideal medication timing gaps, avoiding antidoting substances (like raw camphor or strong coffee), and optimizing digestion so remedies work with maximum efficacy.
+                        </p>
+                    </details>
+
+                    <details style="background: white; border: 1px solid #e2e8f0; border-radius: var(--radius-md); padding: 18px 22px; cursor: pointer;">
+                        <summary style="font-weight: 700; color: var(--navy); font-size: 1.05rem; list-style: none; display: flex; justify-content: space-between; align-items: center;">
+                            <span>Are there vegetarian and non-vegetarian options included?</span>
+                            <i class="fas fa-chevron-down" style="color: var(--primary);"></i>
+                        </summary>
+                        <p style="margin: 12px 0 0; color: #475569; line-height: 1.6; font-size: 0.95rem;">
+                            Yes. Each meal plan includes both pure vegetarian Indian options (paneer, dals, sprouts, millets) and light non-vegetarian alternatives (boiled eggs, steamed fish, country chicken breast) so you can easily adapt it to your food preferences.
+                        </p>
+                    </details>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ═══════════════ CHECKOUT & PAYMENT MODAL ═══════════════ -->
+    <div class="diet-modal-overlay" id="diet-checkout-modal" role="dialog" aria-modal="true" aria-labelledby="checkout-plan-title">
+        <div class="diet-modal-card">
+            <!-- Modal Header -->
+            <div class="diet-modal-header">
+                <span class="modal-price-pill" id="checkout-amount-pill">₹25</span>
+                <button type="button" class="diet-modal-close" id="checkout-close-btn" onclick="closeModal('diet-checkout-modal')" aria-label="Close modal">&times;</button>
+                <p id="checkout-plan-category">Clinical Nutrition Plan</p>
+                <h3 id="checkout-plan-title">Diet Plan Title</h3>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="diet-modal-body">
+                <!-- Step 1: Payment Flow -->
+                <div id="checkout-step-pay">
+                    <!-- Patient Contact Info (Shared) -->
+                    <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: var(--radius-md); padding: 16px 18px; margin-bottom: 20px;">
+                        <div class="checkout-form-group" style="margin-bottom: 12px;">
+                            <label for="customer-name">Your Full Name <span style="color:#ef4444;">*</span></label>
+                            <input type="text" id="customer-name" class="checkout-form-control" placeholder="e.g. Priya Sharma" required>
+                        </div>
+
+                        <div class="checkout-form-group" style="margin-bottom: 0;">
+                            <label for="customer-phone">Mobile / WhatsApp Number <span style="color:#ef4444;">*</span></label>
+                            <input type="tel" id="customer-phone" class="checkout-form-control" placeholder="e.g. 9876543210" maxlength="10" required>
+                        </div>
+                    </div>
+
+                    <!-- Payment Tabs -->
+                    <div class="payment-tabs" role="tablist">
+                        <button type="button" class="payment-tab-btn active" id="tab-btn-upi" onclick="switchPaymentTab('upi')">
+                            <i class="fas fa-qrcode"></i> Instant UPI (GPay/PhonePe/QR)
+                        </button>
+                        <button type="button" class="payment-tab-btn" id="tab-btn-razorpay" onclick="switchPaymentTab('razorpay')">
+                            <i class="fas fa-credit-card"></i> Card / NetBanking / Razorpay
+                        </button>
+                    </div>
+
+                    <!-- UPI View -->
+                    <div id="payment-view-upi">
+                        <div class="upi-checkout-box">
+                            <p style="font-size:0.88rem; color:#475569; margin:0 0 10px; font-weight:600;">
+                                Scan QR code with any UPI app to pay ₹25
+                            </p>
+                            
+                            <div class="upi-qr-wrapper">
+                                <img id="checkout-upi-qr" src="" alt="UPI Payment QR Code" width="170" height="170">
+                            </div>
+
+                            <div class="upi-id-copy-row">
+                                <span class="upi-id-box" id="display-upi-id">{{ site.general.upi_id }}</span>
+                                <button type="button" class="btn-copy-upi" onclick="copyUpiId()" id="btn-copy-upi-text">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                            </div>
+
+                            <!-- Mobile 1-Tap Payment App Buttons -->
+                            <div class="upi-mobile-apps">
+                                <div class="upi-mobile-apps-label">Or Pay directly in your mobile app:</div>
+                                <div class="upi-apps-grid">
+                                    <a href="#" id="btn-upi-gpay" class="upi-app-btn upi-gpay" target="_blank" rel="noopener">
+                                        <i class="fab fa-google-pay" style="font-size: 1.3rem;"></i> Google Pay
+                                    </a>
+                                    <a href="#" id="btn-upi-phonepe" class="upi-app-btn upi-phonepe" target="_blank" rel="noopener">
+                                        <i class="fas fa-mobile-screen-button"></i> PhonePe
+                                    </a>
+                                    <a href="#" id="btn-upi-paytm" class="upi-app-btn upi-paytm" target="_blank" rel="noopener">
+                                        <i class="fas fa-wallet"></i> Paytm
+                                    </a>
+                                    <a href="#" id="btn-upi-generic" class="upi-app-btn upi-generic" target="_blank" rel="noopener">
+                                        <i class="fas fa-bolt"></i> Any UPI App
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="checkout-form-group">
+                            <label for="customer-utr">UPI Ref / UTR No. (Optional)</label>
+                            <input type="text" id="customer-utr" class="checkout-form-control" placeholder="e.g. 12-digit transaction ID">
+                        </div>
+
+                        <button type="button" class="btn-confirm-unlock btn-pay" id="btn-confirm-upi" onclick="confirmUpiPayment()">
+                            <i class="fas fa-lock-open"></i> I Have Paid — Unlock Diet Plan Now
+                        </button>
+                    </div>
+
+                    <!-- Razorpay View -->
+                    <div id="payment-view-razorpay" style="display: none; text-align: center; padding: 20px 0;">
+                        <i class="fas fa-shield-alt" style="font-size: 3rem; color: var(--primary); margin-bottom: 15px;"></i>
+                        <h4 style="color: var(--navy); font-size: 1.2rem; margin-bottom: 8px;">Secure Checkout via Razorpay</h4>
+                        <p style="color: var(--slate); font-size: 0.92rem; margin-bottom: 25px;">
+                            Pay ₹25 safely using Debit/Credit Cards, NetBanking, or Wallets with instant verification.
+                        </p>
+                        <button type="button" class="btn-confirm-unlock" onclick="payWithRazorpay()" style="background: linear-gradient(135deg, #0ea5e9, #0284c7);">
+                            <i class="fas fa-arrow-right"></i> Proceed with Razorpay
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 2: Unlocked Success State -->
+                <div id="checkout-step-success" style="display: none;">
+                    <div class="diet-success-view">
+                        <div class="success-icon-wrap">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <h3>Payment Confirmed! 🎉</h3>
+                        <p>Your clinical plan <strong id="success-plan-name" style="color: var(--navy);"></strong> has been unlocked successfully.</p>
+
+                        <div class="success-actions-grid">
+                            <button type="button" class="btn-delivery btn-delivery-pdf" id="btn-success-pdf">
+                                <i class="fas fa-file-pdf"></i> Download Printable PDF Plan
+                            </button>
+                            <button type="button" class="btn-delivery btn-delivery-view" id="btn-success-view">
+                                <i class="fas fa-book-open"></i> Read Full Plan Online Now
+                            </button>
+                            <a href="#" class="btn-delivery btn-delivery-whatsapp" id="btn-success-whatsapp" target="_blank" rel="noopener">
+                                <i class="fab fa-whatsapp"></i> Receive Copy on WhatsApp
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════════ FULL PLAN READER MODAL ═══════════════ -->
+    <div class="diet-modal-overlay" id="diet-reader-modal" role="dialog" aria-modal="true" aria-labelledby="reader-plan-title">
+        <div class="diet-modal-card diet-reader-modal">
+            <div class="diet-modal-header">
+                <button type="button" class="diet-modal-close" id="reader-close-btn" onclick="closeModal('diet-reader-modal')" aria-label="Close reader">&times;</button>
+                <p id="reader-plan-category">Clinical Diet Plan</p>
+                <h3 id="reader-plan-title">Full Nutrition Protocol</h3>
+            </div>
+
+            <div class="diet-modal-body diet-reader-content">
+                <div style="display:flex; justify-content:flex-end; margin-bottom:15px;" class="no-print">
+                    <button type="button" class="btn-delivery btn-delivery-pdf" id="btn-reader-print" style="padding: 8px 16px; font-size: 0.88rem;">
+                        <i class="fas fa-print"></i> Print / Save as PDF
+                    </button>
+                </div>
+                
+                <div id="reader-plan-body"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════════ SAMPLE PREVIEW MODAL ═══════════════ -->
+    <div class="diet-modal-overlay" id="diet-preview-modal" role="dialog" aria-modal="true" aria-labelledby="preview-title">
+        <div class="diet-modal-card">
+            <div class="diet-modal-header">
+                <span class="modal-price-pill">Sample</span>
+                <button type="button" class="diet-modal-close" id="preview-close-btn" onclick="closeModal('diet-preview-modal')" aria-label="Close preview">&times;</button>
+                <p id="preview-category">Preview Protocol</p>
+                <h3 id="preview-title">Diet Plan Preview</h3>
+            </div>
+
+            <div class="diet-modal-body">
+                <p id="preview-tagline" style="color: var(--slate); font-size: 0.95rem; margin-bottom: 20px; line-height: 1.5;"></p>
+                <div id="preview-sample-content"></div>
+
+                <button type="button" class="btn-confirm-unlock" id="preview-btn-buy" style="margin-top: 20px;">
+                    <i class="fas fa-lock-open"></i> Unlock Complete Plan for ₹25
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Printable Area for Native Browser PDF -->
+    <div id="diet-print-area"></div>
+
+    <!-- ═══════════════ FOOTER ═══════════════ -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 <a href="/index.html">Noble Homoeopathy Clinic</a>. All rights reserved. | Padur, Chennai, Tamil Nadu, India</p>
+            <p style="font-size: 0.8rem; color: #94a3b8; margin-top: 6px;">
+                Disclaimer: These nutritional plans provide supportive lifestyle care and do not replace personalized medical consultations with Dr. Kokhila.
+            </p>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Floating Button -->
+    <a href="https://wa.me/{{ site.general.whatsapp_phone }}?text=Hello%20Dr.%20Kokhila%2C%20I%20have%20a%20question%20about%20your%20Diet%20Plans."
+        class="whatsapp-float" target="_blank" rel="noopener" aria-label="Chat on WhatsApp" id="whatsapp-float">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- Embedded Plans Data -->
+    <script id="diet-plans-data" type="application/json">
+        {{ dietPlans | dump | safe }}
+    </script>
+
+    <!-- Clinic Config -->
+    <script>
+        window.NHC_CONFIG = {
+            upi_id: "{{ site.general.upi_id }}",
+            upi_name: "{{ site.general.upi_name }}",
+            whatsapp_phone: "{{ site.general.whatsapp_phone }}",
+            razorpay_key_id: "{{ site.general.razorpay_key_id }}"
+        };
+    </script>
+
+    <!-- Project Scripts -->
+    <script src="/script.js"></script>
+    <script src="/diet-plans.js"></script>
+</body>
+
+</html>

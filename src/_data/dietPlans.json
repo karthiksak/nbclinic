@@ -1,0 +1,370 @@
+[
+  {
+    "id": "weight-loss",
+    "title": "Weight Loss & Belly Fat Metabolism Plan",
+    "tagline": "Doctor-crafted 14-day Indian nutrition plan to accelerate fat burning without starvation or weakness.",
+    "category": "Weight Management",
+    "icon": "fa-fire-flame-curved",
+    "badge": "Bestseller",
+    "price": 25,
+    "originalPrice": 499,
+    "rating": "4.9",
+    "reviewsCount": 142,
+    "highlights": [
+      "Targeted Indian meal timings for metabolic reset",
+      "Low-carb substitutions for rice, dosa & chapati",
+      "Metabolism-boosting herbal morning tonic",
+      "Homoeopathy medicine synergy guidelines"
+    ],
+    "targetAudience": "Ideal for stubborn belly fat, postpartum weight, slow metabolism, and sedentary professionals.",
+    "includes": [
+      "Full 14-Day Day-by-Day Meal Matrix",
+      "Early Morning to Bedtime Schedule",
+      "Vegetarian & Egg/Non-Veg Meal Options",
+      "Smart Snacking & Office Survival Guide",
+      "Clinical Do's & Don'ts for Homoeopathy"
+    ],
+    "sampleMeal": {
+      "morning": "Warm water + soaked fenugreek seeds + pinch of cinnamon (7:00 AM)",
+      "breakfast": "2 Ragi or Moong dal cheela with mint coriander chutney (8:30 AM)",
+      "lunch": "1 cup brown rice or 2 multigrain rotis + thick dal + cucumber salad + curd (1:00 PM)",
+      "evening": "Green tea or roasted makhana / chana (4:30 PM)",
+      "dinner": "Vegetable clear soup + grilled paneer/tofu or boiled eggs with sautéed veggies (7:30 PM)"
+    },
+    "fullPlan": {
+      "overview": "This protocol addresses underlying metabolic sluggishness often linked with thyroid slowdown, insulin resistance, or water retention. Designed to be 100% compatible with homoeopathy remedies.",
+      "morningWakeup": "6:30 AM – 7:00 AM: 1-2 glasses of warm lukewarm water with a squeeze of fresh lemon and 1 tsp soaked chia seeds or crushed jeera water. (Take homoeopathic medicine 30 mins before or after).",
+      "breakfast": "8:00 AM – 8:45 AM: High-protein meal. Choose: 2 Oats/Moong dal dosas with tomato chutney, OR vegetable sprout salad with lemon, OR 2 boiled egg whites + 1 whole wheat toast + green tea.",
+      "midMorning": "11:00 AM: 1 seasonal fruit (apple, guava, papaya, or pear) OR tender coconut water. Avoid high-sugar mango/banana during initial fat burn phase.",
+      "lunch": "1:00 PM – 1:45 PM: Half plate filled with fresh raw salad (cucumber, carrot, radish). 1 bowl mixed vegetable sabzi cooked in cold-pressed oil, 1 bowl thick dal/rajma, and 1-2 small multigrain rotis or 1 small cup red rice.",
+      "postLunch": "30 mins after lunch: 1 glass homemade buttermilk with crushed roasted cumin and ginger.",
+      "eveningSnack": "4:30 PM – 5:15 PM: 1 cup green tea or herbal tulsi tea + 1 fistful of roasted makhana (foxnuts) or boiled peanuts or roasted chana.",
+      "dinner": "7:00 PM – 8:00 PM (Strictly finish 2.5 hours before bed): Light protein-forward dinner. Bottle gourd/spinach vegetable soup + stir-fried paneer / tofu / grilled chicken with steamed broccoli and beans.",
+      "bedtime": "9:45 PM: 1 glass warm turmeric water or chamomile herbal infusion.",
+      "homoeopathyRules": [
+        "Take prescribed homoeopathic remedies on a clean palate (rinse mouth with plain water first).",
+        "Maintain a gap of 20 to 30 minutes between medicines and meals or hot drinks.",
+        "Avoid raw garlic, strong raw onion, and eucalyptus/camphor chewing gums within 30 minutes of taking homoeopathic remedies.",
+        "Drink at least 2.5 to 3 liters of water evenly throughout the day."
+      ],
+      "foodsToAvoid": [
+        "Refined white flour (Maida), white sugar, commercial bakery pastries and biscuits.",
+        "Deep-fried snacks (samosas, bajjis, packaged chips).",
+        "Aerated soft drinks, packaged fruit juices with added syrup.",
+        "Heavy post-9 PM dinners or late-night snacking."
+      ],
+      "groceryChecklist": [
+        "Whole grains: Ragi flour, Moong dal, Rolled oats, Brown or Red rice",
+        "Proteins: Paneer, Tofu, Eggs (if non-veg), Green moong, Chickpeas, Rajma",
+        "Vegetables: Spinach, Bottle gourd, Cucumber, Carrots, Beans, Bell peppers",
+        "Herbs & Spices: Cumin seeds, Cinnamon bark, Chia seeds, Fenugreek, Turmeric"
+      ]
+    }
+  },
+  {
+    "id": "pcod-pcos",
+    "title": "PCOD / PCOS & Hormonal Balance Nutrition Plan",
+    "tagline": "Holistic Indian endocrine diet to regulate cycles, reduce acne, combat hirsutism, and balance insulin.",
+    "category": "Women's Health",
+    "icon": "fa-venus",
+    "badge": "Doctor Curated",
+    "price": 25,
+    "originalPrice": 499,
+    "rating": "5.0",
+    "reviewsCount": 118,
+    "highlights": [
+      "Complete Moon & Seed Cycling protocol (Flax, Pumpkin, Sesame, Sunflower)",
+      "Spearmint anti-androgen herbal tea routine",
+      "Low Glycemic Index insulin sensitizing foods",
+      "Natural ovarian follicle support"
+    ],
+    "targetAudience": "Women facing irregular periods, delayed cycles, cysts, cystic acne, facial hair, or unexplained hormonal weight gain.",
+    "includes": [
+      "Phased Seed Cycling Timetable (Days 1-14 & Days 15-28)",
+      "Anti-Inflammatory Hormone Balancing Menu",
+      "Hormone Safe Snacks & Dessert Replacements",
+      "Stress & Cortisol Reduction Guidelines",
+      "Homoeopathic Lifestyle Recommendations"
+    ],
+    "sampleMeal": {
+      "morning": "Soaked methi water + 1 tbsp ground pumpkin & flax seeds (7:00 AM)",
+      "breakfast": "Vegetable oats upma with seeds and a small bowl of pomegranate (8:30 AM)",
+      "lunch": "Palak dal + 2 Jowar/Bajra rotis + mixed greens salad with lemon (1:00 PM)",
+      "evening": "Fresh spearmint tea + 5 soaked almonds & 2 walnuts (5:00 PM)",
+      "dinner": "Lentil soup + quinoa or stir-fried veggies with tofu/paneer (7:30 PM)"
+    },
+    "fullPlan": {
+      "overview": "Polycystic Ovarian Syndrome is rooted in insulin resistance and chronic low-grade inflammation. This plan balances luteinizing hormone (LH), follicle-stimulating hormone (FSH), and stabilizes insulin levels without restrictive crash diets.",
+      "morningWakeup": "6:30 AM: 1 glass warm cinnamon water (boil 1-inch Ceylon cinnamon stick in water) + 4 soaked almonds (peeled) + 2 soaked walnuts.",
+      "seedCyclingPhase": "Days 1 to 14 (Follicular Phase): 1 tablespoon ground raw pumpkin seeds + 1 tablespoon ground raw flaxseeds daily. Days 15 to 28 (Luteal Phase): 1 tablespoon raw sesame seeds (til) + 1 tablespoon raw sunflower seeds daily.",
+      "breakfast": "8:30 AM: Protein & Fiber dense. Besan vegetable chilla with flaxseed sprinkle OR savory steel-cut oats upma packed with carrots and peas OR vegetable omelet with spinach.",
+      "midMorning": "11:00 AM: 1 cup pure Spearmint herbal tea (proven to reduce excess free testosterone/androgens) + 1 small slice of papaya or guava.",
+      "lunch": "1:00 PM: Focus on complex millets. 2 Jowar, Ragi, or Bajra rotis + 1 generous bowl of sprouted pulses or fish/chicken curry (non-veg) + stir-fried green beans/greens + fresh cucumber-radish salad.",
+      "postLunch": "2:00 PM: 1 small glass of chaas (buttermilk) infused with a pinch of hing and roasted jeera.",
+      "eveningSnack": "5:00 PM: Warm cup of cinnamon-ginger herbal tea + small handful of roasted pumpkin seeds or makhanas.",
+      "dinner": "7:30 PM: Early light dinner. Steamed vegetable warm bowl with tofu/paneer or egg whites, or vegetable moong dal khichdi with 1 tsp A2 cow ghee and mint chutney.",
+      "bedtime": "9:30 PM: Warm chamomile or nutmeg infused water to relax cortisol and ensure 7-8 hours of uninterrupted deep sleep.",
+      "homoeopathyRules": [
+        "Homoeopathic remedies for PCOD (such as Pulsatilla, Sepia, or Thuja prescribed by Dr. Kokhila) work deeply on the hormonal axis; never skip doses.",
+        "Take medicines on an empty mouth, at least 25 minutes prior to morning seed water.",
+        "Limit dairy if you notice flare-ups in hormonal acne; switch to almond or coconut milk."
+      ],
+      "foodsToAvoid": [
+        "Refined sugar, packaged chocolates, soft drinks, sweetened flavored yogurts.",
+        "High GI white bread, pasta, white rice in excessive quantities.",
+        "Commercial poultry injected with hormones (opt for country eggs/chicken).",
+        "Excessive plastic bottle usage (switch to glass/copper to avoid endocrine-disrupting BPA)."
+      ],
+      "groceryChecklist": [
+        "Seeds: Raw pumpkin seeds, Flaxseeds, Raw sesame seeds, Sunflower seeds",
+        "Millets: Jowar flour, Bajra flour, Ragi flour",
+        "Herbs: Organic Spearmint tea leaves, Ceylon cinnamon, Fresh ginger",
+        "Vegetables: Spinach, Methi leaves, Broccoli, Bell peppers, Ridge gourd"
+      ]
+    }
+  },
+  {
+    "id": "gut-acidity",
+    "title": "Gut Health, Acidity & Bloating (GERD/IBS) Relief Plan",
+    "tagline": "Gentle alkaline Indian nutrition protocol to heal gastric lining, end acid reflux, and eliminate bloating.",
+    "category": "Digestive Wellness",
+    "icon": "fa-shield-halved",
+    "badge": "Instant Relief",
+    "price": 25,
+    "originalPrice": 499,
+    "rating": "4.9",
+    "reviewsCount": 165,
+    "highlights": [
+      "Natural stomach acid buffering techniques",
+      "Alkaline meal combinations to stop heartburn",
+      "FODMAP-friendly soothing vegetable list",
+      "Homemade gut flora restoration drinks"
+    ],
+    "targetAudience": "Anyone suffering from acid reflux (GERD), sour burping, chest burning, painful bloating, gastritis, or irregular bowel motions.",
+    "includes": [
+      "14-Day Soothing Digestive Timetable",
+      "Stomach Acid Emergency Relief Drink Recipe",
+      "Safe vs Trigger Food Master Index",
+      "Post-Meal Walking & Posture Guide",
+      "Homoeopathy Gut Care Principles"
+    ],
+    "sampleMeal": {
+      "morning": "Lukewarm water with crushed fennel (saunf) + soaked raisins (7:00 AM)",
+      "breakfast": "Steamed Idlis with coconut-coriander mild chutney (no red chili) (8:30 AM)",
+      "lunch": "Soft cooked rice with moong dal + steamed bottle gourd/snake gourd + cumin chaas (1:00 PM)",
+      "evening": "Warm boiled apple with cinnamon or tender coconut water (4:30 PM)",
+      "dinner": "Moong dal khichdi with a dash of pure cow ghee + pumpkin soup (7:30 PM)"
+    },
+    "fullPlan": {
+      "overview": "Chronic acidity and IBS often stem from sluggish digestive fire, irregular eating hours, stress, and impaired gut mucosal barrier. This diet cools systemic inflammation and heals stomach lining naturally.",
+      "morningWakeup": "6:30 AM: Overnight soaked coriander-fennel (Dhania-Saunf) water. Soak 1 tsp whole coriander seeds and 1 tsp fennel seeds in 1 glass water overnight; strain and drink at room temperature.",
+      "breakfast": "8:15 AM: Mild, non-fermented, easy-to-digest carbs. 2 soft steamed idlis with coriander-coconut chutney, OR soft rice porridge (kanji) with cumin, OR oatmeal cooked in water with ripe banana slices.",
+      "midMorning": "11:00 AM: Fresh tender coconut water (nature's best alkaline electrolyte) OR 1 ripe banana / peeled sweet pear. Never remain on an empty stomach for > 3.5 hours.",
+      "lunch": "1:00 PM: Soft, moisture-rich meals. 1 cup well-cooked white or red rice + yellow moong dal + steamed bottle gourd (lauki) / ridge gourd (peerkangai) / pumpkin + small cup of fresh homemade curd/yogurt (not sour).",
+      "postLunch": "Chew 1/2 tsp of roasted fennel seeds (saunf) slowly after lunch to promote alkaline saliva production.",
+      "eveningSnack": "4:30 PM: 1 cup tender coconut water OR steamed apple with a pinch of cinnamon OR 1 cup warm licorice (mulethi) herbal tea.",
+      "dinner": "7:00 PM – 7:30 PM: Very light dinner. Moong dal yellow khichdi cooked soft with 1/2 tsp pure cow ghee, or pureed pumpkin-carrot soup with 1 soft phulka.",
+      "bedtime": "9:30 PM: If feeling mild reflux: 1/2 cup cold milk (sip slowly) OR 1 glass plain lukewarm water. Elevate head by 6 inches while sleeping.",
+      "homoeopathyRules": [
+        "Homoeopathic remedies like Nux Vomica, Carbo Veg, or Robinia are best taken on a clean mouth.",
+        "Avoid peppermint lozenges, raw onions, and carbonated sodas which interfere with homeopathic action.",
+        "Eat quietly in a peaceful setting; avoid watching stressful screens while chewing."
+      ],
+      "foodsToAvoid": [
+        "Excessive red chili powder, green chili, garam masala, and black pepper.",
+        "Deep fried snacks, oily gravies, pickles, and vinegar-soaked condiments.",
+        "Strong black coffee, citrus juices (lemon/orange) on an empty irritated stomach.",
+        "Lying down immediately after eating (keep a 2 to 3 hour gap between dinner and sleep)."
+      ],
+      "groceryChecklist": [
+        "Grains & Pulses: Split yellow moong dal, Old rice, Rolled oats",
+        "Gourds: Bottle gourd, Snake gourd, Ridge gourd, Ash gourd, Yellow pumpkin",
+        "Herbs: Fennel seeds (Saunf), Whole coriander seeds, Cumin, Licorice (Mulethi)",
+        "Healthy Fats: Pure A2 cow ghee, Virgin coconut oil"
+      ]
+    }
+  },
+  {
+    "id": "fatty-liver",
+    "title": "Fatty Liver & Detox Reversal Diet Plan",
+    "tagline": "Clinical nutritional protocol designed to lower ALT/AST enzymes, eliminate visceral fat, and restore liver vitality.",
+    "category": "Liver & Metabolism",
+    "icon": "fa-heart-pulse",
+    "badge": "High Success",
+    "price": 25,
+    "originalPrice": 499,
+    "rating": "4.8",
+    "reviewsCount": 94,
+    "highlights": [
+      "Targeted liver detox foods rich in glutathione",
+      "Low triglyceride meal structures for liver de-clogging",
+      "Antioxidant-dense herbal tea protocols",
+      "Lipid profile & enzyme normalization guide"
+    ],
+    "targetAudience": "Individuals diagnosed with Grade 1 or Grade 2 Fatty Liver, elevated liver enzymes (SGOT/SGPT), or metabolic syndrome.",
+    "includes": [
+      "14-Day Liver De-Fatting Meal Blueprint",
+      "Amla & Turmeric Morning Elixir Formula",
+      "Vegetable & Cruciferous Rotation Guide",
+      "Fat & Oil Selection Guide",
+      "Homoeopathic Lifestyle Recommendations"
+    ],
+    "sampleMeal": {
+      "morning": "Warm water + fresh amla juice + pinch of organic turmeric (7:00 AM)",
+      "breakfast": "Multigrain vegetable porridge with flaxseed sprinkle (8:30 AM)",
+      "lunch": "1 cup red rice + horsegram (kollu) dal / spinach dal + boiled salad (1:00 PM)",
+      "evening": "Green tea with squeeze of lemon + roasted chana (4:30 PM)",
+      "dinner": "Grilled fish/paneer with sautéed broccoli, carrots & garlic (7:30 PM)"
+    },
+    "fullPlan": {
+      "overview": "Fatty liver occurs when fat accounts for more than 5-10% of liver weight. Reversing it requires cutting fructose, minimizing saturated fats, improving insulin sensitivity, and supporting the liver's phase 1 & 2 detoxification pathways.",
+      "morningWakeup": "6:30 AM: Fresh Amla (Indian gooseberry) shot. 30 ml fresh amla juice diluted in 1 glass warm water with 1/4 tsp pure turmeric powder and a pinch of black pepper (enhances curcumin absorption).",
+      "breakfast": "8:30 AM: Fiber & complex energy. Mixed vegetable sprouted moong salad with lemon, OR 2 Ragi dosas with coriander-tomato chutney, OR scrambled eggs with sautéed mushrooms and spinach.",
+      "midMorning": "11:00 AM: 1 small green apple OR a cup of fresh pomegranate seeds (high in polyphenol antioxidants for hepatocytes).",
+      "lunch": "1:00 PM: Cruciferous & legume focus. 1 bowl steamed broccoli / cabbage / drumstick curry + 1 bowl Horse gram (Kollu) or Masoor dal + 2 small phulkas or 1 small cup red rice + fresh beetroot-cucumber salad.",
+      "postLunch": "1 glass fresh buttermilk seasoned with crushed ginger and curry leaves (rich in carbazole alkaloids).",
+      "eveningSnack": "5:00 PM: 1 cup dandelion or green tea + 1 small handful of walnuts (rich in Omega-3 fatty acids).",
+      "dinner": "7:30 PM: Early dinner. Grilled or baked paneer / tofu / country chicken breast with stir-fried zucchini, bell peppers, and garlic, OR clear vegetable dalia with mixed vegetables.",
+      "bedtime": "9:30 PM: Warm water infused with crushed fennel seeds and a dash of cinnamon.",
+      "homoeopathyRules": [
+        "Noble Homoeopathy remedies (such as Chelidonium, Lycopodium, or Carduus Marianus) accelerate liver cellular recovery.",
+        "Take homoeopathic drops in 1/4th cup of lukewarm water as instructed by Dr. Kokhila.",
+        "Zero alcohol intake during the 6-week liver detox window."
+      ],
+      "foodsToAvoid": [
+        "Alcohol in all forms (beer, wine, spirits).",
+        "High-Fructose Corn Syrup (packaged juices, soft drinks, candy, pastries).",
+        "Vanaspati, margarine, re-used frying oils, and trans fats.",
+        "Red meat, processed sausages, and excessive full-fat processed cheese."
+      ],
+      "groceryChecklist": [
+        "Superfoods: Fresh Amla, Raw Turmeric, Garlic, Fresh ginger",
+        "Cruciferous: Broccoli, Cabbage, Cauliflower, Radish",
+        "Pulses: Horsegram (Kollu), Green gram, Brown lentils (Masoor)",
+        "Nuts: Raw walnuts, Sunflower seeds, Flaxseed meal"
+      ]
+    }
+  },
+  {
+    "id": "diabetes-care",
+    "title": "Diabetes & Blood Sugar Control Diet Plan",
+    "tagline": "Science-backed Low-Glycemic Index Indian diet to stabilize post-prandial spikes, lower HbA1c, and reduce fatigue.",
+    "category": "Endocrine Health",
+    "icon": "fa-chart-line",
+    "badge": "Proven Results",
+    "price": 25,
+    "originalPrice": 499,
+    "rating": "4.9",
+    "reviewsCount": 130,
+    "highlights": [
+      "Sequential eating protocol (Fiber first, Protein second, Carbs last)",
+      "Ancient Indian millet pairings for slow glucose release",
+      "Fenugreek and Jamun seed natural glucose regulators",
+      "Night hypoglycemia prevention snacks"
+    ],
+    "targetAudience": "Individuals with Pre-diabetes, Type 2 Diabetes, high fasting blood sugar, or family history of metabolic disorders.",
+    "includes": [
+      "14-Day Low Glycemic Index Meal Chart",
+      "Blood Glucose Spike Shield Guide",
+      "Safe Indian Fruit Portions & Timings",
+      "Smart Dining-Out Strategies",
+      "Homoeopathy Glucose Support Rules"
+    ],
+    "sampleMeal": {
+      "morning": "Soaked fenugreek (methi) water with chewed seeds (7:00 AM)",
+      "breakfast": "2 Methi-missi rotis with curd and cucumber salad (8:30 AM)",
+      "lunch": "1 cup foxtail millet or 2 multi-grain phulkas + soya/paneer curry + green salad (1:00 PM)",
+      "evening": "Cinnamon herbal tea + roasted chana / flaxseed crackers (4:30 PM)",
+      "dinner": "Mixed vegetable & paneer soup + 1 small jowar roti with dal (7:30 PM)"
+    },
+    "fullPlan": {
+      "overview": "Managing diabetes is not about starving; it is about controlling the glycemic load and preserving pancreatic beta-cell function through smart food pairing, resistant starch, and consistent meal timings.",
+      "morningWakeup": "6:30 AM: 1 glass warm water with 1 teaspoon of overnight-soaked Methi (fenugreek) seeds. Chew the softened seeds thoroughly (galactomannan fiber delays carbohydrate absorption).",
+      "breakfast": "8:30 AM: High protein and high soluble fiber. 2 Missi rotis (chana flour + whole wheat + chopped methi) with fresh curd, OR sprouted moong dal chilla with vegetable stuffing, OR 2 eggs with sautéed mushrooms and whole grain toast.",
+      "midMorning": "11:00 AM: 1 small Indian gooseberry (Amla) OR 1 small guava / green apple + 4 soaked almonds.",
+      "lunch": "1:00 PM: Always follow the sequential eating rule: 1) Eat the raw cucumber-tomato-radish salad FIRST; 2) Eat the bowl of dal / paneer / chicken / fish SECOND; 3) Eat the 1-2 multigrain or jowar rotis / 1 cup foxtail millet (Thinai) LAST. This blunts post-meal glucose spikes by up to 40%!",
+      "postLunch": "Walk for 10-15 minutes briskly at normal pace to activate GLUT-4 glucose transporters in muscle tissue.",
+      "eveningSnack": "4:30 PM: 1 cup green tea with a dash of cinnamon powder (insulin mimetic) + 1 fistful of roasted Bengal gram (chana) or boiled sundal (sprouted legumes).",
+      "dinner": "7:30 PM: Early light dinner. Steamed vegetable soup + 1 small Jowar/Bajra roti with rich palak dal, OR grilled fish/tofu with stir-fried beans, carrots, and cauliflower.",
+      "bedtime": "9:45 PM: 1 small cup warm almond milk or turmeric water with a pinch of nutmeg (prevents overnight nocturnal glucose dips).",
+      "homoeopathyRules": [
+        "Homoeopathic remedies like Syzygium Jambolanum, Gymnema Sylvestre, or Uranium Nitricum support pancreatic vitality.",
+        "Take medicines 30 minutes away from any food or tea.",
+        "Check fasting and post-prandial blood sugars weekly and maintain a written log."
+      ],
+      "foodsToAvoid": [
+        "Refined sugar, jaggery, honey, corn syrup, sweetened beverages, fruit juices without pulp.",
+        "Refined flour (maida), white bread, naans, bhaturas, pastries.",
+        "Deep-fried potatoes, potato chips, french fries, sweet potato in excess.",
+        "Skipping meals or eating dinner after 9:00 PM."
+      ],
+      "groceryChecklist": [
+        "Grains: Foxtail millet (Thinai), Little millet (Samai), Jowar flour, Besan (Bengal gram flour)",
+        "Spices: Methi seeds, Ceylon cinnamon bark, Turmeric, Black cumin (Kalonji)",
+        "Vegetables: Bitter gourd (Karela), Bottle gourd, Methi leaves, Spinach, French beans",
+        "Proteins: Chana dal, Rajma, Soya chunks, Tofu, Eggs, Fresh paneer"
+      ]
+    }
+  },
+  {
+    "id": "skin-glow",
+    "title": "Radiant Skin Glow & Anti-Allergy Cleansing Diet",
+    "tagline": "Gut-skin axis nutrition plan to heal eczema, acne, psoriasis, and allergies while boosting collagen naturally.",
+    "category": "Dermatology & Glow",
+    "icon": "fa-wand-magic-sparkles",
+    "badge": "Top Rated",
+    "price": 25,
+    "originalPrice": 499,
+    "rating": "4.9",
+    "reviewsCount": 112,
+    "highlights": [
+      "Gut-Skin Axis rebalancing to stop chronic inflammation",
+      "Antioxidant & Vitamin C cellular collagen boosters",
+      "Histamine-lowering seasonal Indian ingredients",
+      "Hydration and skin barrier rejuvenation protocol"
+    ],
+    "targetAudience": "Anyone battling stubborn acne, allergic dermatitis, eczema flares, dry/dull skin, dark circles, or premature aging.",
+    "includes": [
+      "14-Day Cellular Skin Rejuvenation Menu",
+      "Daily Skin-Elixir Smoothie & Herbal Drink Guide",
+      "Histamine & Allergen Elimination Checklist",
+      "Natural Collagen & Vitamin C Rich Foods",
+      "Homoeopathic Skin Care Instructions"
+    ],
+    "sampleMeal": {
+      "morning": "Warm water + soaked chia seeds + fresh aloe vera/amla extract (7:00 AM)",
+      "breakfast": "Overnight soaked oats with chia seeds, crushed almonds & berries/papaya (8:30 AM)",
+      "lunch": "1 cup brown rice or 2 phulkas + carrot-beetroot salad + spinach dal + cucumber chaas (1:00 PM)",
+      "evening": "Rosehip / chamomile tea + soaked walnuts and sunflower seeds (4:30 PM)",
+      "dinner": "Clear vegetable and bean soup + grilled paneer/tofu or boiled eggs with steamed broccoli (7:30 PM)"
+    },
+    "fullPlan": {
+      "overview": "Skin issues are almost always an external manifestation of internal toxicity, gut dysbiosis, or allergic overload. By calming the gut-skin axis and saturating the body with bioflavonoids, skin clear-ups happen naturally from within.",
+      "morningWakeup": "6:30 AM: Skin Radiance Elixir. 1 glass warm water with 1 tbsp soaked chia seeds + 20 ml pure Aloe Vera or Amla juice + pinch of organic turmeric. (Hydrates cellular membranes first thing in the morning).",
+      "breakfast": "8:30 AM: Antioxidant and skin lipid booster. 2 Vegetable ragi or oats pancakes with coconut chutney, OR bowl of steel-cut oats with chia seeds, crushed pumpkin seeds, and ripe papaya chunks.",
+      "midMorning": "11:00 AM: Fresh coconut water OR 1 medium bowl of fresh watermelon / pomegranate / guava (rich in lycopene and vitamin C).",
+      "lunch": "1:00 PM: Anti-inflammatory balanced lunch. 2 whole grain phulkas or 1 cup red rice + 1 cup green leafy vegetable (spinach, methi, drumstick leaves) + 1 bowl yellow dal + fresh grated carrot & beetroot salad with lime juice.",
+      "postLunch": "1 glass fresh buttermilk infused with crushed mint leaves (cooling effect for pitta-aggravated skin flare-ups).",
+      "eveningSnack": "5:00 PM: 1 cup Hibiscus or Chamomile herbal tea + 4 soaked walnuts + 1 tablespoon sunflower seeds (high in Vitamin E for lipid skin barrier repair).",
+      "dinner": "7:30 PM: Light, easily digestible dinner. Mixed vegetable lentil stew or pumpkin-carrot soup with sautéed paneer/tofu or country chicken breast, with minimum oil and spices.",
+      "bedtime": "9:30 PM: 1 cup warm water with crushed cardamom and saffron strand (promotes restful beauty sleep and skin cell regeneration).",
+      "homoeopathyRules": [
+        "Noble Homoeopathy remedies for skin (Sulphur, Graphites, Hepar Sulph, etc.) work deep within the immune system.",
+        "Never apply harsh chemical cortisone creams without consulting Dr. Kokhila.",
+        "Keep skin hydrated with pure virgin cold-pressed coconut oil or medical-grade homoeopathic calendula."
+      ],
+      "foodsToAvoid": [
+        "Excessive white sugar and dairy milk if you suffer from cystic acne or eczema.",
+        "Deep-fried street food, stale reheated foods, and packaged artificial flavors.",
+        "Excessive sour pickles and synthetic vinegar that aggravate histamine.",
+        "Inadequate water intake (strive for 2.5 - 3.5 liters daily)."
+      ],
+      "groceryChecklist": [
+        "Seeds & Nuts: Chia seeds, Sunflower seeds, Raw walnuts, Pumpkin seeds",
+        "Herbs: Organic Chamomile / Hibiscus tea, Pure Aloe Vera, Fresh mint, Saffron",
+        "Vegetables: Beetroot, Carrots, Spinach, Drumstick leaves, Yellow pumpkin",
+        "Fruits: Pomegranate, Fresh Amla, Papaya, Sweet Guava"
+      ]
+    }
+  }
+]

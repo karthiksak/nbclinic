@@ -18,6 +18,7 @@ const TRANSLATIONS = {
     'nav.reviews': 'Reviews',
     'nav.gallery': 'Gallery',
     'nav.contact': 'Contact',
+    'nav.dietPlans': 'Diet Plans',
     'nav.feedback': 'Feedback',
     // Welcome Modal
     'welcome.open': 'Open Today • 10:00 AM – 8:00 PM',
@@ -142,6 +143,7 @@ const TRANSLATIONS = {
     'nav.reviews': 'மதிப்புரைகள்',
     'nav.gallery': 'படத்தொகுப்பு',
     'nav.contact': 'தொடர்பு',
+    'nav.dietPlans': 'உணவுத் திட்டங்கள்',
     'nav.feedback': 'கருத்து',
     // Welcome Modal
     'welcome.open': 'இன்று திறந்திருக்கும் • காலை 10:00 – இரவு 8:00',
@@ -266,6 +268,7 @@ const TRANSLATIONS = {
     'nav.reviews': 'समीक्षाएं',
     'nav.gallery': 'गैलरी',
     'nav.contact': 'संपर्क',
+    'nav.dietPlans': 'डाइट प्लान',
     'nav.feedback': 'प्रतिक्रिया',
     // Welcome Modal
     'welcome.open': 'आज खुला है • सुबह 10:00 – रात 8:00',
